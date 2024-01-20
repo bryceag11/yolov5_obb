@@ -210,7 +210,7 @@ class ComputeLoss:
         tcls, tbox, indices, anch = [], [], [], []
         # ttheta, tgaussian_theta = [], []
         tgaussian_theta = []
-        # gain = torch.ones(7, device=targets.device)  # normalized to gridspace gain
+        gain = torch.ones(7, device=targets.device)  # normalized to gridspace gain
         feature_wh = torch.ones(2, device=targets.device)  # feature_wh
         ai = torch.arange(na, device=targets.device).float().view(na, 1).repeat(1, nt)  # same as .repeat_interleave(nt)
         # targets (tensor): (n_gt_all_batch, c) -> (na, n_gt_all_batch, c) -> (na, n_gt_all_batch, c+1)
@@ -221,7 +221,8 @@ class ComputeLoss:
         off = torch.tensor([[0, 0], # tensor: (5, 2)
                             [1, 0], [0, 1], [-1, 0], [0, -1],  # j,k,l,m
                             # [1, 1], [1, -1], [-1, 1], [-1, -1],  # jk,jm,lk,lm
-                            ], device=targets.device).float() * g  # offsets
+                            ], device=targets.device)
+                            #device=targets.device).float() * g  # offsets
 
         for i in range(self.nl):
             anchors = self.anchors[i] 
@@ -264,7 +265,7 @@ class ComputeLoss:
             # Append
             a = t[:, -1].long()  # anchor indices 取整
             # indices.append((b, a, gj.clamp_(0, gain[3] - 1), gi.clamp_(0, gain[2] - 1)))  # image, anchor, grid indices
-            indices.append((b, a, gj.clamp_(0, feature_wh[1] - 1), gi.clamp_(0, feature_wh[0] - 1)))  # image, anchor, grid indices
+            indices.append((b, a, gj.clamp_(0, feature_wh[1].long() - 1), gi.clamp_(0, feature_wh[0].long() - 1)))  # image, anchor, grid indices
             tbox.append(torch.cat((gxy - gij, gwh), 1))  # box
             anch.append(anchors[a])  # anchors
             tcls.append(c)  # class

@@ -203,7 +203,7 @@ def run(data,
         lb = [targets[targets[:, 0] == i, 1:] for i in range(nb)] if save_hybrid else []  # for autolabelling
         t3 = time_sync()
         # out = non_max_suppression(out, conf_thres, iou_thres, labels=lb, multi_label=True, agnostic=single_cls)
-        out = non_max_suppression_obb(out, conf_thres, iou_thres, labels=lb, multi_label=True, agnostic=single_cls) # list*(n, [xylsθ, conf, cls]) θ ∈ [-pi/2, pi/2)
+        out = non_max_suppression_obb(out, conf_thres, iou_thres, labels=lb, multi_label=True, agnostic=single_cls, device_id=device) # list*(n, [xylsθ, conf, cls]) θ ∈ [-pi/2, pi/2)
         dt[2] += time_sync() - t3
 
         # Metrics

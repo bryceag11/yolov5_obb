@@ -1,0 +1,6 @@
+# Boxes_2 > 2023-11-15 2:14pm
+https://universe.roboflow.com/ukyaism/boxes_2-pwu7p
+
+Provided by a Roboflow user
+License: CC BY 4.0
+

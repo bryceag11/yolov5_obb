@@ -54,7 +54,7 @@ class splitbase():
                  subsize=1024,
                  thresh=0.7,
                  choosebestpoint=True,
-                 ext='.png',
+                 ext='.jpg',
                  padding=True,
                  num_process=8
                  ):
@@ -299,8 +299,8 @@ class splitbase():
 
 
 if __name__ == '__main__':
-    split = splitbase(basepath=r'dataset/dataset_demo',
-                      outpath=r'dataset/dataset_demo_rate1.0_split1024_gap200',
+    split = splitbase(basepath=r'dataset/coco128',
+                      outpath=r'dataset/coco128_neo',
                       gap=200,
                       subsize=1024,
                       num_process=8)                 

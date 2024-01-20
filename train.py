@@ -14,6 +14,7 @@ import time
 from copy import deepcopy
 from datetime import datetime
 from pathlib import Path
+import GPUtil
 
 import numpy as np
 import torch
@@ -53,6 +54,15 @@ from utils.torch_utils import EarlyStopping, ModelEMA, de_parallel, select_devic
 LOCAL_RANK = int(os.getenv('LOCAL_RANK', -1))  # https://pytorch.org/docs/stable/elastic/run.html
 RANK = int(os.getenv('RANK', -1))
 WORLD_SIZE = int(os.getenv('WORLD_SIZE', 1))
+
+def seed_everything(seed = 42):
+    random.seed(seed)
+    np.random.seed(seed)
+    torch.manual_seed(seed)
+    torch.backends.cudnn.deterministic = True
+    torch.backends.cudnn.benchmark = False
+    
+seed_everything()
 
 def train(hyp,  # path/to/hyp.yaml or hyp dictionary
           opt,
@@ -214,7 +224,8 @@ def train(hyp,  # path/to/hyp.yaml or hyp dictionary
                                               hyp=hyp, augment=True, cache=opt.cache, rect=opt.rect, rank=LOCAL_RANK,
                                               workers=workers, image_weights=opt.image_weights, quad=opt.quad,
                                               prefix=colorstr('train: '), shuffle=True)
-    mlc = int(np.concatenate(dataset.labels, 0)[:, 0].max())  # max label class
+
+    mlc = np.concatenate(dataset.labels, 0)[:, 0].max()  # max label class
     nb = len(train_loader)  # number of batches
     assert mlc < nc, f'Label class {mlc} exceeds nc={nc} in {data}. Possible class labels are 0-{nc - 1}'
 
@@ -442,6 +453,7 @@ def train(hyp,  # path/to/hyp.yaml or hyp dictionary
         LOGGER.info(f"Results saved to {colorstr('bold', save_dir)}")
 
     torch.cuda.empty_cache()
+    GPUtil.showUtilization()
     return results
 
 

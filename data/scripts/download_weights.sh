@@ -8,7 +8,7 @@
 #     ├── yolov5m.pt
 #     └── ...
 
-python - <<EOF
+python3 - <<EOF
 from utils.downloads import attempt_download
 
 models = ['n', 's', 'm', 'l', 'x']
