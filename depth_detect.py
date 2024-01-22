@@ -163,6 +163,10 @@ def crop_images_to_table(depth_img, color_img):
     color_img = color_img[125:955, 560:1390]
     return depth_img, color_img
 
+def pixel_conversion():
+    # Convert the pixels to real world coordinates
+    coord = []
+
 def main():
     # Return depth_img array and color_img array
     depth_img, color_img = obtain_images()
