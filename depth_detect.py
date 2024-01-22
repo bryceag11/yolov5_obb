@@ -38,48 +38,69 @@ from matplotlib import pyplot as plt
 
 
 
-def get_obj_height(depth_img, bb_dict):
+def get_obj_height(depth_img, bb_coords):
     # Load calibrated depth image of table alone
-    depth_table_alone = np.loadtxt('depth_table.csv', delimiter=',')
+    depth_table_alone = np.loadtxt('robot_detection/depth_table.csv', delimiter=',')
 
     # Take difference of depth_img with box and depth_img with table
     depth_img_subtracted = np.abs(depth_table_alone - depth_img)
 
     # Save csv
-    depth_img_substracted_path = save_depth_csv(depth_img_subtracted, 'depth_img_subtracted')
+    depth_img_substracted_path = save_depth_csv(depth_img_subtracted, 'robot_detection/output/depth_img_subtracted')
     print(f"Depth image subtracted saved at {depth_img_substracted_path}")
 
     # Crop image using leftmost x, rightmost x, uppermost y, lowermost y
-    box_depth_img = get_cropped_box_depth_img(depth_img_subtracted, bb_dict)
+    box_depth_img = get_cropped_box_depth_img(depth_img_subtracted, bb_coords)
 
     # Save cropped depth_img
-    box_csv_path = save_depth_csv(box_depth_img, 'box_csv')
+    box_csv_path = save_depth_csv(box_depth_img, 'robot_detection/output/box_csv')
     print(f"Box image CSV saved at {box_csv_path}")
 
-    # Box height is found by taking average of cropped box depth_img
-    # This is done so outliers have minimal effect
-    box_height = round(np.average(box_depth_img))
+    # Find center x and y of box csv
+    x = np.shape(box_depth_img)[0] - 1
+    y = np.shape(box_depth_img)[1] - 1
+    center_x = round(x / 2)
+    center_y = round(y / 2)
+
+    # Put center and surrounding points into array
+    # Note: The indices of the loop can be changed to add more or less
+    # points around the center of the box to be a part of average
+    arr = []
+    for i in range(-3,4):
+        for j in range(-3,4):
+            arr.append(box_depth_img[center_x + i][center_y + j])
+    
+    # Box height is the average of the array
+    box_height = round((sum(arr) / len(arr)), 3)
 
     # Display stats
-    error = round(((box_height - 54) / 54), 2)
+    error = abs(round(((box_height - 54) / 54), 2))
     print("BOX HEIGHT:")
     print(box_height)
-    print("Error:")
+    print("ERROR:")
     print(error)
     return box_height
 
-def get_cropped_box_depth_img(depth_img, bb_dict):
-    # Get min and max columns
-    x_coordinates = [bb_dict['upper_left']['x'], bb_dict['upper_right']['x'], bb_dict['bottom_left']['x'], bb_dict['bottom_right']['x']]
+def get_cropped_box_depth_img(depth_img, bb_coords):
+    # Separate x and y coordinates and put them in arrays
+    x_coordinates = []
+    y_coordinates = []
+    for coords in bb_coords:
+        x_coordinates.append(coords[0])
+        y_coordinates.append(coords[1])
+    
+    # Sort each array
     x_coordinates.sort()
+    y_coordinates.sort()
+
+    # Determine min and max columns and rows by taking first and last elements
+    # in each sorted array
     min_column = x_coordinates[0]
     max_column = x_coordinates[len(x_coordinates) - 1]
-    # Get min and max rows
-    y_coordinates = [bb_dict['upper_left']['y'], bb_dict['upper_right']['y'], bb_dict['bottom_left']['y'], bb_dict['bottom_right']['y']]
-    y_coordinates.sort()
     min_row = y_coordinates[0]
     max_row = y_coordinates[len(y_coordinates) - 1]
-    # Return cropped image
+
+    # Return cropped image around box
     return depth_img[min_row:max_row, min_column:max_column]
 
 def capture_images(device, depth_mode, color_resolution):
@@ -167,16 +188,26 @@ def pixel_conversion():
     # Convert the pixels to real world coordinates
     coord = []
 
+
 def main():
+
+    '''
+    Testing 
+    
+    '''
+    depth_img_path = 'robot_detection/images/depth/depth_csv8.csv'
+    color_img_path = 'robot_detection/images/color/color_image8.jpeg'
+    depth_img = np.loadtxt(depth_img_path, delimiter=',')
+    
     # Return depth_img array and color_img array
-    depth_img, color_img = obtain_images()
+    # depth_img, color_img = obtain_images()
 
-    # Edit the image
-    depth_img, color_img = crop_images_to_table(depth_img, color_img)
+    # # Edit the image
+    # depth_img, color_img = crop_images_to_table(depth_img, color_img)
 
-    # Save depth image CSV
-    depth_csv_path = save_depth_csv(depth_img, 'depth_csv')
-    print(f"Depth image CSV saved at {depth_csv_path}")
+    # # Save depth image CSV
+    # depth_csv_path = save_depth_csv(depth_img, 'depth_csv')
+    # print(f"Depth image CSV saved at {depth_csv_path}")
 
     # Save depth image as image (Commented out since it does not help as a JPEG)
     # TODO: Convert to look good as a JPEG
@@ -186,15 +217,15 @@ def main():
     # print(f"Depth image saved at {depth_image_path}")
 
     # Save color image
-    color_image_path = save_captured_image(color_img, 'color_image')
-    print(f"Color image saved at {color_image_path}")
+    # color_image_path = save_captured_image(color_img, 'color_image')
+    # print(f"Color image saved at {color_image_path}")
 
-    print('SUCCESS!')
+    # print('SUCCESS!')
 
-    ## Run YOLOv5
-    opt = yolo.parse_opt()
-
-    yolo.run(**vars(opt))
+    # ## Run YOLOv5
+    # opt = yolo.parse_opt()
+    # opt.source = color_img_path
+    # yolo.run(**vars(opt))
 
 
 
@@ -203,20 +234,21 @@ def main():
     ###############################################
     # Dictionary representing the bounding box from YOLOv5
     # This is hardcoded for testing; these will be inputs
-    file_path = 'runs\detect\exp25\labels\color_image1.txt' 
+    file_path = 'runs/detect/exp27/labels/color_image8.txt' 
 
     with open(file_path, 'r') as file:
         values = file.readline().split()
 
-    # Initialize the dictionary
-    bb_dict = {}
 
     # Assign values to dictionary keys
-    bb_dict['upper_right'] = {'x': int(float(values[1])), 'y': int(float(values[2])) }
-    bb_dict['bottom_right'] = {'x': int(float(values[3])), 'y': int(float(values[4])) }
-    bb_dict['bottom_left'] = { 'x': int(float(values[5])), 'y': int(float(values[6])) }
-    bb_dict['upper_left'] = { 'x': int(float(values[7])), 'y': int(float(values[8])) }
+    bb_coords = [
+        (int(float(values[1])), int(float(values[2]))),
+        (int(float(values[3])), int(float(values[4]))),
+        (int(float(values[5])), int(float(values[6]))), 
+        (int(float(values[7])), int(float(values[8])))
+    ]
 
-    get_obj_height(depth_img, bb_dict)
+
+    get_obj_height(depth_img, bb_coords)
 
 main()

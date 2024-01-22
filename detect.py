@@ -216,7 +216,7 @@ def run(weights=ROOT / 'yolov5s.pt',  # model.pt path(s)
 def parse_opt():
     parser = argparse.ArgumentParser()
     parser.add_argument('--weights', nargs='+', type=str, default=ROOT / 'best.pt', help='model path(s)')
-    parser.add_argument('--source', type=str, default='color_image1.jpeg', help='file/dir/URL/glob, 0 for webcam')
+    parser.add_argument('--source', type=str, default='color_image8.jpeg', help='file/dir/URL/glob, 0 for webcam')
     # Inference size for processing 
     parser.add_argument('--imgsz', '--img', '--img-size', nargs='+', type=int, default=[864], help='inference size h,w')
     parser.add_argument('--conf-thres', type=float, default=0.5, help='confidence threshold')
