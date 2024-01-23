@@ -77,6 +77,8 @@ def get_obj_height(depth_img, bb_coords):
     error = abs(round(((box_height - 54) / 54), 2))
     print("BOX HEIGHT:")
     print(box_height)
+    print("X & Y:")
+    print(center_x center_y)
     print("ERROR:")
     print(error)
     return box_height
@@ -181,12 +183,60 @@ def crop_images_to_table(depth_img, color_img):
 
     # Crop images (matches with YOLOv5)
     depth_img = depth_img[125:955, 560:1390]
+    depth_img = np.rot90(depth_img)
     color_img = color_img[125:955, 560:1390]
+    color_img = cv2.rotate(color_img, cv2.ROTATE_90_COUNTERCLOCKWISE)
     return depth_img, color_img
 
-def pixel_conversion():
+def pixel_conversion(coords):
     # Convert the pixels to real world coordinates
-    coord = []
+
+    '''
+    
+    TABLE DIMENSIONS: 
+        X: 1485mm
+        Y: 900mm
+
+    830 PIXEL RECTANGLE DIMENSIONS:
+        X: 900mm
+        Y: 900mm
+
+    EDGE OF TABLE:
+        LEFT EDGE: 155mm from table
+        1222.5mm from robot center
+        RIGHT EDGE: 435mm from table
+        322.5mm from robot center
+    
+    ROBOT ZERO COORDINATES:
+        X: 112.5mm from right table
+        322.5mm from right rectangle edge
+        Y: 450mm from top of table
+        Also 450mm from zero-y coordinate of rectangle
+
+    RECTANGLE (0,0) REAL COORDINATES:
+        X: (+) 1222.5mm
+        Y: (-) 450mm 
+    
+
+    Scale: 1.08433735
+    Offset:
+    '''
+
+    # Set conversion constants based on table dimensions
+    SCALE = 900 / 830
+    LEFT_EDGE = 1222.5
+    TOP_EDGE = - 450
+    
+
+    x_coordinates = []
+    y_coordinates = []
+
+    for coords in coords:
+        x_coordinates.append(LEFT_EDGE - (SCALE * coords[0]))
+        y_coordinates.append(TOP_EDGE + (SCALE * coords[1]))
+    return (x_coordinates, y_coordinates)
+
+    
 
 
 def main():
@@ -195,19 +245,19 @@ def main():
     Testing 
     
     '''
-    depth_img_path = 'robot_detection/images/depth/depth_csv8.csv'
-    color_img_path = 'robot_detection/images/color/color_image8.jpeg'
-    depth_img = np.loadtxt(depth_img_path, delimiter=',')
+    # depth_image_path = 'robot_detection/images/depth/depth_csv8.csv'
+    # color_image_path = 'robot_detection/images/color/color_image9.jpeg'
+    # depth_img = np.loadtxt(depth_img_path, delimiter=',')
     
     # Return depth_img array and color_img array
-    # depth_img, color_img = obtain_images()
+    depth_img, color_img = obtain_images()
 
-    # # Edit the image
-    # depth_img, color_img = crop_images_to_table(depth_img, color_img)
+    # Edit the image
+    depth_img, color_img = crop_images_to_table(depth_img, color_img)
 
-    # # Save depth image CSV
-    # depth_csv_path = save_depth_csv(depth_img, 'depth_csv')
-    # print(f"Depth image CSV saved at {depth_csv_path}")
+    # Save depth image CSV
+    depth_csv_path = save_depth_csv(depth_img, 'robot_detection/images/depth/depth_csv')
+    print(f"Depth image CSV saved at {depth_csv_path}")
 
     # Save depth image as image (Commented out since it does not help as a JPEG)
     # TODO: Convert to look good as a JPEG
@@ -217,38 +267,37 @@ def main():
     # print(f"Depth image saved at {depth_image_path}")
 
     # Save color image
-    # color_image_path = save_captured_image(color_img, 'color_image')
-    # print(f"Color image saved at {color_image_path}")
+    color_image_path = save_captured_image(color_img, 'robot_detection/images/color/color_image')
+    print(f"Color image saved at {color_image_path}")
 
-    # print('SUCCESS!')
+    print('SUCCESS!')
 
     # ## Run YOLOv5
-    # opt = yolo.parse_opt()
-    # opt.source = color_img_path
-    # yolo.run(**vars(opt))
-
-
-
+    opt = yolo.parse_opt()
+    opt.source = color_image_path
+    yolo.run(**vars(opt))
 
 
     ###############################################
     # Dictionary representing the bounding box from YOLOv5
     # This is hardcoded for testing; these will be inputs
-    file_path = 'runs/detect/exp27/labels/color_image8.txt' 
+    file_path = 'runs/detect/exp32/labels/color_image12.txt' 
 
     with open(file_path, 'r') as file:
         values = file.readline().split()
 
 
-    # Assign values to dictionary keys
-    bb_coords = [
+    # # Assign values to dictionary keys
+    pixel_coords = [
         (int(float(values[1])), int(float(values[2]))),
         (int(float(values[3])), int(float(values[4]))),
         (int(float(values[5])), int(float(values[6]))), 
         (int(float(values[7])), int(float(values[8])))
     ]
 
+    real_world = pixel_conversion(pixel_coords)
+    print(real_world)
 
-    get_obj_height(depth_img, bb_coords)
+    get_obj_height(depth_img, pixel_coords)
 
 main()
