@@ -20,10 +20,59 @@ else:
 
 
 acceleration = 1
-speed = 0.05
+speed = 0.07
 
+# DEMO CODE
+# Put robot into starting position
+robot.translate((0,0.0001,0),acceleration,speed)
+pos = [-0.3855075887632609, -0.08245739447612332, 0.22352142951900683, -3.1415926535897932, 0, 0]
+
+RobotMovement.rg_grip(100, 20, 2)
+current_pos = robot.getl()
+current_pos[2] = pos[2]
+# Move up in z
+RobotMovement.movel(current_pos[0],current_pos[1],current_pos[2],current_pos[3],current_pos[4],current_pos[5],acceleration,speed)
+
+# Move to position
+RobotMovement.movel(pos[0],pos[1],pos[2],pos[3],pos[4],pos[5],acceleration,speed)
+RobotMovement.rg_grip(100, 20, 2)
+
+# Move to position and pick up box
+# pos[0] = pos[0] - 0.2
+# pos[1] = pos[1] - 0.14
+# RobotMovement.movel(pos[0],pos[1],pos[2],pos[3],pos[4],pos[5],acceleration,speed)
+# pos[2] = pos[2] - 0.22
+# RobotMovement.movel(pos[0],pos[1],pos[2],pos[3],pos[4],pos[5],acceleration,speed)
+# RobotMovement.rg_grip(75, 20, 2)
+
+# # Move to different position and drop box
+# pos[0] = pos[0] + 0.1
+# pos[1] = pos[1] + 0.1
+# pos[2] = pos[2] + 0.22
+# RobotMovement.movel(pos[0],pos[1],pos[2],pos[3],pos[4],pos[5],acceleration,speed)
+# pos[2] = pos[2] - 0.22
+# RobotMovement.movel(pos[0],pos[1],pos[2],pos[3],pos[4],pos[5],acceleration,speed)
+# RobotMovement.rg_grip(100, 20, 2)
+
+
+RobotMovement.execute(robot)
+
+
+# robot.translate((0,0.1,0),acceleration,speed)
 
 # DATA RETRIEVAL COMMAND EXAMPLES
+# For getl:
+#   Compared to the "Base" view on robot:
+#   MONITOR: [x,y,z,rx,ry,rz]
+#   CODE:    [x,y,z,-rx,-ry,-rz]
+#   
+#
+#   For gripper to be perpendicular to table:
+#   _code means the coordinates as input into code
+#   rx_code = -pi = -3.1415926535897932
+#   ry_code = 0
+#   rz_code = 0
+#
 # print("getl:")
 # print(robot.getl())
 # print("getj:")
@@ -40,15 +89,15 @@ speed = 0.05
 # Width - How wide the gripper will go
 # Force - How fast the gripper moves
 # Mass - ???
-width = 105
-force = 20
-mass = 2
-RobotMovement.rg_grip(width, force, mass)
-width = 75
-force = 5
-mass = 2
-RobotMovement.rg_grip(width, force, mass)
-RobotMovement.execute(robot)
+# width = 105
+# force = 20
+# mass = 2
+# RobotMovement.rg_grip(width, force, mass)
+# width = 75
+# force = 5
+# mass = 2
+# RobotMovement.rg_grip(width, force, mass)
+# RobotMovement.execute(robot)
 
 
 robot.close()
