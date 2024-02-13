@@ -10,32 +10,90 @@ import math
 import time
 from robot_rg import RobotMovement
 
-RobotIP = "192.168.1.102"#your PC must have same first 3 components of ip but different last 
-robot = urx.Robot(RobotIP)
+def connect_to_robot():
+    RobotIP = "192.168.1.102"#your PC must have same first 3 components of ip but different last 
+    robot = urx.Robot(RobotIP)
 
-if robot.is_running():
-    print("Robot is Online")
-else:
-    print("Robot is Stopped")
+    if robot.is_running():
+        print("Robot is Online")
+        return robot
+    else:
+        print("Robot is Stopped")
+        return 0
+
+def move_to_position(robot, pos, acceleration, speed):
+    # Change position slightly
+    # robot.translate((0,0.0001,0), acceleration, speed)
+
+    # Move to position
+    RobotMovement.movel(pos[0],pos[1],pos[2],pos[3],pos[4],pos[5],acceleration,speed)
+
+def translate_to_position(robot, xyz, acceleration, speed):
+    current_pos = robot.getl()
+    new_pos = [0, 0, 0]
+    for i in range(3):
+        xyz[i] = xyz[i]
+        new_pos[i] = current_pos[i] + xyz[i]
+
+    RobotMovement.movel(new_pos[0],new_pos[1],new_pos[2],current_pos[3],current_pos[4],current_pos[5],acceleration,speed)
+
+def demo(robot, acceleration, speed):
+    # Move slightly
+    translate_to_position(robot, [0,0.0001,0], acceleration, speed)
+    starting_pos = [-0.3855075887632609, -0.08245739447612332, 0.22352142951900683, 0, 3.1415926535897932, 0]
+    # Open gripper
+    RobotMovement.rg_grip(100, 20, 2)
+    # Move up in z
+    translate_to_position(robot, [0,0,starting_pos[2]], acceleration, speed)
+    # Move to xy starting position
+    move_to_position(robot, starting_pos, acceleration, speed)
+    print("AT STARTING POSITION")
+    # Move to xy position and pick up box
+    translate_to_position(robot, [-0.2,-0.14,0], acceleration, speed)
+    print("MOVED XY")
+    translate_to_position(robot, [0,0,-0.22], acceleration, speed)
+    print("MOVED Z")
+    
+    RobotMovement.rg_grip(75, 20, 2)
+    print("GRIPPED")
+    # Move to different position and drop box
+    translate_to_position(robot, [0.1,0.1,0.22], acceleration, speed)
+    translate_to_position(robot, [0,0,-0.22], acceleration, speed)
+    RobotMovement.rg_grip(100, 20, 2)
+
+    # Go back to starting position
+    translate_to_position(robot, [0,0,starting_pos[2]], acceleration, speed)
+    move_to_position(robot, starting_pos, acceleration, speed)
 
 
-acceleration = 1
-speed = 0.07
 
+
+
+    
+
+
+    
+
+# acceleration = 1
+# speed = 0.01
+
+
+# Starting position
+# [-0.3855075887632609, -0.08245739447612332, 0.22352142951900683, 0, 3.1415926535897932, 0]
 # DEMO CODE
 # Put robot into starting position
-robot.translate((0,0.0001,0),acceleration,speed)
-pos = [-0.3855075887632609, -0.08245739447612332, 0.22352142951900683, -3.1415926535897932, 0, 0]
+# pos = [-0.3855075887632609, -0.08245739447612332, 0.22352142951900683, 0, 3.1415926535897932, 0]
 
-RobotMovement.rg_grip(100, 20, 2)
-current_pos = robot.getl()
-current_pos[2] = pos[2]
+# RobotMovement.rg_grip(100, 20, 2)
+# current_pos = robot.getl()
+# print(robot.getl())
+# current_pos[2] = pos[2]
 # Move up in z
-RobotMovement.movel(current_pos[0],current_pos[1],current_pos[2],current_pos[3],current_pos[4],current_pos[5],acceleration,speed)
+# RobotMovement.movel(current_pos[0],current_pos[1],current_pos[2],current_pos[3],current_pos[4],current_pos[5],acceleration,speed)
 
 # Move to position
-RobotMovement.movel(pos[0],pos[1],pos[2],pos[3],pos[4],pos[5],acceleration,speed)
-RobotMovement.rg_grip(100, 20, 2)
+# RobotMovement.movel(pos[0],pos[1],pos[2],pos[3],pos[4],pos[5],acceleration,speed)
+# RobotMovement.rg_grip(100, 20, 2)
 
 # Move to position and pick up box
 # pos[0] = pos[0] - 0.2
@@ -55,7 +113,7 @@ RobotMovement.rg_grip(100, 20, 2)
 # RobotMovement.rg_grip(100, 20, 2)
 
 
-RobotMovement.execute(robot)
+# RobotMovement.execute(robot)
 
 
 # robot.translate((0,0.1,0),acceleration,speed)
@@ -64,12 +122,12 @@ RobotMovement.execute(robot)
 # For getl:
 #   Compared to the "Base" view on robot:
 #   MONITOR: [x,y,z,rx,ry,rz]
-#   CODE:    [x,y,z,-rx,-ry,-rz]
+#   CODE:    [x,y,z,rx,ry,rz]
 #   
 #
 #   For gripper to be perpendicular to table:
 #   _code means the coordinates as input into code
-#   rx_code = -pi = -3.1415926535897932
+#   rx_code = pi = 3.1415926535897932
 #   ry_code = 0
 #   rz_code = 0
 #
@@ -99,5 +157,41 @@ RobotMovement.execute(robot)
 # RobotMovement.rg_grip(width, force, mass)
 # RobotMovement.execute(robot)
 
+def turn_gripper(deg):
+    if deg == 180:
+        coord = [-0.3855075887632609, -0.08245739447612332, 0.22352142951900683, math.radians(180), 0, 0]
+def main():
+    robot = connect_to_robot()
+    if robot == 0:
+        # Error has occured
+        return 0
+    
+    # Determined starting position based off "Base" view on robot
+    # demo(robot, 1, 0.02)
+    # starting_pos = [-0.3855075887632609, -0.08245739447612332, 0.22352142951900683, 0, 3.1415926535897932, 0]
+    print(robot.getl())
 
-robot.close()
+    acceleration = 1
+    speed = 0.07
+
+    
+    # l_coord = [-0.3855075887632609, -0.08245739447612332, 0.22352142951900683, math.radians(180), 0, 0]
+    # robot.movel(l_coord,acceleration,speed)
+    # time.sleep(3)
+    # l_coord = [-0.3855075887632609, -0.08245739447612332, 0.22352142951900683, math.radians(164), math.radians(73), 0]
+    # robot.movel(l_coord,acceleration,speed)
+    # time.sleep(3)
+
+    # robot.movel(l_coord,acceleration,speed)
+
+    # pos = [-0.647, 0.169, 0.22352142951900683, 1.57, 0, 0]
+    # print(robot.getl())
+    # pos = [-0.647, 0.169, 0.22352142951900683, 1.57, 0, 0]
+    #robot.movel(l_coord,acceleration,speed)
+    # move_to_position(robot, starting_pos, acceleration, speed)
+    
+    # translate_to_position(robot, [0,0,0.01], acceleration, speed)
+    # RobotMovement.execute(robot)
+    robot.close()
+
+main()
