@@ -13,7 +13,7 @@ import torch
 class RobotMovement():
 
     #initialize header and output
-    file = open(r'robot_control\chong_code\Rgripper.script', 'rb')
+    file = open(r'C:\Users\AISMLab\Robot_Project\Code\yolov5_obb\robot_control\chong_code\Rgripper.script', 'rb')
     header = file.read()
     output = header
 

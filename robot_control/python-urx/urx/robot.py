@@ -208,7 +208,8 @@ class Robot(URRobot):
         return current transformation from tcp to current csys
         """
         t = self.get_pose(wait, _log)
-        pose = t.pose_vector.tolist()
+
+        pose = t.pose_vector.get_array().tolist()
         if roundto:
             pose = [round(i, self.max_float_length) for i in pose]
 
