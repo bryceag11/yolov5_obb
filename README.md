@@ -16,7 +16,7 @@ The results on **DOTA_subsize1024_gap200_rate1.0** test-dev set are shown in the
 
 
 <details>
-  <summary>Table Notes (click to expand / **点我看更多**)</summary>
+  <summary>Table Notes (click to expand /)</summary>
 
 * All checkpoints are trained to 300 epochs with [COCO pre-trained checkpoints](https://github.com/ultralytics/yolov5/releases/tag/v6.0), default settings and hyperparameters.
 * **mAP<sup>test dota</sup>** values are for single-model single-scale on [DOTA](https://captain-whu.github.io/DOTA/index.html)(1024,1024,200,1.0) dataset.<br>Reproduce Example:
@@ -32,39 +32,29 @@ The results on **DOTA_subsize1024_gap200_rate1.0** test-dev set are shown in the
 </details>
 
 # [Updates](./docs/ChangeLog.md)
-- [2022/1/7] : **Faster and stronger**, some bugs fixed, yolov5 base version updated.
+- [2022/01/07] : **Faster and stronger**, some bugs fixed, yolov5 base version updated.
+- [2023/12/15] : **Increased Compatability**, added Windows compatability for yolov5_obb
+- [2024/01/30] : **Peripheral Support**, added support for URX robot control 
+- [2024/02/01] : **Increased Organization**, refactored the modules used to train and deploy the model 
 
 
 # Installation
 Please refer to [install.md](./docs/install.md) for installation and dataset preparation.
 
 # Getting Started 
-This repo is based on [yolov5](https://github.com/ultralytics/yolov5). 
+This repo is based on [yolov5](https://github.com/ultralytics/yolov5) and [yolov5_obb](https://github.com/hukaixuan19970627/yolov5_obb/tree/master)
 
 And this repo has been rebuilt, Please see [GetStart.md](./docs/GetStart.md) for the Oriented Detection latest basic usage.
 
 #  Acknowledgements
-I have used utility functions from other wonderful open-source projects. Espeicially thank the authors of:
+I have used utility functions from other wonderful open-source projects:
 
 * [ultralytics/yolov5](https://github.com/ultralytics/yolov5).
 * [Thinklab-SJTU/CSL_RetinaNet_Tensorflow](https://github.com/Thinklab-SJTU/CSL_RetinaNet_Tensorflow).
 * [jbwang1997/OBBDetection](https://github.com/jbwang1997/OBBDetection)
 * [CAPTAIN-WHU/DOTA_devkit](https://github.com/CAPTAIN-WHU/DOTA_devkit)
-## More detailed explanation
-想要了解相关实现的细节和原理可以看我的知乎文章:   
-* [自己改建YOLOv5旋转目标的踩坑记录](https://www.zhihu.com/column/c_1358464959123390464).
 
-## 有问题反馈
-在使用中有任何问题，建议先按照[install.md](./docs/install.md)检查环境依赖项，再按照[GetStart.md](./docs/GetStart.md)检查使用流程是否正确，善用搜索引擎和github中的issue搜索框，可以极大程度上节省你的时间。
-
-若遇到的是新问题，可以用以下联系方式跟我交流，为了提高沟通效率，请尽可能地提供相关信息以便我复现该问题。
-
-* 知乎（@[略略略](https://www.zhihu.com/people/lue-lue-lue-3-92-86)）
-* 代码问题提issues,其他问题请知乎上联系
-
-## 关于作者
+## Issues
+If you have any problems during use, it is recommended to first check the environment dependencies according to [install.md](./docs/install.md), and then check whether the usage process is correct according to [GetStart.md](./docs/GetStart.md).
 
 ```javascript
-  Name  : "胡凯旋"
-  describe myself："咸鱼一枚"
-
