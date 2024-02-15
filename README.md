@@ -1,7 +1,11 @@
 # Yolov5 for Oriented Object Detection
-![图片](./docs/detection.png)
-![train_batch0.jpg](./docs/train_batch6.jpg)
-![results.png](./docs/results.png)
+
+![train_batch_6.jpg](https://github.com/bryceag11/yolov5_obb/assets/67086260/ec581768-7751-4105-b2c7-b5b6c00489b0)
+
+![val_batch_1_pred.jpg](https://github.com/bryceag11/yolov5_obb/assets/67086260/37772a0c-a618-4c3d-bdd6-627da116c7ea)
+
+![results.png](https://github.com/bryceag11/yolov5_obb/assets/67086260/28c5cda2-6227-47ee-a7b4-6df1f503240f)
+
 
 The code for the implementation of “[Yolov5](https://github.com/ultralytics/yolov5) + [Circular Smooth Label](https://arxiv.org/abs/2003.05597v2)”. 
 
