@@ -37,6 +37,7 @@ The results on **DOTA_subsize1024_gap200_rate1.0** test-dev set are shown in the
 
 # [Updates](./docs/ChangeLog.md)
 - [2022/01/07] : **Faster and stronger**, some bugs fixed, yolov5 base version updated.
+- [2023/12/15] : **Model Finalization**, trained and fine-tuned a model to detected objects and produce oriented bounding boxes 
 - [2023/12/15] : **Increased Compatability**, added Windows compatability for yolov5_obb
 - [2024/01/30] : **Peripheral Support**, added support for URX robot control 
 - [2024/02/01] : **Increased Organization**, refactored the modules used to train and deploy the model 
