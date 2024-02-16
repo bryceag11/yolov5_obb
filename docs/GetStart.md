@@ -1,6 +1,6 @@
 # Getting Started
 
-This page provides basic usage about yolov5-obb. For installation instructions, please see [install.md](./install.md).
+This page provides basic usage about yolov5-obb. For installation instructions, please see [install.md](./install.md) or [linux_install](./linux_install.md).
 
 # Train a model
 
