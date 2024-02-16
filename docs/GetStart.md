@@ -2,6 +2,14 @@
 
 This page provides basic usage about yolov5-obb. For installation instructions, please see [install.md](./install.md) or [linux_install](./linux_install.md).
 
+
+## Project Execution
+[YOLOV5obb](https://github.com/hukaixuan19970627/yolov5_obb/tree/master), or You Only Look Once (YOLO) Oriented Bounding Box is a computer vision model that is derived from Ultralytics’ [YOLOv5](https://github.com/ultralytics/yolov5). 
+It implements oriented bounding box detection which rotate boxes to better fit objects represented on an angle. 
+To detect objects, we must create features from input images and then feed the features through a prediction system to draw boxes around objects and predict their classes. 
+
+The YOLO network consists of a backbone: a CNN aggregating and forming image features at various granularities, a neck: series of layers to mix and combine image features to pass them forward to prediction, and a head: which takes features from the neck and takes box and class prediction steps.
+
 # Train a model
 
 **1. Prepare custom dataset files**
