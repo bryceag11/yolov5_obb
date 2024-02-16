@@ -60,6 +60,6 @@ I have used utility functions from other wonderful open-source projects:
 * [CAPTAIN-WHU/DOTA_devkit](https://github.com/CAPTAIN-WHU/DOTA_devkit)
 
 ## Issues
-If you have any problems during use, it is recommended to first check the environment dependencies according to [install.md](./docs/install.md), and then check whether the usage process is correct according to [GetStart.md](./docs/GetStart.md).
+If you have any problems during use, it is recommended to first check the environment dependencies according to [install.md](./docs/install.md) or [linux_install.md](./docs/linux_install.md), and then check whether the usage process is correct according to [GetStart.md](./docs/GetStart.md). 
 
 ```javascript
