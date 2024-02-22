@@ -221,7 +221,7 @@ class YOLOV5Detector():
     def parse_opt(self):
         parser = argparse.ArgumentParser()
         parser.add_argument('--weights', nargs='+', type=str, default=ROOT / 'weights/best.pt', help='model path(s)')
-        parser.add_argument('--source', type=str, default='color_image8.jpeg', help='file/dir/URL/glob, 0 for webcam')
+        parser.add_argument('--source', type=str, default=0, help='file/dir/URL/glob, 0 for webcam')
         # Inference size for processing 
         parser.add_argument('--imgsz', '--img', '--img-size', nargs='+', type=int, default=[864], help='inference size h,w')
         parser.add_argument('--conf-thres', type=float, default=0.5, help='confidence threshold')
@@ -258,19 +258,19 @@ def main():
     check_requirements(exclude=('tensorboard', 'thop'))
 
     # Assign image paths
-    color_image_path = 'robot_detection/cropped_images/color/color_image2.jpeg'
+    # color_image_path = 'robot_detection/cropped_images/color/color_image6.jpeg'
 
     # Create yolov5 object
     yolov5 = YOLOV5Detector()
 
 
     opt = yolov5.parse_opt()
-    opt.source = color_image_path
+    # opt.source = color_image_path
     
 
-    sd = yolov5.run(**vars(opt)) # Path for the bounding box coordinate txt file
+    yolov5.run(**vars(opt)) # Path for the bounding box coordinate txt file
 
-    print(sd)
+    # print(sd)
 
 
 
@@ -281,5 +281,5 @@ def main():
 
 
 
-# if __name__ == "__main__":
-#     main()
+if __name__ == "__main__":
+    main()

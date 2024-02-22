@@ -69,7 +69,7 @@ class PostProcess():
         print(box_height)
         print("\nERROR:")
         print(error)
-        return box_height
+        return box_height, center_x, center_y
 
     def get_cropped_box_depth_img(self, depth_img, bb_coords):
         # Separate x and y coordinates and put them in arrays
@@ -124,8 +124,8 @@ class PostProcess():
 
         Scale: 1.08433735
         Offset:
-        '''
-
+        ''' 
+    
         # Set conversion constants based on table dimensions
         SCALE = 900 / 830
         LEFT_EDGE = 1225
@@ -138,13 +138,33 @@ class PostProcess():
         for coords in coords:
             x_coordinates.append(LEFT_EDGE - (SCALE * coords[0]))
             y_coordinates.append(TOP_EDGE + (SCALE * coords[1]))
+        # Calculate lengths of edges based on Euclidean distance
+        lengths = [np.sqrt((x2 - x1)**2 + (y2 - y1)**2) for x1, y1, x2, y2 in zip(x_coordinates, y_coordinates, x_coordinates[1:] + [x_coordinates[0]], y_coordinates[1:] + [y_coordinates[0]])]
 
-        length_1 = m.sqrt((x_coordinates[1] - x_coordinates[0])**2 + (y_coordinates[1] - y_coordinates[0])**2)
-        length_2 = m.sqrt((x_coordinates[2] - x_coordinates[1])**2 + (y_coordinates[2] - y_coordinates[1])**2)
-        print(f"\nLength 1: {length_1}mm | Length 2: {length_2}mm")
+        print("\nEdge Lengths:", lengths)
+
+        '''
+        For CW (rob: -90-0, box:0-90): 1.57<box_x<3.14, 0<box_y<1.57 | 2.25<rob_x<3.14, -2.25<rob_y<0 
+        For CCW (rob:90-0, box:0-90 ): 1.57>box_x58 -1.57<box_y<0 | 2.25<rob_x<3.14, -1.57
 
 
-        return (x_coordinates, y_coordinates)
+        '''
+
+        # Calculate orientation angles based on the edges (in radians)
+        angles = [np.arctan2((y2 - y1), (x2 - x1)) for x1, y1, x2, y2 in zip(x_coordinates, y_coordinates, x_coordinates[1:] + [x_coordinates[0]], y_coordinates[1:] + [y_coordinates[0]])]
+
+        print("\nOrientation Angles (radians):", angles)
+
+        # Calculate center coordinates
+        center_x = np.mean(x_coordinates)
+        center_y = np.mean(y_coordinates)
+
+        print(f"\nCenter Coordinates (center_x , center_y): {center_x}, {center_y}")
+
+        # Return x_coordinates, y_coordinates, lengths, angles, center_x, and center_y
+        return (lengths, angles[:2])
+
+
 
     def save_captured_image(self, image_array, image_name):
         image_path = self.get_unique_file_path(image_name, 'JPEG')
@@ -200,25 +220,26 @@ def main():
 
     # Perform post processing with cropped images 
     # Change path as needed
-    depth_image_path = 'robot_detection/cropped_images/depth/depth_csv2.csv'
-    depth_img = np.loadtxt(depth_image_path, delimiter=',')
+    # depth_image_path = 'robot_detection/cropped_images/depth/depth_csv6.csv'
+    # depth_img = np.loadtxt(depth_image_path, delimiter=',')
 
     post_proc = PostProcess()
 
 
-    sd = "runs\detect\exp35\labels"
+    sd = "runs\detect\exp67\labels"
     file_path = post_proc.get_txt_path(sd)
 
     coords = post_proc.pull_coordinates(file_path)
 
-    post_proc.get_obj_height(depth_img, coords)
-
-    real_world = post_proc.pixel_conversion(coords)
-
-
-    print("\nX Coordinates: ", real_world[0])
-    print("\nY Coordinates: ", real_world[1])
-
+    # rw_coords_p1 = post_proc.get_obj_height(depth_img, coords)
+    # height = rw_coords_p1[0]
+    # center_x = rw_coords_p1[1]
+    # center_y = rw_coords_p1[2]
+    length_angle = post_proc.pixel_conversion(coords)
+    # lengths = length_angle[0]
+    # angles = length_angle[1]
+    
+    # print(f"\nHeight:{height}, X:{center_x}, Y:{center_y}, Lengths:{lengths}, Angles: {angles}")
 
 # if __name__ == "__main__":
 #     main()

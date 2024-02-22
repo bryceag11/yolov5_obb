@@ -99,8 +99,8 @@ def main():
     Testing with raw images
     '''
 
-    depth_csv_path = 'robot_detection/raw_images/depth/depth_csv3.csv'
-    color_image_path = 'robot_detection/raw_images/color/color_image3.jpeg'
+    depth_csv_path = 'robot_detection/raw_images/depth/depth_csv4.csv'
+    color_image_path = 'robot_detection/raw_images/color/color_image4.jpeg'
     depth_img = np.loadtxt(depth_csv_path, delimiter=',')
     color_img = cv2.imread(color_image_path)
     pre_proc = PreProcess()

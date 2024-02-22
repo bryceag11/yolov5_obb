@@ -6,7 +6,6 @@ Home-page: https://github.com/oroulet/python-urx
 Author: Olivier Roulet-Dubonnet
 Author-email: olivier.roulet@gmail.com
 License: GNU Lesser General Public License v3
-Platform: UNKNOWN
 Classifier: Programming Language :: Python
 Classifier: Programming Language :: Python :: 3
 Classifier: Development Status :: 4 - Beta
@@ -16,6 +15,5 @@ Classifier: Topic :: System :: Hardware :: Hardware Drivers
 Classifier: Topic :: Software Development :: Libraries :: Python Modules
 Provides: urx
 License-File: COPYING
-
-UNKNOWN
-
+Requires-Dist: numpy
+Requires-Dist: math3d

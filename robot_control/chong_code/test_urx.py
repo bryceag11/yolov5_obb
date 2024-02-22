@@ -10,7 +10,7 @@ import math
 import time
 from robot_rg import RobotMovement
 
-RobotIP = "192.168.1.102" #your PC must have same first 3 components of ip but different last 
+RobotIP = "192.168.1.101" #your PC must have same first 3 components of ip but different last 
 robot = urx.Robot(RobotIP)
 
 if robot.is_running():
@@ -20,7 +20,7 @@ else:
 
 
 acceleration = 1
-speed = 0.07
+speed = 0.2
 
 # DEMO CODE
 # Put robot into starting position
