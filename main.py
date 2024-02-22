@@ -54,10 +54,15 @@ def main():
 
     coords = post_proc.pull_coordinates(file_path) # Pull coordinates from produced yolov5
 
-    post_proc.get_obj_height(depth_img, coords) # Return object height
+    height = post_proc.get_obj_height(depth_img, coords) # Return object height
 
-    post_proc.pixel_conversion(coords) # Return real world coordinates
+    rwc = post_proc.pixel_conversion(coords) # Return real world coordinates
+    rc = [rwc[0], rwc[1], height, rwc[2], rwc[3], 0] # robot coordinates 
 
+    # Print robot postional coordinates
+    print(f"\nx:{rc[0]}, y:{rc[1]}, z:{height}, a:{rc[2]}, b:{rc[3]}, c:{0}")
+
+    return rc
 
 if __name__ == "__main__":
     main()

@@ -69,7 +69,7 @@ class PostProcess():
         print(box_height)
         print("\nERROR:")
         print(error)
-        return box_height, center_x, center_y
+        return box_height
 
     def get_cropped_box_depth_img(self, depth_img, bb_coords):
         # Separate x and y coordinates and put them in arrays
@@ -138,23 +138,22 @@ class PostProcess():
         for coords in coords:
             x_coordinates.append(LEFT_EDGE - (SCALE * coords[0]))
             y_coordinates.append(TOP_EDGE + (SCALE * coords[1]))
+
+        print(y_coordinates)
         # Calculate lengths of edges based on Euclidean distance
         lengths = [np.sqrt((x2 - x1)**2 + (y2 - y1)**2) for x1, y1, x2, y2 in zip(x_coordinates, y_coordinates, x_coordinates[1:] + [x_coordinates[0]], y_coordinates[1:] + [y_coordinates[0]])]
 
         print("\nEdge Lengths:", lengths)
 
-        '''
-        For CW (rob: -90-0, box:0-90): 1.57<box_x<3.14, 0<box_y<1.57 | 2.25<rob_x<3.14, -2.25<rob_y<0 
-        For CCW (rob:90-0, box:0-90 ): 1.57>box_x58 -1.57<box_y<0 | 2.25<rob_x<3.14, -1.57
-
-
-        '''
-
         # Calculate orientation angles based on the edges (in radians)
         angles = [np.arctan2((y2 - y1), (x2 - x1)) for x1, y1, x2, y2 in zip(x_coordinates, y_coordinates, x_coordinates[1:] + [x_coordinates[0]], y_coordinates[1:] + [y_coordinates[0]])]
+        
+        angle_x = angles[0]
+        angle_y = angles[1]
 
-        print("\nOrientation Angles (radians):", angles)
+        rob_x, rob_y = self.map_orientation(angle_x, angle_y)
 
+        
         # Calculate center coordinates
         center_x = np.mean(x_coordinates)
         center_y = np.mean(y_coordinates)
@@ -162,8 +161,49 @@ class PostProcess():
         print(f"\nCenter Coordinates (center_x , center_y): {center_x}, {center_y}")
 
         # Return x_coordinates, y_coordinates, lengths, angles, center_x, and center_y
-        return (lengths, angles[:2])
+        return (center_x, center_y, rob_x, rob_y)
+    
+    def map_orientation(self, angle_x, angle_y):
+        # Given points for CW relations
+        cw_points = {
+            'yolo_x': [3.14, 2.8674, 2.661, 2.387, 1.977, 1.777, 1.57],
+            'yolo_y': [1.57, 1.3033, 1.101, 0.824, 0.42, 0.2057, 0],
+            'robot_x': [3.14, 3.1, 3.08, 2.884, 2.76, 2.557, 2.25],
+            'robot_y': [0, -0.3, -0.52, -1.2, -1.46, -1.8, -2.25]
+        }
+        # Given points for CCW relations
+        ccw_points = {
+            'yolo_x': [0, 0.2976, 0.4536, 0.80325, 1.1258, 1.395, 1.57],
+            'yolo_y': [-1.57, -1.276, -1.121, -0.7702, -0.454, -0.1705, 0],
+            'robot_x': [3.14, 3.1, 3.08, 3, 2.76, 2.557, 2.25],
+            'robot_y': [0, 0.3, 0.52, 0.85, 1.46, 1.8, 2.25]
+        }
 
+        degree = 4
+
+        coeff_x_cw = np.polyfit(cw_points['yolo_x'], cw_points['robot_x'], degree)
+        coeff_y_cw = np.polyfit(cw_points['yolo_y'], cw_points['robot_y'], degree)
+        coeff_x_ccw = np.polyfit(ccw_points['yolo_x'], ccw_points['robot_x'], degree)
+        coeff_y_ccw = np.polyfit(ccw_points['yolo_y'], ccw_points['robot_y'], degree)
+
+        if angle_x >= 1.5:
+            if angle_y >= 0:
+                coeff_x = coeff_x_cw
+                coeff_y = coeff_y_cw
+            else:
+                coeff_x = coeff_x_ccw
+                coeff_y = coeff_y_ccw
+        else:
+            coeff_x = coeff_x_ccw
+            coeff_y = coeff_y_ccw
+
+        result_robot_x = np.polyval(coeff_x, angle_x)
+        result_robot_y = np.polyval(coeff_y, angle_y)
+
+        print("\nFor YOLO x = {:f}, Robot x = {:f}".format(angle_x, result_robot_x))
+        print("\nFor YOLO y = {:f}, Robot y = {:f}".format(angle_y, result_robot_y))
+
+        return(result_robot_x, result_robot_y)
 
 
     def save_captured_image(self, image_array, image_name):
@@ -240,6 +280,15 @@ def main():
     # angles = length_angle[1]
     
     # print(f"\nHeight:{height}, X:{center_x}, Y:{center_y}, Lengths:{lengths}, Angles: {angles}")
+            # # Example usage with the provided points
+    # yolo_x = 2.26
+    # yolo_y = 0.696
+    # robot_x_output, robot_y_output = post_proc.map_orientation(yolo_x, yolo_y)
+
+
+
+            
+
 
 # if __name__ == "__main__":
 #     main()
