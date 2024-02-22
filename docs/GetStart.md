@@ -1,6 +1,14 @@
 # Getting Started
 
-This page provides basic usage about yolov5-obb. For installation instructions, please see [install.md](./install.md).
+This page provides basic usage about yolov5-obb. For installation instructions, please see [install.md](./install.md) or [linux_install](./linux_install.md).
+
+
+## Project Execution
+[YOLOV5obb](https://github.com/hukaixuan19970627/yolov5_obb/tree/master), or You Only Look Once (YOLO) Oriented Bounding Box is a computer vision model that is derived from Ultralytics’ [YOLOv5](https://github.com/ultralytics/yolov5). 
+It implements oriented bounding box detection which rotate boxes to better fit objects represented on an angle. 
+To detect objects, we must create features from input images and then feed the features through a prediction system to draw boxes around objects and predict their classes. 
+
+The YOLO network consists of a backbone: a CNN aggregating and forming image features at various granularities, a neck: series of layers to mix and combine image features to pass them forward to prediction, and a head: which takes features from the neck and takes box and class prediction steps.
 
 # Train a model
 
@@ -188,3 +196,24 @@ python detect.py --weights 'runs/train/yolov5m_csl_dotav1.5/weights/best.pt' \
 ```
 
 ***If you want to evaluate the result on DOTA test-dev, please zip the poly format results files and submit it to the  [evaluation server](https://captain-whu.github.io/DOTA/index.html).**
+
+# Data Analysis
+The confusion matrix produced by the results requires 4 attributes:
+* True positive: where the model predicts a label and matches correctly
+* True negative: where the model does not predict a label where there is nothing to match
+* False positive: where the model predicts a label where there is nothing to match
+* False negative: where the model does not predict a label where there is something to match
+
+The IoU, intersection over union, measures the overlap between 2 boundaries. It is used to measure how much a predicted boundary overlaps with the annotation or true boundary. The IoU threshold classifies whether a prediction is a true positive or false positive (match or incorrect matching). A higher IoU indicates the predicted box coordinates closely resemble the ground truth or annotated coordinates.
+
+The precision measures how well you can find true positives out of all positive predictions or TPTP + FP. This varies on the confidence threshold of the model. Recall measures how well you can find true positives out of all predictions or TPTP + FN. 
+
+Average precision is calculated as the weighted mean of precisions at each threshold, the weight is the increase in recall from the prior threshold. The mAP or mean average precision is the average of AP of each class. An mAP at .5 refers to the mean average precision at an IoU threshold of .5 while .95 is the precision at an IoU threshold of .95.
+
+![PR_Curve](https://github.com/bryceag11/yolov5_obb/assets/67086260/8fe5c6ec-dde9-4806-8174-d31d805ba3bd)
+
+PR curve or precision-recall curve is obtained by plotting the model’s precision and recall values as a function of the model’s confidence score threshold. When a model has a high recall but low precision, the model classifies most of the positive samples correctly but has many false positives. When a model has high precision but low recall, it may only classify some of the positive samples. As the confidence score is decreased, more predictions are made (increasing recall), and fewer correct predictions are made (lowering precision). In Figure 16, we can observe that the model has many false positives. 
+
+![F1_Curve](https://github.com/bryceag11/yolov5_obb/assets/67086260/a0bf611f-26f8-4b1c-b2e9-55ca1ef4f285)
+
+F1 score finds the most optimal confidence score threshold where precision and recall give the highest relationship. In Figure 16, we can see that the highest recall and precision is achieved with a confidence score of roughly 0.55.

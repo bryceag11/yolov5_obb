@@ -1,47 +1,43 @@
-# INSTAllation 
+# Windows Installation
 ## Requirements
-* Linux **(Recommend)**, Windows **(not Recommend, Please refer to this [issue](https://github.com/hukaixuan19970627/yolov5_obb/issues/224) if you have difficulty in generating utils/nms_rotated_ext.cpython-XX-XX-XX-XX.so)**
-* Python 3.7+ 
-* PyTorch ≥ 1.7 
-* CUDA 9.0 or higher
+* Windows
+* Python 3.9+ 
+* PyTorch ≥ 2.0.1+cu117, Torchvision ≥ 0.15.2+cu117, Torchaudio ≥ 2.0.2+cu117
+* CUDA 11.7 or higher
 
 I have tested the following versions of OS and softwares：
-* OS：Ubuntu 16.04/18.04
-* CUDA: 10.0/10.1/10.2/11.3
+* OS：Windows 11
+* CUDA: 11.7, 11.8
 
 ## Install 
 **CUDA Driver Version ≥ CUDA Toolkit Version(runtime version) = torch.version.cuda**
 
-a. Create a conda virtual environment and activate it, e.g.,
-```
-conda create -n Py39_Torch1.10_cu11.3 python=3.9 -y 
-source activate Py39_Torch1.10_cu11.3
-```
-b. Make sure your CUDA runtime api version ≤ CUDA driver version. (for example 11.3 ≤ 11.4)
+a. Install CUDA from the [Nvidia website](https://developer.nvidia.com/cuda-11-8-0-download-archive?target_os=Windows&target_arch=x86_64&target_version=11)
+
+b. Make sure your CUDA runtime api version ≤ CUDA driver version. (for example 11.8 ≤ 12.2)
 ```
 nvcc -V
 nvidia-smi
 ```
-c. Install PyTorch and torchvision following the [official instructions](https://pytorch.org/), Make sure cudatoolkit version same as CUDA runtime api version, e.g.,
+c. Install PyTorch and torchvision following the [official instructions](https://pytorch.org/get-started/previous-versions/), Make sure cudatoolkit version same as CUDA runtime api version, e.g.,
 ```
-pip3 install torch==1.10.1+cu113 torchvision==0.11.2+cu113 torchaudio==0.10.1+cu113 -f https://download.pytorch.org/whl/cu113/torch_stable.html
+pip install torch==2.0.1 torchvision==0.15.2 torchaudio==2.0.2 --index-url https://download.pytorch.org/whl/cu118
 nvcc -V
 python
 >>> import torch
+>>> torch.__version__
 >>> torch.version.cuda
 >>> exit()
 ```
 d. Clone the yolov5-obb repository.
 ```
-git clone https://github.com/hukaixuan19970627/yolov5_obb.git
+git clone https://github.com/bryceag1/yolov5_obb.git
 cd yolov5_obb
 ```
-e. Install yolov5-obb.
+e. Install yolov5-obb requirements.
 
-```python 
+```
 pip install -r requirements.txt
-cd utils/nms_rotated
-python setup.py develop  #or "pip install -v -e ."
 ```
 
 ## Install DOTA_devkit. 

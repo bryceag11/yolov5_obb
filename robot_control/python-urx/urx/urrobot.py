@@ -370,6 +370,7 @@ class URRobot(object):
         return "{}({}[{},{},{},{},{},{}], a={}, v={}, t={}, lookahead_time={}, gain={})".format(command, prefix, *tjoints)
 
     def _format_move(self, command, tpose, acc, vel, radius=0, prefix=""):
+        if not type(tpose) is list: tpose = tpose.get_array()
         tpose = [round(i, self.max_float_length) for i in tpose]
         tpose.append(acc)
         tpose.append(vel)
@@ -387,7 +388,7 @@ class URRobot(object):
         prog = self._format_move(command, tpose, acc, vel, prefix="p")
         self.send_program(prog)
         if wait:
-            self._wait_for_move(tpose[:6], threshold=threshold)
+            self._wait_for_move(tpose.get_array()[:6], threshold=threshold)
             return self.getl()
 
     def getl(self, wait=False, _log=True):

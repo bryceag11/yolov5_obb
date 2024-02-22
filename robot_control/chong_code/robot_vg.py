@@ -17,7 +17,7 @@ import pykinect_azure as pykinect
 class robot_movement():
 
     #initialize header and output
-    file = open(r'D:\Code\yolov5_obb\robot_control\chong_code\Vgripper.script', 'rb')
+    file = open(r'C:\Users\AISMLab\Robot_Project\Code\yolov5_obb\robot_control\chong_code\Vgripper.script', 'rb')
     header = file.read()
     output = header
 
