@@ -26,11 +26,11 @@ def main():
     yolov5 = YOLOV5Detector()
     post_proc = PostProcess()
 
-    # Image capture
+    # CAMERA OPERATION
     depth_img, color_img = camera_op.obtain_images()
     print('Images captured \n')
 
-    # Image preprocessing
+    # IMAGE PREPROCESSING
     depth_img, color_img = pre_proc.crop_images_to_table(depth_img, color_img)
     print('Images cropped \n')
 
@@ -42,27 +42,40 @@ def main():
 
 
 
-    # YOLOv5 Object Detection
+    # YOLOv5 ORIENTED OBJECT DETECTION
     opt = yolov5.parse_opt()
     opt.source = color_image_path
     
     sd = yolov5.run(**vars(opt))
 
-    # Image postprocessing
-
+    
+    # POST PROCESSING
     file_path = post_proc.get_txt_path(sd)
 
     coords = post_proc.pull_coordinates(file_path) # Pull coordinates from produced yolov5
 
     height = post_proc.get_obj_height(depth_img, coords) # Return object height
 
-    rwc = post_proc.pixel_conversion(coords) # Return real world coordinates
-    rc = [rwc[0], rwc[1], height, rwc[2], rwc[3], 0] # robot coordinates 
+    rwc = post_proc.pixel_conversion(coords, height) # Return real world coordinates
+    
+    # Extract the robot coordinate frame values 
+    print("############## ROBOT FRAME VALUES ##############")
+    # Create list of values to pass to the robot
+    first_box = [inner_list[0] for inner_list in rwc]
+    print("\nBOX_0 =", first_box)
+    second_box = [inner_list[1] for inner_list in rwc]
+    print("BOX_1 =", second_box)
 
-    # Print robot postional coordinates
-    print(f"\nx:{rc[0]}, y:{rc[1]}, z:{height}, a:{rc[2]}, b:{rc[3]}, c:{0}")
+    # # Additional Boxes
+    # third_box = [inner_list[2] for inner_list in rwc]
+    # print("BOX_2 =", third_box)
+    # fourth_box = [inner_list[3] for inner_list in rwc]
+    # print("BOX_3 =", fourth_box)
+    # fifth_box = [inner_list[4] for inner_list in rwc]
+    # print("BOX_4 =", fifth_box)
+    # sixth_box = [inner_list[5] for inner_list in rwc]
+    # print("BOX_5 =", sixth_box)
 
-    return rc
 
 if __name__ == "__main__":
     main()

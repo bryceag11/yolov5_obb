@@ -47,32 +47,36 @@ test_robot_y_ccw = yolo_to_robot_y(test_yolo_y_ccw, coeff_y_ccw)
 
 
 # Clockwise relation plot
-plt.figure(figsize=(10, 6))
+plt.figure(figsize=(14, 8))
+
+# Subplot for CW relations
+plt.subplot(1, 2, 1)
 plt.plot(cw_points['yolo_x'], cw_points['robot_x'], 'o', label='CW Points for robot_x')
 plt.plot(cw_points['yolo_y'], cw_points['robot_y'], 'o', label='CW Points for robot_y')
 plt.plot(test_yolo_x_cw, test_robot_x_cw, label='Interpolated curve for robot_x')
 plt.plot(test_yolo_y_cw, test_robot_y_cw, label='Interpolated curve for robot_y')
-plt.title('YOLO to Robot Coordinates Interpolation')
+plt.title('CW YOLO to Robot Coordinates Interpolation')
 plt.xlabel('YOLO x or y')
 plt.ylabel('Robot Coordinates')
 plt.legend()
 plt.grid(True)
-plt.show()
 
-
-
-
-# Counterclockwise relation plot
-plt.figure(figsize=(12, 8))
-plt.plot(ccw_points['yolo_x'], ccw_points['robot_x'], 'o', label='ccw Training Points for robot_x')
-plt.plot(ccw_points['yolo_y'], ccw_points['robot_y'], 'o', label='ccw Training Points for robot_y')
+# Subplot for CCW relations
+plt.subplot(1, 2, 2)
+plt.plot(ccw_points['yolo_x'], ccw_points['robot_x'], 'o', label='CCW Points for robot_x')
+plt.plot(ccw_points['yolo_y'], ccw_points['robot_y'], 'o', label='CCW Points for robot_y')
 plt.plot(test_yolo_x_ccw, test_robot_x_ccw, label='Extended Interpolated curve for robot_x')
 plt.plot(test_yolo_y_ccw, test_robot_y_ccw, label='Extended Interpolated curve for robot_y')
-plt.title('Extended YOLO to Robot Coordinates Interpolation')
+plt.title('CCW YOLO to Robot Coordinates Interpolation')
 plt.xlabel('YOLO x or y')
 plt.ylabel('Robot Coordinates')
 plt.legend()
 plt.grid(True)
+
+# Adjust layout
+plt.tight_layout()
+
+# Show the combined plot
 plt.show()
 
 # Example: Testing with new inputs

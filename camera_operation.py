@@ -113,5 +113,5 @@ def main():
     print(f"Color image saved at {color_image_path}")
 
 
-# if __name__ == '__main__':
-#     main()
+if __name__ == '__main__':
+    main()

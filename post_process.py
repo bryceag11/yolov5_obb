@@ -39,36 +39,48 @@ class PostProcess():
         depth_img_substracted_path = self.save_depth_csv(depth_img_subtracted, 'robot_detection/output/depth_img_subtracted')
         print(f"Depth image subtracted saved at {depth_img_substracted_path}")
 
-        # Crop image using leftmost x, rightmost x, uppermost y, lowermost y
-        box_depth_img = self.get_cropped_box_depth_img(depth_img_subtracted, bb_coords)
-
-        # Save cropped depth_img
-        box_csv_path = self.save_depth_csv(box_depth_img, 'robot_detection/output/box_csv')
-        print(f"Box image CSV saved at {box_csv_path}")
-
-        # Find center x and y of box csv
-        x = np.shape(box_depth_img)[0] - 1
-        y = np.shape(box_depth_img)[1] - 1
-        center_x = round(x / 2)
-        center_y = round(y / 2)
-
-        # Put center and surrounding points into array
-        # Note: The indices of the loop can be changed to add more or less
-        # points around the center of the box to be a part of average
-        arr = []
-        for i in range(-3,4):
-            for j in range(-3,4):
-                arr.append(box_depth_img[center_x + i][center_y + j])
+        # Initialize box height
+        box_height = []
         
-        # Box height is the average of the array
-        box_height = round((sum(arr) / len(arr)), 3)
+        counter = 0
 
-        # Display stats
-        error = abs(round(((box_height - 54) / 54), 2))
-        print("\nBOX HEIGHT:")
-        print(box_height)
-        print("\nERROR:")
-        print(error)
+        # Obtain height for any number of boxes
+        for coords in bb_coords:
+            # print(f"\n############## Results for BOX{counter} ##############")
+
+            # Crop image using leftmost x, rightmost x, uppermost y, lowermost y
+            box_depth_img = self.get_cropped_box_depth_img(depth_img_subtracted, coords)
+
+        #     # # Save cropped depth_img
+        #     # box_csv_path = self.save_depth_csv(box_depth_img, 'robot_detection/output/box_csv')
+        #     # print(f"Box image CSV saved at {box_csv_path}")
+
+            # Find center x and y of box csv
+            x = np.shape(box_depth_img)[0] - 1
+            y = np.shape(box_depth_img)[1] - 1
+            center_x = round(x / 2)
+            center_y = round(y / 2)
+
+            # Put center and surrounding points into array
+            # Note: The indices of the loop can be changed to add more or less
+            # points around the center of the box to be a part of average
+            arr = []
+            for i in range(-3,4):
+                for j in range(-3,4):
+                    arr.append(box_depth_img[center_x + i][center_y + j])
+            
+            # Box height is the average of the array
+            height = round((sum(arr) / len(arr)), 3)
+            box_height.append(height/1000)
+            # Display stats
+            error = abs(round(((height - 54) / 54), 2))
+            # print(f"BOX{counter} HEIGHT:")
+            # print(height)
+            # print(f"ERROR for BOX{counter}:")
+            # print(error)
+
+            counter += 1
+
         return box_height
 
     def get_cropped_box_depth_img(self, depth_img, bb_coords):
@@ -94,7 +106,7 @@ class PostProcess():
         return depth_img[min_row:max_row, min_column:max_column]
 
     # Convert the pixels to real world coordinates
-    def pixel_conversion(self, coords):
+    def pixel_conversion(self, coords, height):
 
         '''
         TABLE DIMENSIONS: 
@@ -131,37 +143,53 @@ class PostProcess():
         LEFT_EDGE = 1225
         TOP_EDGE = - 450
         
+        center_x = []
+        center_y = []
+        ang_x = []
+        ang_y = []
+        ang_z = []
+        counter = 0
+        for coord in coords:
+            print(f"\n############## Results for BOX{counter} ##############")
+            x_coordinates = []
+            y_coordinates = []
 
-        x_coordinates = []
-        y_coordinates = []
+            for coor in coord:
+                x_coordinates.append(LEFT_EDGE - (SCALE * coor[0]))
+                y_coordinates.append(TOP_EDGE + (SCALE * coor[1]))
 
-        for coords in coords:
-            x_coordinates.append(LEFT_EDGE - (SCALE * coords[0]))
-            y_coordinates.append(TOP_EDGE + (SCALE * coords[1]))
+            # Calculate lengths of edges based on Euclidean distance
+            # lengths = [np.sqrt((x2 - x1)**2 + (y2 - y1)**2) for x1, y1, x2, y2 in zip(x_coordinates, y_coordinates, x_coordinates[1:] + [x_coordinates[0]], y_coordinates[1:] + [y_coordinates[0]])]
 
-        print(y_coordinates)
-        # Calculate lengths of edges based on Euclidean distance
-        lengths = [np.sqrt((x2 - x1)**2 + (y2 - y1)**2) for x1, y1, x2, y2 in zip(x_coordinates, y_coordinates, x_coordinates[1:] + [x_coordinates[0]], y_coordinates[1:] + [y_coordinates[0]])]
+            # print(f"Edge Lengths for BOX{counter}:", lengths)
 
-        print("\nEdge Lengths:", lengths)
+            # Calculate orientation angles based on the edges (in radians)
+            angles = [np.arctan2((y2 - y1), (x2 - x1)) for x1, y1, x2, y2 in zip(x_coordinates, y_coordinates, x_coordinates[1:] + [x_coordinates[0]], y_coordinates[1:] + [y_coordinates[0]])]
+            
+            angle_x = angles[0]
+            angle_y = angles[1]
 
-        # Calculate orientation angles based on the edges (in radians)
-        angles = [np.arctan2((y2 - y1), (x2 - x1)) for x1, y1, x2, y2 in zip(x_coordinates, y_coordinates, x_coordinates[1:] + [x_coordinates[0]], y_coordinates[1:] + [y_coordinates[0]])]
-        
-        angle_x = angles[0]
-        angle_y = angles[1]
+            rob_x, rob_y = self.map_orientation(angle_x, angle_y)
 
-        rob_x, rob_y = self.map_orientation(angle_x, angle_y)
+            print(f"X angle for BOX{counter}: {rob_x} rad")
+            print(f"Y angle for BOX{counter}: {rob_y} rad")
 
-        
-        # Calculate center coordinates
-        center_x = np.mean(x_coordinates)
-        center_y = np.mean(y_coordinates)
+            # Calculate center coordinates
+            cen_x = -1* (np.mean(x_coordinates))
+            cen_y = np.mean(y_coordinates)
+            print(f"X Center for BOX{counter}: {cen_x} mm")
+            print(f"Y Center for BOX{counter}: {cen_y} mm")
+            print(f"Z (Height) for BOX{counter}: {(1000 * height[counter])} mm")
+            # Add to the list
+            center_x.append(cen_x/1000)
+            center_y.append(cen_y/1000)
+            ang_x.append(rob_x)
+            ang_y.append(rob_y)
+            ang_z.append(0.0)
+            counter += 1
 
-        print(f"\nCenter Coordinates (center_x , center_y): {center_x}, {center_y}")
-
-        # Return x_coordinates, y_coordinates, lengths, angles, center_x, and center_y
-        return (center_x, center_y, rob_x, rob_y)
+        # Return x_coordinates, y_coordinates, lengths, angles, center_x, and center_y  
+        return (center_x, center_y, height, ang_x, ang_y, ang_z)
     
     def map_orientation(self, angle_x, angle_y):
         # Given points for CW relations
@@ -200,8 +228,9 @@ class PostProcess():
         result_robot_x = np.polyval(coeff_x, angle_x)
         result_robot_y = np.polyval(coeff_y, angle_y)
 
-        print("\nFor YOLO x = {:f}, Robot x = {:f}".format(angle_x, result_robot_x))
-        print("\nFor YOLO y = {:f}, Robot y = {:f}".format(angle_y, result_robot_y))
+        # Print YOLO angles and Robot angles
+        # print("\nFor YOLO x = {:f}, Robot x = {:f}".format(angle_x, result_robot_x))
+        # print("\nFor YOLO y = {:f}, Robot y = {:f}".format(angle_y, result_robot_y))
 
         return(result_robot_x, result_robot_y)
 
@@ -243,48 +272,45 @@ class PostProcess():
             return None
         
     def pull_coordinates(self, txt_path):
+        pixel_coords_list = []
         with open(txt_path, 'r') as file:
-            values = file.readline().split()
-        # # Assign values to dictionary keys
-        
-        pixel_coords = [
-        (int(float(values[1])), int(float(values[2]))),
-        (int(float(values[3])), int(float(values[4]))),
-        (int(float(values[5])), int(float(values[6]))), 
-        (int(float(values[7])), int(float(values[8])))
-         ]
-        
-        return pixel_coords
+            for line in file:
+                values = line.split()
+
+                pixel_coords = [
+                (int(float(values[1])), int(float(values[2]))),
+                (int(float(values[3])), int(float(values[4]))),
+                (int(float(values[5])), int(float(values[6]))), 
+                (int(float(values[7])), int(float(values[8])))
+                ]
+
+                pixel_coords_list.append(pixel_coords)
+
+        return pixel_coords_list
 
 def main():
 
     # Perform post processing with cropped images 
     # Change path as needed
-    # depth_image_path = 'robot_detection/cropped_images/depth/depth_csv6.csv'
-    # depth_img = np.loadtxt(depth_image_path, delimiter=',')
+    depth_image_path = 'robot_detection/cropped_images/depth/depth_csv46.csv'
+    depth_img = np.loadtxt(depth_image_path, delimiter=',')
 
     post_proc = PostProcess()
 
 
-    sd = "runs\detect\exp67\labels"
-    file_path = post_proc.get_txt_path(sd)
+    sd = "runs\detect\exp75\labels\color_image46.txt"
+    # file_path = post_proc.get_txt_path(sd)
 
-    coords = post_proc.pull_coordinates(file_path)
+    coords = post_proc.pull_coordinates(sd)
+    height = post_proc.get_obj_height(depth_img, coords) # Return object height
+    rwc = post_proc.pixel_conversion(coords, height) # Return real world coordinates
 
-    # rw_coords_p1 = post_proc.get_obj_height(depth_img, coords)
-    # height = rw_coords_p1[0]
-    # center_x = rw_coords_p1[1]
-    # center_y = rw_coords_p1[2]
-    length_angle = post_proc.pixel_conversion(coords)
-    # lengths = length_angle[0]
-    # angles = length_angle[1]
-    
-    # print(f"\nHeight:{height}, X:{center_x}, Y:{center_y}, Lengths:{lengths}, Angles: {angles}")
-            # # Example usage with the provided points
-    # yolo_x = 2.26
-    # yolo_y = 0.696
-    # robot_x_output, robot_y_output = post_proc.map_orientation(yolo_x, yolo_y)
 
+    # Create list of values to pass to the robot
+    first_box = [inner_list[0] for inner_list in rwc]
+    print("BOX 0:", first_box)
+    second_box = [inner_list[1] for inner_list in rwc]
+    print("BOX 1:", second_box)
 
 
             

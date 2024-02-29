@@ -40,6 +40,23 @@ class YOLOV5Detector():
     def __init__(self):
         pass
 
+    def crop_frame_to_ratio(self, frame, target_ratio):
+        h, w, _ = frame.shape
+        current_ratio = w / h
+
+        if current_ratio > target_ratio:
+            # Crop the width
+            new_width = int(h * target_ratio)
+            start_x = (w - new_width) // 2
+            frame = frame[:, start_x:start_x + new_width, :]
+        elif current_ratio < target_ratio:
+            # Crop the height
+            new_height = int(w / target_ratio)
+            start_y = (h - new_height) // 2
+            frame = frame[start_y:start_y + new_height, :, :]
+
+        return frame
+    
     def run(self, weights=ROOT / 'yolov5s.pt',  # model.pt path(s)
             source=ROOT / 'data/images',  # file/dir/URL/glob, 0 for webcam
             imgsz=(640, 640),  # inference size (height, width)
@@ -109,7 +126,7 @@ class YOLOV5Detector():
             im = torch.from_numpy(im).to(device)
             im = im.half() if half else im.float()  # uint8 to fp16/32
             im /= 255  # 0 - 255 to 0.0 - 1.0
-            # im0s = im[:, 280:1000, :]
+            
 
 
             if len(im.shape) == 3:
@@ -258,14 +275,14 @@ def main():
     check_requirements(exclude=('tensorboard', 'thop'))
 
     # Assign image paths
-    # color_image_path = 'robot_detection/cropped_images/color/color_image6.jpeg'
+    color_image_path = 'robot_detection/cropped_images/color/color_image46.jpeg'
 
     # Create yolov5 object
     yolov5 = YOLOV5Detector()
 
 
     opt = yolov5.parse_opt()
-    # opt.source = color_image_path
+    opt.source = color_image_path
     
 
     yolov5.run(**vars(opt)) # Path for the bounding box coordinate txt file
