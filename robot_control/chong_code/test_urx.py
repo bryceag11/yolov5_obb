@@ -21,7 +21,9 @@ from robot_rg import RobotMovement
 STARTING_POSITION = [-0.3855075887632609, -0.08245739447612332, 0.22352142951900683, 3.1415926535897932, 0, 0]
 BOX_0 = [-0.5608433734939758, -0.3171686746987951, 0.061939, 3.1338287888130534, 0.0694892875624884, 0.0]
 BOX_1 = [-0.7403012048192771, -0.07536144578313253, 0.088653, 2.2487423090771657, -2.2589397740851616, 0.0]
- 
+HB_0 = BOX_0[2]
+HB_1 = BOX_1[2]
+BOX_1[2] += .025
 def connect_to_robot():
     RobotIP = "192.168.1.102"#your PC must have same first 3 components of ip but different last
     robot = urx.Robot(RobotIP)
@@ -80,19 +82,19 @@ def demo(robot, acceleration, speed):
     # time.sleep(5)
  
     robot.movel(BOX_0, acceleration, speed)
-    robot.translate((0,0, -.055), acceleration, speed)
+    robot.translate((0,0, -(HB_0+.005)), acceleration, speed)
     time.sleep(5)
     activate_gripper(robot, 100, 20, 2)
     time.sleep(5)
     activate_gripper(robot, 75, 20, 2)
     time.sleep(5)
-    robot.translate((0,0, .1), acceleration, speed)
+    robot.translate((0,0, (HB_0)), acceleration, speed)
     robot.movel(BOX_1, acceleration, speed)
     time.sleep(5)
-    robot.translate((0,0, -.0225), acceleration, speed)
-    time.sleep(5)
-    activate_gripper(robot, 100, 20, 2)
-    time.sleep(5)    
+    # robot.translate((0,0, -.0225), acceleration, speed)
+    # time.sleep(5)
+    # activate_gripper(robot, 100, 20, 2)
+    # time.sleep(5)    
     # time.sleep(5)
     # activate_gripper(robot, 100, 20, 2)
     # time.sleep(5)
