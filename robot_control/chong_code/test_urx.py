@@ -121,7 +121,10 @@ def main():
         return 0
     # demo(robot, 1, .08)
 
-    robot.translate((0,0,-0.22), 1, 0.08)
+    # robot.translate((0,0,-0.005), 1, 0.08)
+    print(robot.get_tcp_force())
+    # activate_gripper(robot, 100, 20, 2)
+
     # # demo(robot, 1, 0.08)
     # time.sleep(5)
  
