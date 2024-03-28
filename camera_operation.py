@@ -14,13 +14,17 @@ Purpose: AISM Lab Robotic Automation
 import numpy as np
 import cv2
 import os
-import  pykinect_azure as pykinect
+import sys
+import pykinect_azure as pykinect
 
 # Global variables
 # Path to Azure Kinect bin folder
 BIN_PATH = r'C:\Program Files\Azure Kinect SDK v1.4.1\sdk\windows-desktop\amd64\release\bin'
-# Path to folder where captured image will be saved 
-IMAGE_DESTINATION_PATH = r'C:\Users\bryce\yolov5_obb'
+
+# Path to folder where captured image will be saved
+# Lab Laptop
+# Bryce Laptop:
+IMAGE_DESTINATION_PATH = r'C:\Users\AISMLab\Robot_Project\Code\yolov5_obb'
 
 class CameraOperation():
     def __init__(self):
@@ -113,5 +117,5 @@ def main():
     print(f"Color image saved at {color_image_path}")
 
 
-if __name__ == '__main__':
-    main()
+# if __name__ == '__main__':
+#     main()

@@ -15,14 +15,15 @@ Purpose: AISM Lab Robotic Automation
 # Global variables that need to be edited
 # Path to Azure Kinect bin folder
 AZURE_KINECT_BIN_PATH  = r'C:\Program Files\Azure Kinect SDK v1.4.1\sdk\windows-desktop\amd64\release\bin'
-# Path to folder where captured image will be saved
-IMAGE_DESTINATION_PATH = r'C:\Users\bryce\yolov5_obb'
 
 import numpy as np
 import cv2
 import os
 import math as m 
 import glob
+
+# Path to folder where captured image will be saved
+IMAGE_DESTINATION_PATH = os.getcwd()
 
 class PostProcess():
     def __init__(self):

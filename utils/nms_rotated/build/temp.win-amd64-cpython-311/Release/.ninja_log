@@ -1,0 +1,3 @@
+# ninja log v5
+2	14407	7332803210715404	C:/Users/AISMLab/Robot_Project/Code/yolov5_obb/utils/nms_rotated/build/temp.win-amd64-cpython-311/Release/src/nms_rotated_cpu.obj	e0269e46699b32e
+26	24679	7332803313531997	C:/Users/AISMLab/Robot_Project/Code/yolov5_obb/utils/nms_rotated/build/temp.win-amd64-cpython-311/Release/src/nms_rotated_ext.obj	88610c057d54e86f
