@@ -20,7 +20,7 @@ import cv2
 from camera_operation import CameraOperation # Uncomment testing portion in main
 import os 
 
-IMAGE_DESTINATION_PATH = r'C:\Users\bryce\yolov5_obb'
+IMAGE_DESTINATION_PATH = os.getcwd()
 
 class PreProcess():
     def __init__(self):

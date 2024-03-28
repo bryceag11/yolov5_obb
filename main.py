@@ -63,8 +63,8 @@ def main():
     # Create list of values to pass to the robot
     first_box = [inner_list[0] for inner_list in rwc]
     print("\nBOX_0 =", first_box)
-    second_box = [inner_list[1] for inner_list in rwc]
-    print("BOX_1 =", second_box)
+    # second_box = [inner_list[1] for inner_list in rwc]
+    # print("BOX_1 =", second_box)
 
     # # Additional Boxes
     # third_box = [inner_list[2] for inner_list in rwc]

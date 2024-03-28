@@ -15,5 +15,3 @@ Classifier: Topic :: System :: Hardware :: Hardware Drivers
 Classifier: Topic :: Software Development :: Libraries :: Python Modules
 Provides: urx
 License-File: COPYING
-Requires-Dist: numpy
-Requires-Dist: math3d

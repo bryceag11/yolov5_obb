@@ -16,7 +16,7 @@ import math
 import time
 from robot_rg import RobotMovement
  
- 
+
 # HARDCODED STARTING POSITION
 STARTING_POSITION = [-0.3855075887632609, -0.08245739447612332, 0.22352142951900683, 3.1415926535897932, 0, 0]
 BOX_0 = [-0.5608433734939758, -0.3171686746987951, 0.061939, 3.1338287888130534, 0.0694892875624884, 0.0]
@@ -119,7 +119,9 @@ def main():
     if robot == 0:
         # Error has occured
         return 0
-    demo(robot, 1, .08)
+    # demo(robot, 1, .08)
+
+    robot.translate((0,0,-0.22), 1, 0.08)
     # # demo(robot, 1, 0.08)
     # time.sleep(5)
  

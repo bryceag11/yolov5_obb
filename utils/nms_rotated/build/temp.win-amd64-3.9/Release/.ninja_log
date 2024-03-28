@@ -1,4 +1,0 @@
-# ninja log v5
-15	8833	7246317386813794	C:/Users/Bryce/yolov5_obb/utils/nms_rotated/build/temp.win-amd64-3.9/Release/src/nms_rotated_cpu.obj	dae6e5537e0d2773
-30	17755	7246317476045118	C:/Users/Bryce/yolov5_obb/utils/nms_rotated/build/temp.win-amd64-3.9/Release/src/nms_rotated_ext.obj	9bd6e3354c1630cc
-25	28021	7246317578401954	C:/Users/Bryce/yolov5_obb/utils/nms_rotated/build/temp.win-amd64-3.9/Release/src/nms_rotated_cuda.obj	4e8b1e62d417cdb2
