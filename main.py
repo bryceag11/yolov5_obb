@@ -18,6 +18,16 @@ from yolo_detect import YOLOV5Detector
 from camera_operation import CameraOperation
 from post_process import PostProcess
 
+import sys
+import urx
+import numpy as np
+import math
+import time
+
+sys.path.append('C:/Users/Bryce/yolov5_obb/robot_control/chong_code')
+
+from test_urx import TestURX
+
 def main():
 
     # Create class instances
@@ -31,8 +41,8 @@ def main():
     print('Images captured \n')
 
     # IMAGE PREPROCESSING
-    depth_img, color_img = pre_proc.crop_images_to_table(depth_img, color_img)
-    print('Images cropped \n')
+    # depth_img, color_img = pre_proc.crop_images_to_table(depth_img, color_img)
+    # print('Images cropped \n')
 
     depth_csv_path = pre_proc.save_depth_csv(depth_img, 'robot_detection/cropped_images/depth/depth_csv')
     print(f"Depth image CSV saved at {depth_csv_path}")
@@ -57,25 +67,42 @@ def main():
     height = post_proc.get_obj_height(depth_img, coords) # Return object height
 
     rwc = post_proc.pixel_conversion(coords, height) # Return real world coordinates
+
+    # Calculate areas for each box
+    areas = post_proc.calculate_area(coords)
+    print("Areas:", areas)
     
-    # Extract the robot coordinate frame values 
-    print("############## ROBOT FRAME VALUES ##############")
-    # Create list of values to pass to the robot
-    first_box = [inner_list[0] for inner_list in rwc]
-    print("\nBOX_0 =", first_box)
-    # second_box = [inner_list[1] for inner_list in rwc]
-    # print("BOX_1 =", second_box)
+    largest_area_index = areas.index(max(areas))
+    # Reorder the bounding box coordinates so that the box with the largest area is first
 
-    # # Additional Boxes
-    # third_box = [inner_list[2] for inner_list in rwc]
-    # print("BOX_2 =", third_box)
-    # fourth_box = [inner_list[3] for inner_list in rwc]
-    # print("BOX_3 =", fourth_box)
-    # fifth_box = [inner_list[4] for inner_list in rwc]
-    # print("BOX_4 =", fifth_box)
-    # sixth_box = [inner_list[5] for inner_list in rwc]
-    # print("BOX_5 =", sixth_box)
 
+    box_dict = {}
+    for i in range(len(rwc[0])):
+        box_dict[f"box_{i}"] = [inner_list[i] for inner_list in rwc]
+        print(f"BOX {i}:", box_dict[f"box_{i}"])
+
+    # Retrieve the box with the largest area
+    largest_area_index = areas.index(max(areas))
+    largest_box_coords = rwc[largest_area_index]
+
+    # Separate the largest box from the rest
+    BOX_L = {"BOX_L": largest_box_coords}
+    del box_dict[f"box_{largest_area_index}"]
+
+    # Print the largest box coordinates
+    print("BOX_L:", largest_box_coords)
+
+    # Print the rest of the boxes
+    print("Other boxes:")
+    for key, value in box_dict.items():
+        print(f"{key}: {value}")
+    # Retrieve the box with the largest area
+
+    
+    test_urx = TestURX(largest_box_coords, box_dict)
+    test_urx.connect_to_robot()
+    test_urx.demo(1, 0.08)
+    test_urx.close_robot_connection()
 
 if __name__ == "__main__":
     main()

@@ -77,7 +77,7 @@ class PostProcess():
             error = abs(round(((height - 54) / 54), 2))
             # print(f"BOX{counter} HEIGHT:")
             # print(height)
-            # print(f"ERROR for BOX{counter}:")
+            print(f"ERROR for BOX{counter} Height:{error}")
             # print(error)
 
             counter += 1
@@ -114,16 +114,19 @@ class PostProcess():
             X: 1485mm
             Y: 900mm
 
+            Range: 0-1080 and 560-1400
+            960mm is y center. Anything greater is pos y 
         830 PIXEL RECTANGLE DIMENSIONS:
             X: 900mm
             Y: 900mm
+        1920x1080 dimensions:
+            X:1150mm->1080 pixels
+            Y: 900mm->840 pixels
 
         EDGE OF TABLE:
-            LEFT EDGE: 155mm from table
-            1200mm from robot center
-            RIGHT EDGE: 435mm from table
-            322.5mm from robot center
-        
+            LEFT EDGE: 1340mm from robot 
+            RIGHT EDGE: 190mm from robot
+            Length: 1150mm
         ROBOT ZERO COORDINATES:
             X: 112.5mm from right table
             322.5mm from right rectangle edge
@@ -140,7 +143,7 @@ class PostProcess():
         ''' 
     
         # Set conversion constants based on table dimensions
-        SCALE = 900 / 830
+        SCALE = 900 / 840
         LEFT_EDGE = 1225
         TOP_EDGE = - 450
         
@@ -192,6 +195,27 @@ class PostProcess():
         # Return x_coordinates, y_coordinates, lengths, angles, center_x, and center_y  
         return (center_x, center_y, height, ang_x, ang_y, ang_z)
     
+    def calculate_area(self, bb_coords):
+        areas = []
+        for coords in bb_coords:
+            # Extract x and y coordinates of the bounding box vertices
+            x_coords = [coord[0] for coord in coords]
+            y_coords = [coord[1] for coord in coords]
+
+            # Apply the shoelace formula to calculate the area
+            area = 0.5 * abs(sum(x_coords[i] * y_coords[i + 1] - x_coords[i + 1] * y_coords[i] for i in range(-1, len(x_coords) - 1)))
+            areas.append(area)
+        return areas
+    
+    def compare_boxes(self, box1_coords, box2_coords):
+        centroids_box1 = [(sum(x) / len(x), sum(y) / len(y)) for x, y in zip(*box1_coords)]
+        centroids_box2 = [(sum(x) / len(x), sum(y) / len(y)) for x, y in zip(*box2_coords)]
+        results = []
+        for centroid1 in centroids_box1:
+            results.append(self.centroid_in_box(centroid1, box2_coords))
+        return results
+    
+
     def map_orientation(self, angle_x, angle_y):
         # Given points for CW relations
         cw_points = {
@@ -228,6 +252,7 @@ class PostProcess():
 
         result_robot_x = np.polyval(coeff_x, angle_x)
         result_robot_y = np.polyval(coeff_y, angle_y)
+
 
         # Print YOLO angles and Robot angles
         # print("\nFor YOLO x = {:f}, Robot x = {:f}".format(angle_x, result_robot_x))
@@ -306,16 +331,36 @@ def main():
     height = post_proc.get_obj_height(depth_img, coords) # Return object height
     rwc = post_proc.pixel_conversion(coords, height) # Return real world coordinates
 
-
-    # Create list of values to pass to the robot
-    first_box = [inner_list[0] for inner_list in rwc]
-    print("BOX 0:", first_box)
-    second_box = [inner_list[1] for inner_list in rwc]
-    print("BOX 1:", second_box)
-
-
-            
+    # Calculate areas for each box
+    areas = post_proc.calculate_area(coords)
+    print("Areas:", areas)
+    
+    largest_area_index = areas.index(max(areas))
+    # Reorder the bounding box coordinates so that the box with the largest area is first
 
 
-# if __name__ == "__main__":
-#     main()
+    box_dict = {}
+    for i in range(len(rwc[0])):
+        box_dict[f"box_{i}"] = [inner_list[i] for inner_list in rwc]
+        print(f"BOX {i}:", box_dict[f"box_{i}"])
+
+    # Retrieve the box with the largest area
+    largest_area_index = areas.index(max(areas))
+    largest_box_coords = rwc[largest_area_index]
+
+    # Separate the largest box from the rest
+    largest_box_dict = {"BOX_L": largest_box_coords}
+    del box_dict[f"box_{largest_area_index}"]
+
+    # Print the largest box coordinates
+    print("Box with largest area:", largest_box_coords)
+
+    # Print the rest of the boxes
+    print("Other boxes:")
+    for key, value in box_dict.items():
+        print(f"{key}: {value}")
+                    
+
+
+if __name__ == "__main__":
+    main()
