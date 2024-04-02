@@ -9,14 +9,14 @@ class TestURX:
         self.STARTING_POSITION = [-0.3855075887632609, -0.08245739447612332, 0.22352142951900683, 3.1415926535897932, 0, 0]
         self.BOX_L = BOX_L
         self.BOX_DICT = BOX_DICT
-        self.HB_0 = self.BOX_0[2]
-        self.HB_1 = self.BOX_1[2]
+        # self.HB_0 = self.BOX_0[2]
+        # self.HB_1 = self.BOX_1[2]
         self.robot = None
         # Parse box_dict into lists for each box and assign HB... to the respective height
         for i, box_key in enumerate(BOX_DICT.keys()):
             box_coords = BOX_DICT[box_key]
             height = box_coords[2]  # Assuming the height is at index 2
-            self.HB_dict[f"HB_{i}"] = height  # Assign height to HB_dict key
+            # self.HB_dict[f"HB_{i}"] = height  # Assign height to HB_dict key
 
         # Parse box_dict into separate lists for each box
         self.box_lists = {}
@@ -49,7 +49,7 @@ class TestURX:
         print("MOVE TO STARTING POSITION")
         self.robot.movel(self.STARTING_POSITION, acceleration, speed)
     
-        self.activate_gripper(self.robot, 100, 20, 2)
+        self.activate_gripper(100, 20, 2)
         time.sleep(5)
         # Open gripper
         # print("OPEN GRIPPER")
@@ -73,14 +73,14 @@ class TestURX:
         self.robot.movel(self.box_lists['box_0'], acceleration, speed)
         self.robot.translate((0,0, -(self.BOX_L[2]-.025)), acceleration, speed)
         time.sleep(5)
-        self.activate_gripper(self.robot, 75, 20, 2)
+        self.activate_gripper(75, 20, 2)
         time.sleep(5)
-        self.robot.translate((0,0, (self.BOX_L[2])), acceleration, speed)
+        self.robot.translate((0,0, (self.BOX_L[2]+.025)), acceleration, speed)
         self.robot.movel(self.BOX_L, acceleration, speed)
         time.sleep(5)
         # robot.translate((0,0, -.0225), acceleration, speed)
         # time.sleep(5)
-        self.activate_gripper(self.robot, 100, 20, 2)
+        self.activate_gripper(100, 20, 2)
         time.sleep(5)    
         # time.sleep(5)
         # activate_gripper(robot, 100, 20, 2)

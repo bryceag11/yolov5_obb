@@ -24,7 +24,10 @@ import numpy as np
 import math
 import time
 
-sys.path.append('C:/Users/Bryce/yolov5_obb/robot_control/chong_code')
+# Bryce path
+# sys.path.append('C:/Users/Bryce/yolov5_obb/robot_control/chong_code')
+# Lab computer path
+sys.path.append(r'C:/Users/AISMLab/Robot_Project/Code/yolov5_obb/robot_control/chong_code')
 
 from test_urx import TestURX
 
@@ -41,8 +44,8 @@ def main():
     print('Images captured \n')
 
     # IMAGE PREPROCESSING
-    # depth_img, color_img = pre_proc.crop_images_to_table(depth_img, color_img)
-    # print('Images cropped \n')
+    depth_img, color_img = pre_proc.crop_images_to_table(depth_img, color_img)
+    print('Images cropped \n')
 
     depth_csv_path = pre_proc.save_depth_csv(depth_img, 'robot_detection/cropped_images/depth/depth_csv')
     print(f"Depth image CSV saved at {depth_csv_path}")
@@ -80,19 +83,17 @@ def main():
     for i in range(len(rwc[0])):
         box_dict[f"box_{i}"] = [inner_list[i] for inner_list in rwc]
         print(f"BOX {i}:", box_dict[f"box_{i}"])
-
+    
     # Retrieve the box with the largest area
     largest_area_index = areas.index(max(areas))
-    largest_box_coords = rwc[largest_area_index]
-
+    largest_box_coords = box_dict[f"box_{largest_area_index}"]
     # Separate the largest box from the rest
-    BOX_L = {"BOX_L": largest_box_coords}
     del box_dict[f"box_{largest_area_index}"]
+    
+    print(largest_box_coords)
 
-    # Print the largest box coordinates
-    print("BOX_L:", largest_box_coords)
 
-    # Print the rest of the boxes
+    # # Print the rest of the boxes
     print("Other boxes:")
     for key, value in box_dict.items():
         print(f"{key}: {value}")

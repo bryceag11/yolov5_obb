@@ -27,13 +27,13 @@ class PreProcess():
         pass
 
     def crop_images_to_table(self, depth_img, color_img):
-        # # Zero out anything past the table
-        # depth_img[depth_img > 1100] = 0
+        # Zero out anything past the table
+        depth_img[depth_img > 1100] = 0
 
-        # # Crop images (matches with YOLOv5)
-        # depth_img = depth_img[125:955, 560:1390]
+        # Crop images (matches with YOLOv5)
+        depth_img = depth_img[125:955, 560:1390]
         depth_img = np.rot90(depth_img)
-        # color_img = color_img[125:955, 560:1390]
+        color_img = color_img[125:955, 560:1390]
         color_img = cv2.rotate(color_img, cv2.ROTATE_90_COUNTERCLOCKWISE)
         return depth_img, color_img
     
@@ -98,9 +98,9 @@ def main():
     '''
     Testing with raw images
     '''
-
-    depth_csv_path = 'robot_detection/raw_images/depth/depth_csv56.csv'
-    color_image_path = 'robot_detection/raw_images/color/color_image56.jpeg'
+    
+    depth_csv_path = 'robot_detection/raw_images/depth/depth_csv6.csv'
+    color_image_path = 'robot_detection/raw_images/color/color_image6.jpeg'
     depth_img = np.loadtxt(depth_csv_path, delimiter=',')
     color_img = cv2.imread(color_image_path)
     pre_proc = PreProcess()
@@ -119,5 +119,5 @@ def main():
     '''
 
 
-if __name__ == '__main__':
-    main()
+# if __name__ == '__main__':
+#     main()

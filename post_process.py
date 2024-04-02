@@ -186,7 +186,7 @@ class PostProcess():
             print(f"Z (Height) for BOX{counter}: {(1000 * height[counter])} mm")
             # Add to the list
             center_x.append(cen_x/1000)
-            center_y.append(cen_y/1000)
+            center_y.append((cen_y/1000)*-1)
             ang_x.append(rob_x)
             ang_y.append(rob_y)
             ang_z.append(0.0)
