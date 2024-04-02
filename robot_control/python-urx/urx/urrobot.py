@@ -91,6 +91,7 @@ class URRobot(object):
         return measured force in TCP
         if wait==True, waits for next packet before returning
         """
+        self.rtmon = self.get_realtime_monitor()
         return self.rtmon.getTCFForce(wait)
 
     def get_force(self, wait=True):
@@ -534,7 +535,7 @@ class URRobot(object):
         """
         if not self.rtmon:
             self.logger.info("Opening real-time monitor socket")
-            self.rtmon = urrtmon.URRTMonitor(self.host, self.host)  # som information is only available on rt interface
+            self.rtmon = urrtmon.URRTMonitor(self.host)  # som information is only available on rt interface
             self.rtmon.start()
         self.rtmon.set_csys(self.csys)
         return self.rtmon
