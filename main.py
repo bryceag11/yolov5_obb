@@ -32,6 +32,10 @@ sys.path.append(r'C:/Users/AISMLab/Robot_Project/Code/yolov5_obb/robot_control/c
 from test_urx import TestURX
 
 def main():
+    # Move robot to starting position
+    test_urx = TestURX()
+    test_urx.connect_to_robot()
+    test_urx.move_to_starting_position(1, 0.08)
 
     # Create class instances
     camera_op = CameraOperation()
@@ -52,8 +56,6 @@ def main():
 
     color_image_path = pre_proc.save_captured_image(color_img, 'robot_detection/cropped_images/color/color_image')
     print(f"Color image saved at {color_image_path}")
-
-
 
     # YOLOv5 ORIENTED OBJECT DETECTION
     opt = yolov5.parse_opt()
@@ -99,10 +101,8 @@ def main():
         print(f"{key}: {value}")
     # Retrieve the box with the largest area
 
-    
-    test_urx = TestURX(largest_box_coords, box_dict)
-    test_urx.connect_to_robot()
-    test_urx.demo(1, 0.08)
+    test_urx.define_box_locations(largest_box_coords, box_dict)
+    test_urx.pick_up_boxes(1, 0.08)
     test_urx.close_robot_connection()
 
 if __name__ == "__main__":

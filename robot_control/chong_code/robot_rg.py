@@ -36,7 +36,6 @@ class RobotMovement():
         self.output = self.output + b"\nend\n"
         self.output = self.output.decode("utf-8")      
         robot.send_program(self.output)
-        # print(RobotMovement.self.output)
         self.output = b""  
         self.file.close()
  
