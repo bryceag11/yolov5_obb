@@ -25,7 +25,7 @@ from utils.general import (LOGGER, check_requirements, check_suffix, check_versi
                            make_divisible, non_max_suppression, scale_coords, xywh2xyxy, xyxy2xywh)
 from utils.plots import Annotator, colors, save_one_box
 from utils.torch_utils import copy_attr, time_sync
-
+from utils.activations import Hardswish
 
 def autopad(k, p=None):  # kernel, padding
     # Pad to 'same'
@@ -636,3 +636,74 @@ class Classify(nn.Module):
     def forward(self, x):
         z = torch.cat([self.aap(y) for y in (x if isinstance(x, list) else [x])], 1)  # cat if list
         return self.flat(self.conv(z))  # flatten to x(b,c2)
+
+# Improved Receptive Field Block for enhancing feature representation and receptive field
+class ImprovedRFB(nn.Module):
+    def __init__(self, in_channels, out_channels):
+        super().__init__()
+        self.branch0 = Conv(in_channels, out_channels, 1)  # 1x1 conv, no dilation
+        self.branch1 = nn.Sequential(
+            Conv(in_channels, out_channels, 1),  # 1x1 conv
+            Conv(out_channels, out_channels, 3, padding=1)  # 3x3 conv, dilation 1
+        )
+        self.branch2 = nn.Sequential(
+            Conv(in_channels, out_channels, 1),  # 1x1 conv
+            Conv(out_channels, out_channels, 3, padding=3, dilation=3)  # 3x3 conv, dilation 3
+        )
+        self.branch3 = nn.Sequential(
+            Conv(in_channels, out_channels, 1),  # 1x1 conv
+            Conv(out_channels, out_channels, 3, padding=5, dilation=5)  # 3x3 conv, dilation 5
+        )
+        self.concat_conv = Conv(4 * out_channels, out_channels, 1)  # 1x1 conv for feature fusion
+        self.shortcut = nn.Identity()  # Identity mapping for shortcut connection
+
+    def forward(self, x):
+        x0 = self.branch0(x)  # Pass input through branch 0 (no dilation)
+        x1 = self.branch1(x)  # Pass input through branch 1 (dilation 1)
+        x2 = self.branch2(x)  # Pass input through branch 2 (dilation 3)
+        x3 = self.branch3(x)  # Pass input through branch 3 (dilation 5)
+        concat = torch.cat((x0, x1, x2, x3), dim=1)  # Concatenate outputs along channel dimension
+        output = self.concat_conv(concat)  # Apply 1x1 conv for feature fusion
+        shortcut = self.shortcut(x)  # Apply shortcut connection (identity mapping)
+        return Hardswish(output + shortcut)  # Add output and shortcut, apply Hardswish activation
+
+# Coordinate Attention to be added to the up-adoption stage of feature extraction 
+class CoordAttention(nn.Module):
+    def __init__(self, in_channels, reduction=32):
+        super(CoordAttention, self).__init__()
+        # Global pooling avoidance to maintain spatial information
+        self.pool_h = nn.AdaptiveAvgPool2d((None, 1))  # Adaptive avg pool along horizontal axis
+        self.pool_w = nn.AdaptiveAvgPool2d((1, None))  # Adaptive avg pool along vertical axis
+
+        mip = max(8, in_channels // reduction)  # Channel reduction factor
+
+        self.conv1 = nn.Conv2d(in_channels, mip, kernel_size=1, stride=1, padding=0)  # 1x1 Conv for dimensionality reduction
+        self.bn1 = nn.BatchNorm2d(mip)  # Batch normalization
+        self.act = nn.SiLU()  # SiLU activation
+
+        # Coordinate 
+        self.conv_h = nn.Conv2d(mip, in_channels, kernel_size=1, stride=1, padding=0)  # 1x1 Conv for horizontal attention
+        self.conv_w = nn.Conv2d(mip, in_channels, kernel_size=1, stride=1, padding=0)  # 1x1 Conv for vertical attention
+
+    def forward(self, x):
+        identity = x
+        
+        n, c, h, w = x.size()
+        # Retain sapatial information
+        x_h = self.pool_h(x)  # Pool along horizontal axis
+        x_w = self.pool_w(x).permute(0, 1, 3, 2)  # Pool along vertical axis and permute
+
+        y = torch.cat([x_h, x_w], dim=2)  # Concatenate horizontal and vertical pooled features
+        y = self.conv1(y)  # Dimensionality reduction
+        y = self.bn1(y)
+        y = self.act(y)  # Apply activation
+        
+        x_h, x_w = torch.split(y, [h, w], dim=2)  # Split into horizontal and vertical branches
+        x_w = x_w.permute(0, 1, 3, 2)  # Permute back
+
+        a_h = self.conv_h(x_h).sigmoid()  # Generate horizontal attention weights
+        a_w = self.conv_w(x_w).sigmoid()  # Generate vertical attention weights
+
+        out = identity * a_w * a_h  # Apply attention weights to input features
+
+        return out
