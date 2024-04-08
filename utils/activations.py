@@ -6,7 +6,7 @@ Activation functions
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-
+import math
 
 # SiLU https://arxiv.org/pdf/1606.08415.pdf ----------------------------------------------------------------------------
 class SiLU(nn.Module):  # export-friendly version of nn.SiLU()
@@ -14,6 +14,14 @@ class SiLU(nn.Module):  # export-friendly version of nn.SiLU()
     def forward(x):
         return x * torch.sigmoid(x)
 
+# replacement for SiLU to enhance the model's learning and expression capabilities
+class GeLU(nn.Module): 
+    def __init__(self):
+        super(GeLU, self).__init__()
+
+    def forward(x):
+        return 0.5 * x * (1.0 + torch.tanh(math.sqrt(2 / math.pi) * (x + 0.044715 * x**3)))
+    
 
 class Hardswish(nn.Module):  # export-friendly version of nn.Hardswish()
     @staticmethod
