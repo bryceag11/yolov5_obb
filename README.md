@@ -4,7 +4,8 @@
 
 ![val_batch_1_pred.jpg](https://github.com/bryceag11/yolov5_obb/assets/67086260/37772a0c-a618-4c3d-bdd6-627da116c7ea)
 
-![results.png](https://github.com/bryceag11/yolov5_obb/assets/67086260/28c5cda2-6227-47ee-a7b4-6df1f503240f)
+![results.png](https://github.com/bryceag11/yolov5_obb/assets/67086260/508e81e4-744e-4ae9-897b-230eb760b771)
+
 
 
 The code for the implementation of “[Yolov5](https://github.com/ultralytics/yolov5) + [Circular Smooth Label](https://arxiv.org/abs/2003.05597v2)”. 
