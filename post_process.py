@@ -143,7 +143,7 @@ class PostProcess():
         ''' 
     
         # Set conversion constants based on table dimensions
-        SCALE = 900 / 840
+        SCALE = 900 / 830
         LEFT_EDGE = 1225
         TOP_EDGE = - 450
         
@@ -182,7 +182,7 @@ class PostProcess():
             cen_x = -1* (np.mean(x_coordinates))
             cen_y = np.mean(y_coordinates)
             print(f"X Center for BOX{counter}: {cen_x} mm")
-            print(f"Y Center for BOX{counter}: {cen_y} mm")
+            print(f"Y Center for BOX{counter}: {-1 * cen_y} mm")
             print(f"Z (Height) for BOX{counter}: {(1000 * height[counter])} mm")
             # Add to the list
             center_x.append(cen_x/1000)
@@ -208,12 +208,14 @@ class PostProcess():
         return areas
     
     def compare_boxes(self, box1_coords, box2_coords):
-        centroids_box1 = [(sum(x) / len(x), sum(y) / len(y)) for x, y in zip(*box1_coords)]
-        centroids_box2 = [(sum(x) / len(x), sum(y) / len(y)) for x, y in zip(*box2_coords)]
-        results = []
-        for centroid1 in centroids_box1:
-            results.append(self.centroid_in_box(centroid1, box2_coords))
-        return results
+        center_x1, center_y1 = box1_coords[0], box1_coords[1]
+        center_x2, center_y2 = box2_coords[0], box2_coords[1]
+        
+        # Coputer Euclidian distance between centroids
+        distance = np.sqrt((center_x2 - center_x1)**2 + (center_y2 - center_y1)**2)
+    
+        # Return distance 
+        return distance 
     
 
     def map_orientation(self, angle_x, angle_y):

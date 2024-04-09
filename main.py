@@ -31,6 +31,46 @@ sys.path.append(r'C:/Users/AISMLab/Robot_Project/Code/yolov5_obb/robot_control/c
 
 from test_urx import TestURX
 
+def detection_thread(image_source, post_process_instance, distance_threshold):
+    camera_op = CameraOperation()
+    pre_proc = PreProcess()
+    yolov5 = YOLOV5Detector()
+
+    while True:
+        # Capture images from camera
+        depth_img, color_img = camera_op.obtain_images()
+ 
+        # Preprocess images
+        depth_img, color_img = pre_proc.crop_images_to_table(depth_img, color_img)
+
+        # Save color image for YOLO detection (adjust path as needed)
+        color_image_path = pre_proc.save_captured_image(color_img, 'robot_detection/cropped_images/color/color_image')
+
+        # Run YOLOv5 detection
+        opt = yolov5.parse_opt()
+        opt.source = color_image_path
+        sd = yolov5.run(**vars(opt))
+ 
+        # Get bounding box coordinates from YOLO results
+        file_path = post_process_instance.get_txt_path(sd)
+        box_coords_list = post_process_instance.pull_coordinates(file_path)
+ 
+        # Assuming you want to compare the first two boxes:
+
+        box1_coords = box_coords_list[0]
+
+        box2_coords = box_coords_list[1]
+ 
+        # Compare centroids 
+
+        stacked = post_process_instance.compare_boxes(box1_coords, box2_coords, distance_threshold)
+
+        # Determine if distance is below threshold, indicating if boxes are stacked
+        if stacked < 100:
+            print("Boxes stacked!")
+            return False 
+
+        time.sleep(2)
 def main():
     # Move robot to starting position
     test_urx = TestURX()
