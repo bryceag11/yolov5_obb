@@ -19,22 +19,14 @@ class TestURX:
         # HARDCODED STARTING POSITION
         self.STARTING_POSITION = [-0.3855075887632609, -0.08245739447612332, 0.22352142951900683, 3.1415926535897932, 0, 0]
         self.BOX_L = BOX_L
-        self.BOX_L[2] += .03
         self.BOX_DICT = BOX_DICT
         # self.HB_0 = self.BOX_0[2]
         # self.HB_1 = self.BOX_1[2]
         # Parse box_dict into lists for each box and assign HB... to the respective height
         for i, box_key in enumerate(BOX_DICT.keys()):
             box_coords = BOX_DICT[box_key]
-            height = box_coords[2]  # Assuming the height is at index 2
-            self.HB_dict[f"HB_{i}"] = height  # Assign height to HB_dict key
-
-        # Parse box_dict into separate lists for each box
-        for key, value in BOX_DICT.items():
-            self.box_lists[key] = value
-        
-        print(self.robot.get_tcp_force(True))
-        print(self.robot.getl())
+            self.HB_dict[f"HB_{i}"] = box_coords[2] # Assign height to HB_dict key
+            box_coords[2] *= 2
 
     def connect_to_robot(self):
         RobotIP = "192.168.1.102"  # Your PC must have same first 3 components of IP but different last
@@ -65,7 +57,6 @@ class TestURX:
         self.activate_gripper(100, 20, 2)
 
     def pick_up_boxes(self, acceleration, speed):
-        self.move_to_starting_position(acceleration, speed)
         # time.sleep(5)
         # Open gripper
         # print("OPEN GRIPPER")
@@ -85,18 +76,21 @@ class TestURX:
         # time.sleep(5)
         # activate_gripper(robot, 100, 20, 2)
         # time.sleep(5)
-    
-        self.robot.movel(self.box_lists['box_0'], acceleration, speed)
-        self.robot.translate((0,0, -(self.HB_dict["HB_0"]-.025)), acceleration, speed)
-        # time.sleep(5)
-        self.activate_gripper(75, 20, 2)
-        # time.sleep(5)
-        self.robot.translate((0,0, (self.HB_dict["HB_0"]+.035)), acceleration, speed)
-        self.robot.movel(self.BOX_L, acceleration, speed)
-        # time.sleep(5)
-        # robot.translate((0,0, -.0225), acceleration, speed)
-        # time.sleep(5)
-        self.activate_gripper(100, 20, 2)
+        for i in range(len(self.BOX_DICT)):
+            self.robot.movel(self.BOX_DICT[f'BOX_{i}'], acceleration, speed)
+            self.robot.translate((0,0, -1.5*(self.HB_dict[f"HB_{i}"])), acceleration, speed)
+            # time.sleep(5)
+            self.activate_gripper(75, 20, 2)
+            # time.sleep(5)
+            self.BOX_L[2] += self.HB_dict[f"HB_{i}"]
+            self.robot.translate((0, 0, (self.BOX_L[2])), acceleration, speed)
+            self.robot.movel(self.BOX_L, acceleration, speed)
+            self.robot.translate((0, 0, -(self.HB_dict[f"HB_{i}"]/2)), acceleration, speed)
+            # time.sleep(5)
+            # robot.translate((0,0, -.0225), acceleration, speed)
+            # time.sleep(5)
+            self.activate_gripper(100, 20, 2)
+            self.robot.translate((0, 0, (self.HB_dict[f"HB_{i}"])), acceleration, speed)
         # time.sleep(5)    
         # time.sleep(5)
         # activate_gripper(robot, 100, 20, 2)

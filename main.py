@@ -87,12 +87,14 @@ class Detector:
                     time.sleep(0.5)
             time.sleep(0.5)
 
-
+'''
+Function to stack boxes 
+'''
 def main():
     # Move robot to starting position
-    test_urx = TestURX()
-    test_urx.connect_to_robot()
-    test_urx.move_to_starting_position(1, 0.08)
+    # test_urx = TestURX()
+    # test_urx.connect_to_robot()
+    # test_urx.move_to_starting_position(1, 0.08)
 
     # Create class instances
     camera_op = CameraOperation()
@@ -128,42 +130,45 @@ def main():
 
     height = post_proc.get_obj_height(depth_img, coords) # Return object height
 
-    rwc = post_proc.pixel_conversion(coords, height) # Return real world coordinates
+    rwc = list(post_proc.pixel_conversion(coords, height)) # Return real world coordinates
 
     # Calculate areas for each box
     areas = post_proc.calculate_area(coords)
-    print("Areas:", areas)
+    print("\nAreas:", areas)
     
-    largest_area_index = areas.index(max(areas))
-    # Reorder the bounding box coordinates so that the box with the largest area is first
+    # Retrieve box with the largest area
+    largest_area_index = areas.index(max(areas)) 
 
+    BOX_L = []
+    # Separate largest box from the rest to act as a base for stacking 
+    BOX_L = [inner_list[largest_area_index] for inner_list in rwc]
+    print(f"LARGE: {BOX_L}\n")
+    for sublist in rwc:
+        del sublist[largest_area_index]
 
+    
     box_dict = {}
     for i in range(len(rwc[0])):
-        box_dict[f"box_{i}"] = [inner_list[i] for inner_list in rwc]
-        print(f"BOX {i}:", box_dict[f"box_{i}"])
+        box_dict[f"BOX_{i}"] = [inner_list[i] for inner_list in rwc]
+        print(f"BOX_{i}:", box_dict[f"BOX_{i}"])
     
-    # Retrieve the box with the largest area
-    largest_area_index = areas.index(max(areas))
-    largest_box_coords = box_dict[f"box_{largest_area_index}"]
-    # Separate the largest box from the rest
-    del box_dict[f"box_{largest_area_index}"]
-    
-    print(largest_box_coords)
 
+    # largest_box_coords = box_dict[f"box_{largest_area_index}"]
+    # Separate the largest box from the rest
+    # del box_dict[f"box_{largest_area_index}"]
 
     # # Print the rest of the boxes
-    print("Other boxes:")
-    for key, value in box_dict.items():
-        print(f"{key}: {value}")
-    # Retrieve the box with the largest area
+    # print("Other boxes:")
+    # for key, value in box_dict.items():
+    #     print(f"{key}: {value}")
 
-    test_urx.define_box_locations(largest_box_coords, box_dict)
-    # detector = Detector(post_proc, largest_box_coords, robot)
-    # detection_thread = threading.Thread(target=detector.run_detection)
-    test_urx.pick_up_boxes(1, 0.08)
-    # detection_thread.start()
-    test_urx.close_robot_connection()
+
+    # test_urx.define_box_locations(BOX_L, box_dict)
+    # # # detector = Detector(post_proc, largest_box_coords, robot)
+    # # # detection_thread = threading.Thread(target=detector.run_detection)
+    # test_urx.pick_up_boxes(1, 0.08)
+    # # detection_thread.start()
+    # test_urx.close_robot_connection()
 
 if __name__ == "__main__":
     main()

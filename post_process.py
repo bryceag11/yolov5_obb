@@ -77,7 +77,7 @@ class PostProcess():
             error = abs(round(((height - 54) / 54), 2))
             # print(f"BOX{counter} HEIGHT:")
             # print(height)
-            print(f"ERROR for BOX{counter} Height:{error}")
+            print(f"\nERROR for BOX{counter} Height:{error}")
             # print(error)
 
             counter += 1
