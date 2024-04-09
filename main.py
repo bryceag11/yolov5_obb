@@ -19,10 +19,10 @@ from camera_operation import CameraOperation
 from post_process import PostProcess
 
 import sys
-import urx
 import numpy as np
 import math
 import time
+import threading
 
 # Bryce path
 # sys.path.append('C:/Users/Bryce/yolov5_obb/robot_control/chong_code')
@@ -31,46 +31,63 @@ sys.path.append(r'C:/Users/AISMLab/Robot_Project/Code/yolov5_obb/robot_control/c
 
 from test_urx import TestURX
 
-def detection_thread(image_source, post_process_instance, distance_threshold):
-    camera_op = CameraOperation()
-    pre_proc = PreProcess()
-    yolov5 = YOLOV5Detector()
+class Detector:
+    def __init__(self, post_process_instance, BOX_L, robot):
+        self.post_process_instance = post_process_instance
+        self.BOX_L = BOX_L
+        self.robot = robot
+        self.if_stacked = False 
 
-    while True:
-        # Capture images from camera
-        depth_img, color_img = camera_op.obtain_images()
- 
-        # Preprocess images
-        depth_img, color_img = pre_proc.crop_images_to_table(depth_img, color_img)
+    def run_detection(self):
 
-        # Save color image for YOLO detection (adjust path as needed)
-        color_image_path = pre_proc.save_captured_image(color_img, 'robot_detection/cropped_images/color/color_image')
+        while True:
+            # # Capture images from camera
+            # depth_img, color_img = camera_op.obtain_images()
+    
+            # # Preprocess images
+            # depth_img, color_img = pre_proc.crop_images_to_table(depth_img, color_img)
 
-        # Run YOLOv5 detection
-        opt = yolov5.parse_opt()
-        opt.source = color_image_path
-        sd = yolov5.run(**vars(opt))
- 
-        # Get bounding box coordinates from YOLO results
-        file_path = post_process_instance.get_txt_path(sd)
-        box_coords_list = post_process_instance.pull_coordinates(file_path)
- 
-        # Assuming you want to compare the first two boxes:
+            # # Save color image for YOLO detection (adjust path as needed)
+            # color_image_path = pre_proc.save_captured_image(color_img, 'robot_detection/cropped_images/color/color_image')
 
-        box1_coords = box_coords_list[0]
+            # # Run YOLOv5 detection
+            # opt = yolov5.parse_opt()
+            # opt.source = color_image_path
+            # sd = yolov5.run(**vars(opt))
+    
+            # # Get bounding box coordinates from YOLO results
+            # file_path = post_process_instance.get_txt_path(sd)
+            # box_coords_list = post_process_instance.pull_coordinates(file_path)
+    
+            # Assuming you want to compare the first two boxes:
 
-        box2_coords = box_coords_list[1]
- 
-        # Compare centroids 
+            # box1_coords = box_coords_list[0]
 
-        stacked = post_process_instance.compare_boxes(box1_coords, box2_coords, distance_threshold)
+            # box2_coords = box_coords_list[1]
 
-        # Determine if distance is below threshold, indicating if boxes are stacked
-        if stacked < 100:
-            print("Boxes stacked!")
-            return False 
+            box_coords = self.robot.getl()
+            # Compare centroids 
+            stacked = self.post_process_instance.compare_boxes(self.BOX_L, box_coords)
 
-        time.sleep(2)
+            print(f"\n Difference of Distance: {stacked}mm")
+            # Determine if distance is below threshold, indicating if boxes are stacked
+            if stacked < 30:
+                print("Box in region")
+                tcp_array = []
+                while True:
+                    force = self.robot.get_tcp_force()
+                    print(force)
+                    tcp_array.append(force[2])
+                    if len(tcp_array) > 1:
+                        diff = tcp_array[-1] - tcp_array[-2]
+                        if abs(diff) > 2:
+                            print("Box stacked")
+                            self.stacked = True
+                            return False
+                    time.sleep(0.5)
+            time.sleep(0.5)
+
+
 def main():
     # Move robot to starting position
     test_urx = TestURX()
@@ -142,7 +159,10 @@ def main():
     # Retrieve the box with the largest area
 
     test_urx.define_box_locations(largest_box_coords, box_dict)
+    # detector = Detector(post_proc, largest_box_coords, robot)
+    # detection_thread = threading.Thread(target=detector.run_detection)
     test_urx.pick_up_boxes(1, 0.08)
+    # detection_thread.start()
     test_urx.close_robot_connection()
 
 if __name__ == "__main__":
