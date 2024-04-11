@@ -39,7 +39,7 @@ class TestURX:
             print("Robot is Stopped")
 
     def activate_gripper(self, width, force, mass):
-        print("ACTIVATE GRIPPER")
+        # print("ACTIVATE GRIPPER")
         ag = RobotMovement()
         ag.rg_grip(self.robot, width, force, mass)
         time.sleep(0.5)
@@ -118,6 +118,19 @@ class TestURX:
         self.robot.translate((0.1,0.1,0.1), acceleration, speed)
         self.activate_gripper(100, 20, 2)
 
+    def test_picking_up_force(self, acceleration, speed):
+        print(self.robot.get_tcp_force())
+        self.robot.translate((0,0,-0.2), acceleration, speed)
+        print(self.robot.get_tcp_force())
+        self.activate_gripper(75, 20, 2)
+        for i in range(1,10):
+            self.robot.translate((0,0,0.01), acceleration, speed)
+            print(self.robot.get_tcp_force())
+            time.sleep(1)
+
+
+
+
     def close_robot_connection(self):
         if self.robot is not None:
             self.robot.close()
@@ -126,7 +139,8 @@ def main():
     test_urx = TestURX()
     test_urx.connect_to_robot()
     test_urx.move_to_starting_position(1, 0.08)
-    test_urx.demo(1, 0.08)
+    test_urx.test_picking_up_force(1, 0.08)
+    # test_urx.demo(1, 0.08)
     test_urx.close_robot_connection()
 
 if __name__ == '__main__':

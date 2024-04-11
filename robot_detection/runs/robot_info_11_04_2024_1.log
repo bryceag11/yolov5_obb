@@ -35544,3 +35544,44 @@ end
 2024-04-11 11:54:56,871 - INFO - Opening real-time monitor socket
 2024-04-11 11:56:12,081 - INFO - Closing sockets to robot
 2024-04-11 11:56:12,185 - INFO - Robot connection closed.
+2024-04-11 12:10:02,708 - INFO - Remove 79 bytes of garbage at begining of packet
+2024-04-11 12:10:11,093 - INFO - [34m[1myolo_detect: [0mweights=weights\best.pt, source=0, imgsz=[840, 840], conf_thres=0.8, iou_thres=0.9, max_det=200, device=cpu, view_img=False, save_txt=True, save_conf=False, save_crop=False, nosave=False, classes=None, agnostic_nms=False, augment=False, visualize=False, update=False, project=runs/detect, name=exp, exist_ok=False, line_thickness=2, hide_labels=False, hide_conf=False, half=False, dnn=False
+2024-04-11 12:10:11,284 - INFO - YOLOv5  914806d torch 2.2.2+cpu CPU
+
+2024-04-11 12:10:11,360 - INFO - Fusing layers... 
+2024-04-11 12:10:11,536 - INFO - Model Summary: 213 layers, 7500979 parameters, 0 gradients
+2024-04-11 12:10:12,228 - INFO - image 1/1 C:\Users\AISMLab\Robot_Project\Code\yolov5_obb\robot_detection\cropped_images\color\color_image143.JPEG: 864x864 3 boxs, Done. (0.627s)
+2024-04-11 12:10:12,261 - INFO - Speed: 0.0ms pre-process, 627.4ms inference, 0.0ms NMS per image at shape (1, 3, 864, 864)
+2024-04-11 12:10:12,264 - INFO - Results saved to [1mruns\detect\exp177[0m
+1 labels saved to runs\detect\exp177\labels
+2024-04-11 12:10:32,595 - INFO - Keyboard Interrupt.
+2024-04-11 12:10:32,608 - INFO - Closing sockets to robot
+2024-04-11 12:10:32,689 - INFO - Robot connection closed.
+2024-04-11 12:14:02,608 - INFO - Remove 79 bytes of garbage at begining of packet
+2024-04-11 12:14:13,236 - INFO - [34m[1myolo_detect: [0mweights=weights\best.pt, source=0, imgsz=[840, 840], conf_thres=0.8, iou_thres=0.9, max_det=200, device=cpu, view_img=False, save_txt=True, save_conf=False, save_crop=False, nosave=False, classes=None, agnostic_nms=False, augment=False, visualize=False, update=False, project=runs/detect, name=exp, exist_ok=False, line_thickness=2, hide_labels=False, hide_conf=False, half=False, dnn=False
+2024-04-11 12:14:13,410 - INFO - YOLOv5  914806d torch 2.2.2+cpu CPU
+
+2024-04-11 12:14:13,468 - INFO - Fusing layers... 
+2024-04-11 12:14:13,612 - INFO - Model Summary: 213 layers, 7500979 parameters, 0 gradients
+2024-04-11 12:14:14,207 - INFO - image 1/1 C:\Users\AISMLab\Robot_Project\Code\yolov5_obb\robot_detection\cropped_images\color\color_image144.JPEG: 864x864 4 boxs, Done. (0.554s)
+2024-04-11 12:14:14,233 - INFO - Speed: 4.0ms pre-process, 553.6ms inference, 0.0ms NMS per image at shape (1, 3, 864, 864)
+2024-04-11 12:14:14,234 - INFO - Results saved to [1mruns\detect\exp178[0m
+1 labels saved to runs\detect\exp178\labels
+2024-04-11 12:14:14,985 - INFO - Opening real-time monitor socket
+2024-04-11 12:15:01,141 - INFO - Keyboard Interrupt.
+2024-04-11 12:15:01,141 - INFO - Closing sockets to robot
+2024-04-11 12:15:01,226 - INFO - Robot connection closed.
+2024-04-11 12:15:30,072 - INFO - Remove 79 bytes of garbage at begining of packet
+2024-04-11 12:15:40,807 - INFO - [34m[1myolo_detect: [0mweights=weights\best.pt, source=0, imgsz=[840, 840], conf_thres=0.8, iou_thres=0.9, max_det=200, device=cpu, view_img=False, save_txt=True, save_conf=False, save_crop=False, nosave=False, classes=None, agnostic_nms=False, augment=False, visualize=False, update=False, project=runs/detect, name=exp, exist_ok=False, line_thickness=2, hide_labels=False, hide_conf=False, half=False, dnn=False
+2024-04-11 12:15:40,979 - INFO - YOLOv5  914806d torch 2.2.2+cpu CPU
+
+2024-04-11 12:15:41,041 - INFO - Fusing layers... 
+2024-04-11 12:15:41,173 - INFO - Model Summary: 213 layers, 7500979 parameters, 0 gradients
+2024-04-11 12:15:41,762 - INFO - image 1/1 C:\Users\AISMLab\Robot_Project\Code\yolov5_obb\robot_detection\cropped_images\color\color_image145.JPEG: 864x864 4 boxs, Done. (0.523s)
+2024-04-11 12:15:41,784 - INFO - Speed: 5.0ms pre-process, 522.9ms inference, 15.6ms NMS per image at shape (1, 3, 864, 864)
+2024-04-11 12:15:41,789 - INFO - Results saved to [1mruns\detect\exp179[0m
+1 labels saved to runs\detect\exp179\labels
+2024-04-11 12:15:42,518 - INFO - Opening real-time monitor socket
+2024-04-11 12:16:00,728 - INFO - Keyboard Interrupt.
+2024-04-11 12:16:00,728 - INFO - Closing sockets to robot
+2024-04-11 12:16:00,837 - INFO - Robot connection closed.
