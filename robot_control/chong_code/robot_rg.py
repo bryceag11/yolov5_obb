@@ -30,7 +30,7 @@ class RobotMovement():
         width = width.encode()
         mass = mass.encode()
  
-        on_return = b"on_return=rg_grip(" + width + b", " + force + b", tool_index = 0, blocking = True, depth_comp = False, popupmsg = True)"
+        on_return = b"on_return=rg_grip(" + width + b", " + force + b", tool_index = 0, blocking = True, depth_comp = False, popupmsg = true)"
         rg_payload_set = b"rg_payload_set(" + mass + b", tool_index = 0, use_guard = True)"
         self.output = self.output+ b"\n" + on_return + b"\n" + rg_payload_set + b"\n"        
         self.output = self.output + b"\nend\n"
