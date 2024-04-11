@@ -83,7 +83,7 @@ class URRobot(object):
         the program is executed immediatly and any runnning
         program is interrupted
         """
-        self.logger.info("Sending program: " + prog)
+        # self.logger.info("Sending program: " + prog)
         self.secmon.send_program(prog)
 
     def get_tcp_force(self, wait=True):
