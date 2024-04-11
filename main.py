@@ -46,53 +46,34 @@ class Detector:
         for i in range(length):
             self.if_stacked = False
             self.picked_up = False 
+
             # While loop for box being picked up
             while not self.picked_up:
+                print(f"\nOutputting force for BOX_{i}")
                 force = self.robot.get_tcp_force()
                 print(force)
                 tcp_array.append(force[2])
                 if len(tcp_array) > 1:
-                    diff = tcp_array[-1] - tcp_array[-2]
+                    diff = abs(tcp_array[-1] - tcp_array[-2])
                     print(diff)
-                    if abs(diff) > 3:
-                        print("Box picked up")
+                    if diff > 3:
+                        print("\nBox picked up")
                         self.picked_up = True 
                     time.sleep(0.5)
-            
+
+            time.sleep(0.5)
+
             # While loop for box being stacked
             while not self.if_stacked:
-                # # Capture images from camera
-                # depth_img, color_img = camera_op.obtain_images()
-        
-                # # Preprocess images
-                # depth_img, color_img = pre_proc.crop_images_to_table(depth_img, color_img)
-
-                # # Save color image for YOLO detection (adjust path as needed)
-                # color_image_path = pre_proc.save_captured_image(color_img, 'robot_detection/cropped_images/color/color_image')
-
-                # # Run YOLOv5 detection
-                # opt = yolov5.parse_opt()
-                # opt.source = color_image_path
-                # sd = yolov5.run(**vars(opt))
-        
-                # # Get bounding box coordinates from YOLO results
-                # file_path = post_process_instance.get_txt_path(sd)
-                # box_coords_list = post_process_instance.pull_coordinates(file_path)
-        
-                # Assuming you want to compare the first two boxes:
-
-                # box1_coords = box_coords_list[0]
-
-                # box2_coords = box_coords_list[1]
-
+                print(f"\n Outputting distance comparison for Box_{i}")
                 box_coords = self.robot.getl()
                 # Compare centroids 
                 stacked = self.post_process_instance.compare_boxes(self.BOX_L, box_coords)
+                print(f"Difference of distance: {stacked}mm")
                 tcp_array = []
-                # print(f"\n Difference of Distance: {stacked}mm")
                 # # Determine if distance is below threshold, indicating if boxes are stacked
                 if stacked < 30:
-                    print("Box in region")
+                    print("\nBox in region")
                     tcp_array = []
                     while True:
                         force = self.robot.get_tcp_force()
@@ -101,11 +82,14 @@ class Detector:
                         if len(tcp_array) > 1:
                             diff = tcp_array[-1] - tcp_array[-2]
                             if abs(diff) > 2:
-                                print("Box stacked")
+                                print("\nBox stacked")
                                 self.stacked = True
                         time.sleep(0.5)
                 time.sleep(0.5)
 
+            time.sleep(5)
+
+        return
 # Function to generate a unique log file name
 def generate_log_file_name():
     now = datetime.datetime.now()
