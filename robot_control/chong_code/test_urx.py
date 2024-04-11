@@ -126,7 +126,7 @@ def main():
     test_urx = TestURX()
     test_urx.connect_to_robot()
     test_urx.move_to_starting_position(1, 0.08)
-    # test_urx.demo(1, 0.08)
+    test_urx.demo(1, 0.08)
     test_urx.close_robot_connection()
 
 if __name__ == '__main__':
