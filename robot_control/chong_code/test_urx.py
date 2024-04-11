@@ -33,7 +33,7 @@ class TestURX:
         self.robot = urx.Robot(RobotIP)
 
         if self.robot.is_running():
-            print("Robot is Online")
+            print("\nRobot is Online")
             return self.robot
         else:
             print("Robot is Stopped")
@@ -52,7 +52,7 @@ class TestURX:
         # Move slightly
         self.robot.translate((0,0.000001,0), acceleration, speed)
         # Move to starting position
-        print("MOVE TO STARTING POSITION")
+        print("MOVE TO STARTING POSITION\n")
         self.robot.movel(self.STARTING_POSITION, acceleration, speed)
         self.activate_gripper(100, 20, 2)
 
@@ -79,11 +79,10 @@ class TestURX:
         for i in range(len(self.BOX_DICT)):
             self.robot.movel(self.BOX_DICT[f'BOX_{i}'], acceleration, speed)
             self.robot.translate((0,0, -1.5*(self.HB_dict[f"HB_{i}"])), acceleration, speed)
-            # time.sleep(5)
             self.activate_gripper(75, 20, 2)
-            # time.sleep(5)
             self.BOX_L[2] += self.HB_dict[f"HB_{i}"]
             self.robot.translate((0, 0, (self.BOX_L[2])), acceleration, speed)
+            
             self.robot.movel(self.BOX_L, acceleration, speed)
             self.robot.translate((0, 0, -(self.HB_dict[f"HB_{i}"]/2)), acceleration, speed)
             # time.sleep(5)

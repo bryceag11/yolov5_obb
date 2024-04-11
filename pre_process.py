@@ -79,17 +79,18 @@ def main():
     # # Path to folder where captured image will be saved 
     # image_destination_path = r'C:\Users\bryce\yolov5_obb'
 
-    # camera_op = CameraOperation()
+    camera_op = CameraOperation()
+    pre_proc = PreProcess()
 
-    # depth_img, color_img = camera_op.obtain_images()
+    depth_img, color_img = camera_op.obtain_images()
 
-    # depth_img, color_img = PreProcess.crop_images_to_table(depth_img, color_img)
+    depth_img, color_img = pre_proc.crop_images_to_table(depth_img, color_img)
 
-    # depth_csv_path = camera_op.save_depth_csv(depth_img, 'robot_detection/cropped_images/depth/depth_csv')
-    # print(f"Depth image CSV saved at {depth_csv_path}")
+    depth_csv_path = camera_op.save_depth_csv(depth_img, 'robot_detection/cropped_images/depth/depth_csv')
+    print(f"Depth image CSV saved at {depth_csv_path}")
 
-    # color_image_path = camera_op.save_captured_image(color_img, 'robot_detection/cropped_images/color/color_image')
-    # print(f"Color image saved at {color_image_path}")
+    color_image_path = camera_op.save_captured_image(color_img, 'robot_detection/cropped_images/color/color_image')
+    print(f"Color image saved at {color_image_path}")
     
     '''
     End of testing with CameraOperation class
@@ -99,25 +100,25 @@ def main():
     Testing with raw images
     '''
     
-    depth_csv_path = 'robot_detection/raw_images/depth/depth_csv6.csv'
-    color_image_path = 'robot_detection/raw_images/color/color_image6.jpeg'
-    depth_img = np.loadtxt(depth_csv_path, delimiter=',')
-    color_img = cv2.imread(color_image_path)
-    pre_proc = PreProcess()
+    # depth_csv_path = 'robot_detection/raw_images/depth/depth_csv6.csv'
+    # color_image_path = 'robot_detection/raw_images/color/color_image6.jpeg'
+    # depth_img = np.loadtxt(depth_csv_path, delimiter=',')
+    # color_img = cv2.imread(color_image_path)
+    # pre_proc = PreProcess()
 
-    depth_img, color_img = pre_proc.crop_images_to_table(depth_img, color_img)
+    # depth_img, color_img = pre_proc.crop_images_to_table(depth_img, color_img)
 
     
-    depth_csv_path = pre_proc.save_depth_csv(depth_img, 'robot_detection/cropped_images/depth/depth_csv')
-    print(f"Depth image CSV saved at {depth_csv_path}")
+    # depth_csv_path = pre_proc.save_depth_csv(depth_img, 'robot_detection/cropped_images/depth/depth_csv')
+    # print(f"Depth image CSV saved at {depth_csv_path}")
 
-    color_image_path = pre_proc.save_captured_image(color_img, 'robot_detection/cropped_images/color/color_image')
-    print(f"Color image saved at {color_image_path}")
+    # color_image_path = pre_proc.save_captured_image(color_img, 'robot_detection/cropped_images/color/color_image')
+    # print(f"Color image saved at {color_image_path}")
 
     '''
     End of testing with raw images
     '''
 
 
-# if __name__ == '__main__':
-#     main()
+if __name__ == '__main__':
+    main()

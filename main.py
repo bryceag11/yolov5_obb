@@ -125,24 +125,32 @@ def main():
         # Create a logger object
         info_logger = logging.getLogger()
         info_logger.addHandler(info_handler)
-        
+        info_logger.info("Beginning of log")
+
         # Move robot to starting position
-        robot = test_urx.connect_to_robot()
-        test_urx.move_to_starting_position(1, 0.08)
         try:
+            robot = test_urx.connect_to_robot()
+            test_urx.move_to_starting_position(1, 0.08)
+            info_logger.info("Moving to starting position\n")
+        except Exception as e:
+            info_logger.error(f"Error during robot connection: {e}")
+            raise
+
+
+        try:
+            info_logger.info("Camera operation beginning...")
             # CAMERA OPERATION
             depth_img, color_img = camera_op.obtain_images()
-            print('Images captured \n')
-
+            info_logger.info("Images captured")
             # IMAGE PREPROCESSING
             depth_img, color_img = pre_proc.crop_images_to_table(depth_img, color_img)
-            print('Images cropped \n')
+            info_logger.info("Images cropped")
 
             depth_csv_path = pre_proc.save_depth_csv(depth_img, 'robot_detection/cropped_images/depth/depth_csv')
-            print(f"Depth image CSV saved at {depth_csv_path}")
+            info_logger.info(f"Depth image CSV saved at {depth_csv_path}")
 
             color_image_path = pre_proc.save_captured_image(color_img, 'robot_detection/cropped_images/color/color_image')
-            print(f"Color image saved at {color_image_path}")
+            info_logger.info(f"Depth image CSV saved at {depth_csv_path}\nCamera operation ending...\n")
 
         except Exception as e:
             info_logger.error(f"Error during image capture or preprocessing: {e}")
@@ -152,9 +160,11 @@ def main():
 
         # YOLOv5 ORIENTED OBJECT DETECTION
         try: 
+            info_logger.info("YOLO inference beginning...")
             opt = yolov5.parse_opt()
             opt.source = color_image_path
             sd = yolov5.run(**vars(opt))
+            info_logger.info("YOLO inference ending...\n")
             file_path = post_proc.get_txt_path(sd)
             coords = post_proc.pull_coordinates(file_path) # Pull coordinates from produced yolov5
 
@@ -164,17 +174,18 @@ def main():
         
         # POST PROCESSING
         try:
+            info_logger.info("Post processing beginning...")
             height = post_proc.get_obj_height(depth_img, coords) # Return object height
             rwc = list(post_proc.pixel_conversion(coords, height)) # Return real world coordinates
             
             # Calculate areas for each box and return largest area
             areas = post_proc.calculate_area(coords)
-            print("\nAreas:", areas)
+            info_logger.info("Areas:", areas)
             largest_area_index = areas.index(max(areas)) 
 
             # Separate largest box from the rest to act as a base for stacking 
             BOX_L = [inner_list[largest_area_index] for inner_list in rwc]
-            print(f"LARGE: {BOX_L}\n")
+            info_logger.info(f"LARGE: {BOX_L}")
             for sublist in rwc:
                 del sublist[largest_area_index]
             
@@ -182,18 +193,25 @@ def main():
             box_dict = {}
             for i in range(len(rwc[0])):
                 box_dict[f"BOX_{i}"] = [inner_list[i] for inner_list in rwc]
-                print(f"BOX_{i}:", box_dict[f"BOX_{i}"])
-
+                info_logger.info(f"BOX_{i}:", box_dict[f"BOX_{i}"])
+            info_logger.info("Post processing ending...\n")
         except Exception as e:
             info_logger.error(f"Error during Post Processing: {e}")
             raise 
 
         test_urx.define_box_locations(BOX_L, box_dict)
 
-        detector = Detector(post_proc, BOX_L, robot)
-        detection_thread = threading.Thread(target=detector.run_detection(len(box_dict)))
-        detection_thread.start()
-        
+        # DYNAMIC DETECTION THREAD
+        try:
+            info_logger.info("Dynamic detection thread beginning...")
+            detector = Detector(post_proc, BOX_L, robot)
+            detection_thread = threading.Thread(target=detector.run_detection(len(box_dict)))
+            detection_thread.start()
+
+        except Exception as e:
+            info_logger.error(f"Error during detection thread: {e}")
+            raise
+    
         test_urx.pick_up_boxes(1, 0.08)
 
     except Exception as e:
@@ -208,7 +226,8 @@ def main():
     finally:
         # Ensure robot connection is closed
         test_urx.close_robot_connection()
-        info_logger.info("Robot connection closed.")
+        info_logger.info("Robot connection closed.\n")
+        info_logger.info("End of log\n\n")
         info_handler.close()
 
 if __name__ == "__main__":
