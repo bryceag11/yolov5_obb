@@ -1,117 +1,797 @@
-2024-04-11 15:04:34,456 - INFO - Beginning of log
-2024-04-11 15:04:34,992 - INFO - Remove 79 bytes of garbage at begining of packet
-2024-04-11 15:04:36,305 - INFO - Camera operation beginning...
-2024-04-11 15:04:39,188 - INFO - Images captured
-2024-04-11 15:04:39,192 - INFO - Images cropped
-2024-04-11 15:04:39,592 - INFO - Depth image CSV saved at C:\Users\AISMLab\Robot_Project\Code\yolov5_obb\robot_detection/cropped_images/depth/depth_csv152.csv
-2024-04-11 15:04:39,607 - INFO - Depth image CSV saved at C:\Users\AISMLab\Robot_Project\Code\yolov5_obb\robot_detection/cropped_images/depth/depth_csv152.csv
+#########################################
+#########################################
+
+2024-04-11 16:27:09,324 - INFO - Beginning of log
+2024-04-11 16:27:09,578 - INFO - Remove 79 bytes of garbage at begining of packet
+2024-04-11 16:27:15,714 - INFO - Moving to starting position
+
+2024-04-11 16:27:15,716 - INFO - Camera operation beginning...
+2024-04-11 16:27:18,689 - INFO - Images captured
+2024-04-11 16:27:18,707 - INFO - Images cropped
+2024-04-11 16:27:19,107 - INFO - Depth image CSV saved at C:\Users\AISMLab\Robot_Project\Code\yolov5_obb\robot_detection/cropped_images/depth/depth_csv164.csv
+2024-04-11 16:27:19,128 - INFO - Depth image CSV saved at C:\Users\AISMLab\Robot_Project\Code\yolov5_obb\robot_detection/cropped_images/depth/depth_csv164.csv
 Camera operation ending...
 
-2024-04-11 15:04:39,623 - INFO - YOLO inference beginning...
-2024-04-11 15:04:39,627 - INFO - [34m[1myolo_detect: [0mweights=weights\best.pt, source=0, imgsz=[840, 840], conf_thres=0.9, iou_thres=0.8, max_det=200, device=cpu, view_img=False, save_txt=True, save_conf=False, save_crop=False, nosave=False, classes=None, agnostic_nms=False, augment=False, visualize=False, update=False, project=runs/detect, name=exp, exist_ok=False, line_thickness=2, hide_labels=False, hide_conf=False, half=False, dnn=False
-2024-04-11 15:04:39,875 - INFO - YOLOv5  b5ff339 torch 2.2.2+cpu CPU
+2024-04-11 16:27:19,129 - INFO - YOLO inference beginning...
+2024-04-11 16:27:19,132 - INFO - [34m[1myolo_detect: [0mweights=weights\best.pt, source=0, imgsz=[840, 840], conf_thres=0.9, iou_thres=0.8, max_det=200, device=cpu, view_img=False, save_txt=True, save_conf=False, save_crop=False, nosave=False, classes=None, agnostic_nms=False, augment=False, visualize=False, update=False, project=runs/detect, name=exp, exist_ok=False, line_thickness=2, hide_labels=False, hide_conf=False, half=False, dnn=False
+2024-04-11 16:27:19,288 - INFO - YOLOv5  f1b25ff torch 2.2.2+cpu CPU
 
-2024-04-11 15:04:39,923 - INFO - Fusing layers... 
-2024-04-11 15:04:40,053 - INFO - Model Summary: 213 layers, 7500979 parameters, 0 gradients
-2024-04-11 15:04:40,580 - INFO - image 1/1 C:\Users\AISMLab\Robot_Project\Code\yolov5_obb\robot_detection\cropped_images\color\color_image150.JPEG: 864x864 3 boxs, Done. (0.482s)
-2024-04-11 15:04:40,595 - INFO - Speed: 0.0ms pre-process, 482.3ms inference, 0.0ms NMS per image at shape (1, 3, 864, 864)
-2024-04-11 15:04:40,611 - INFO - Results saved to [1mruns\detect\exp181[0m
-1 labels saved to runs\detect\exp181\labels
-2024-04-11 15:04:41,329 - INFO - LARGE: [-0.631867469879518, -0.20439759036144572, 0.048816000000000005, 2.4078219273456263, -1.996670458168967, 0.0]
-2024-04-11 15:04:41,347 - INFO - Post processing ending...
+2024-04-11 16:27:19,339 - INFO - Fusing layers... 
+2024-04-11 16:27:19,475 - INFO - Model Summary: 213 layers, 7500979 parameters, 0 gradients
+2024-04-11 16:27:19,991 - INFO - image 1/1 C:\Users\AISMLab\Robot_Project\Code\yolov5_obb\robot_detection\cropped_images\color\color_image162.JPEG: 864x864 3 boxs, Done. (0.482s)
+2024-04-11 16:27:20,028 - INFO - Speed: 0.0ms pre-process, 482.5ms inference, 0.0ms NMS per image at shape (1, 3, 864, 864)
+2024-04-11 16:27:20,029 - INFO - Results saved to [1mruns\detect\exp193[0m
+1 labels saved to runs\detect\exp193\labels
+2024-04-11 16:27:20,030 - INFO - YOLO inference ending...
 
-2024-04-11 15:04:41,347 - INFO - Dynamic detection thread beginning...
-2024-04-11 15:04:41,348 - INFO - Opening real-time monitor socket
-2024-04-11 15:04:41,403 - ERROR - Error during detection thread: cannot access local variable 'tcp_array' where it is not associated with a value
-2024-04-11 15:04:41,403 - ERROR - An unexpected error occurred: cannot access local variable 'tcp_array' where it is not associated with a value
-2024-04-11 15:04:41,403 - INFO - Closing sockets to robot
-2024-04-11 15:04:41,420 - INFO - Robot connection closed.
+2024-04-11 16:27:20,032 - INFO - Post processing beginning...
+2024-04-11 16:27:20,787 - INFO - Depth image subtracted saved at C:\Users\AISMLab\Robot_Project\Code\yolov5_obb\robot_detection/output/depth_img_subtracted177.csv
+2024-04-11 16:27:20,787 - INFO - ERROR for BOX0 Height:0.01
+2024-04-11 16:27:20,787 - INFO - ERROR for BOX1 Height:0.05
+2024-04-11 16:27:20,787 - INFO - ERROR for BOX2 Height:0.23
+2024-04-11 16:27:20,787 - INFO - ############## Results for BOX0 ##############
+2024-04-11 16:27:20,787 - INFO - X angle for BOX0: 2.3494974899268657 rad
+2024-04-11 16:27:20,787 - INFO - Y angle for BOX0: 2.100180477816481 rad
+2024-04-11 16:27:20,787 - INFO - X Center for BOX0: -739.7590361445783 mm
+2024-04-11 16:27:20,787 - INFO - Y Center for BOX0: 63.16265060240967 mm
+2024-04-11 16:27:20,787 - INFO - Z (Height) for BOX0: 53.633 mm
 
-2024-04-11 15:04:41,431 - INFO - End of log
+2024-04-11 16:27:20,787 - INFO - ############## Results for BOX1 ##############
+2024-04-11 16:27:20,787 - INFO - X angle for BOX1: 3.1401342522801166 rad
+2024-04-11 16:27:20,787 - INFO - Y angle for BOX1: -0.005552742667662258 rad
+2024-04-11 16:27:20,801 - INFO - X Center for BOX1: -518.2831325301204 mm
+2024-04-11 16:27:20,801 - INFO - Y Center for BOX1: 20.60240963855425 mm
+2024-04-11 16:27:20,801 - INFO - Z (Height) for BOX1: 51.408 mm
 
+2024-04-11 16:27:20,801 - INFO - ############## Results for BOX2 ##############
+2024-04-11 16:27:20,801 - INFO - X angle for BOX2: 2.3171434563906743 rad
+2024-04-11 16:27:20,803 - INFO - Y angle for BOX2: 2.1531822594801984 rad
+2024-04-11 16:27:20,803 - INFO - X Center for BOX2: -642.9819277108434 mm
+2024-04-11 16:27:20,803 - INFO - Y Center for BOX2: -191.11445783132527 mm
+2024-04-11 16:27:20,803 - INFO - Z (Height) for BOX2: 41.837 mm
 
-2024-04-11 15:12:27,814 - INFO - Beginning of log
-2024-04-11 15:12:27,820 - INFO - Remove 79 bytes of garbage at begining of packet
-2024-04-11 15:12:27,922 - INFO - Robot online
-2024-04-11 15:12:29,127 - INFO - Moving to starting position
+2024-04-11 16:27:20,813 - INFO - BOX2 is the largest box and base for stacking
+2024-04-11 16:27:20,827 - INFO - Post processing ending...
 
-2024-04-11 15:12:29,127 - INFO - Camera operation beginning...
-2024-04-11 15:12:32,433 - INFO - Images captured
-2024-04-11 15:12:32,449 - INFO - Images cropped
-2024-04-11 15:12:32,882 - INFO - Depth image CSV saved at C:\Users\AISMLab\Robot_Project\Code\yolov5_obb\robot_detection/cropped_images/depth/depth_csv153.csv
-2024-04-11 15:12:32,930 - INFO - Depth image CSV saved at C:\Users\AISMLab\Robot_Project\Code\yolov5_obb\robot_detection/cropped_images/depth/depth_csv153.csv
+2024-04-11 16:27:20,828 - INFO - Dynamic detection thread beginning...
+2024-04-11 16:27:22,831 - INFO - Opening real-time monitor socket
+2024-04-11 16:28:00,892 - INFO - Closing sockets to robot
+2024-04-11 16:28:00,992 - INFO - Robot connection closed.
+
+2024-04-11 16:28:00,993 - INFO - End of log
+#########################################
+#########################################
+
+2024-04-11 16:36:21,339 - INFO - Beginning of log
+2024-04-11 16:36:21,548 - INFO - Remove 79 bytes of garbage at begining of packet
+2024-04-11 16:36:27,688 - INFO - Moving to starting position
+
+2024-04-11 16:36:27,688 - INFO - Camera operation beginning...
+2024-04-11 16:36:30,829 - INFO - Images captured
+2024-04-11 16:36:30,842 - INFO - Images cropped
+2024-04-11 16:36:31,321 - INFO - Depth image CSV saved at C:\Users\AISMLab\Robot_Project\Code\yolov5_obb\robot_detection/cropped_images/depth/depth_csv165.csv
+2024-04-11 16:36:31,358 - INFO - Depth image CSV saved at C:\Users\AISMLab\Robot_Project\Code\yolov5_obb\robot_detection/cropped_images/depth/depth_csv165.csv
 Camera operation ending...
 
-2024-04-11 15:12:32,931 - INFO - YOLO inference beginning...
-2024-04-11 15:12:32,933 - INFO - [34m[1myolo_detect: [0mweights=weights\best.pt, source=0, imgsz=[840, 840], conf_thres=0.9, iou_thres=0.8, max_det=200, device=cpu, view_img=False, save_txt=True, save_conf=False, save_crop=False, nosave=False, classes=None, agnostic_nms=False, augment=False, visualize=False, update=False, project=runs/detect, name=exp, exist_ok=False, line_thickness=2, hide_labels=False, hide_conf=False, half=False, dnn=False
-2024-04-11 15:12:33,145 - INFO - YOLOv5  b5ff339 torch 2.2.2+cpu CPU
+2024-04-11 16:36:31,359 - INFO - YOLO inference beginning...
+2024-04-11 16:36:31,362 - INFO - [34m[1myolo_detect: [0mweights=weights\best.pt, source=0, imgsz=[840, 840], conf_thres=0.9, iou_thres=0.8, max_det=200, device=cpu, view_img=False, save_txt=True, save_conf=False, save_crop=False, nosave=False, classes=None, agnostic_nms=False, augment=False, visualize=False, update=False, project=runs/detect, name=exp, exist_ok=False, line_thickness=2, hide_labels=False, hide_conf=False, half=False, dnn=False
+2024-04-11 16:36:31,541 - INFO - YOLOv5  f1b25ff torch 2.2.2+cpu CPU
 
-2024-04-11 15:12:33,275 - INFO - Fusing layers... 
-2024-04-11 15:12:33,471 - INFO - Model Summary: 213 layers, 7500979 parameters, 0 gradients
-2024-04-11 15:12:33,712 - INFO - Keyboard Interrupt.
-2024-04-11 15:12:33,713 - INFO - Closing sockets to robot
-2024-04-11 15:12:33,750 - INFO - Robot connection closed.
+2024-04-11 16:36:31,609 - INFO - Fusing layers... 
+2024-04-11 16:36:31,762 - INFO - Model Summary: 213 layers, 7500979 parameters, 0 gradients
+2024-04-11 16:36:32,412 - INFO - image 1/1 C:\Users\AISMLab\Robot_Project\Code\yolov5_obb\robot_detection\cropped_images\color\color_image163.JPEG: 864x864 3 boxs, Done. (0.591s)
+2024-04-11 16:36:32,433 - INFO - Speed: 7.3ms pre-process, 591.1ms inference, 0.0ms NMS per image at shape (1, 3, 864, 864)
+2024-04-11 16:36:32,435 - INFO - Results saved to [1mruns\detect\exp194[0m
+1 labels saved to runs\detect\exp194\labels
+2024-04-11 16:36:32,437 - INFO - YOLO inference ending...
 
-2024-04-11 15:12:33,750 - INFO - End of log
+2024-04-11 16:36:32,439 - INFO - Post processing beginning...
+2024-04-11 16:36:33,241 - INFO - Depth image subtracted saved at C:\Users\AISMLab\Robot_Project\Code\yolov5_obb\robot_detection/output/depth_img_subtracted178.csv
+2024-04-11 16:36:33,241 - INFO - ERROR for BOX0 Height:0.07
+2024-04-11 16:36:33,242 - INFO - ERROR for BOX1 Height:0.09
+2024-04-11 16:36:33,242 - INFO - ERROR for BOX2 Height:0.16
+2024-04-11 16:36:33,244 - INFO - ############## Results for BOX0 ##############
+2024-04-11 16:36:33,245 - INFO - X angle for BOX0: 3.0482950396289814 rad
+2024-04-11 16:36:33,245 - INFO - Y angle for BOX0: 0.6566221854631227 rad
+2024-04-11 16:36:33,245 - INFO - X Center for BOX0: -486.83734939759034 mm
+2024-04-11 16:36:33,246 - INFO - Y Center for BOX0: 43.91566265060243 mm
+2024-04-11 16:36:33,246 - INFO - Z (Height) for BOX0: 50.347 mm
 
+2024-04-11 16:36:33,246 - INFO - ############## Results for BOX1 ##############
+2024-04-11 16:36:33,247 - INFO - X angle for BOX1: 2.8892726703459886 rad
+2024-04-11 16:36:33,248 - INFO - Y angle for BOX1: -1.2200841705975098 rad
+2024-04-11 16:36:33,248 - INFO - X Center for BOX1: -704.2469879518073 mm
+2024-04-11 16:36:33,248 - INFO - Y Center for BOX1: 43.10240963855425 mm
+2024-04-11 16:36:33,249 - INFO - Z (Height) for BOX1: 49.306 mm
 
-2024-04-11 15:12:57,852 - INFO - Beginning of log
-2024-04-11 15:12:58,149 - INFO - Remove 79 bytes of garbage at begining of packet
-2024-04-11 15:12:58,258 - INFO - Robot online
-2024-04-11 15:12:59,464 - INFO - Moving to starting position
+2024-04-11 16:36:33,249 - INFO - ############## Results for BOX2 ##############
+2024-04-11 16:36:33,250 - INFO - X angle for BOX2: 2.288680540375135 rad
+2024-04-11 16:36:33,250 - INFO - Y angle for BOX2: 2.1891556604639355 rad
+2024-04-11 16:36:33,250 - INFO - X Center for BOX2: -642.7108433734941 mm
+2024-04-11 16:36:33,251 - INFO - Y Center for BOX2: -187.5903614457831 mm
+2024-04-11 16:36:33,251 - INFO - Z (Height) for BOX2: 45.49 mm
 
-2024-04-11 15:12:59,466 - INFO - Camera operation beginning...
-2024-04-11 15:13:02,242 - INFO - Images captured
-2024-04-11 15:13:02,258 - INFO - Images cropped
-2024-04-11 15:13:02,705 - INFO - Depth image CSV saved at C:\Users\AISMLab\Robot_Project\Code\yolov5_obb\robot_detection/cropped_images/depth/depth_csv154.csv
-2024-04-11 15:13:02,733 - INFO - Depth image CSV saved at C:\Users\AISMLab\Robot_Project\Code\yolov5_obb\robot_detection/cropped_images/depth/depth_csv154.csv
+2024-04-11 16:36:33,262 - INFO - BOX2 is the largest box and base for stacking
+2024-04-11 16:36:33,276 - INFO - Post processing ending...
+
+2024-04-11 16:36:33,277 - INFO - Dynamic detection thread beginning...
+2024-04-11 16:36:35,279 - INFO - Outputting TCP force for BOX_0
+2024-04-11 16:36:35,279 - INFO - Opening real-time monitor socket
+2024-04-11 16:36:35,926 - INFO - [   -0.62379      -1.026    -0.87828    0.047844   -0.019729    -0.13451]
+2024-04-11 16:36:35,944 - INFO - [   0.063276     -1.0889    -0.88327    0.039535    -0.04752    -0.11962]
+2024-04-11 16:36:36,162 - INFO - [    0.30758     -1.6478     -2.0683    0.027103   -0.083828     -0.1027]
+2024-04-11 16:36:36,366 - INFO - [    0.34092    -0.26576    -0.89802    0.094471   -0.049141    -0.11778]
+2024-04-11 16:36:36,567 - INFO - [   -0.49649     -1.6629    -0.42728    0.031544   -0.012285    -0.11534]
+2024-04-11 16:36:36,769 - INFO - [   -0.55368     -1.7878      -1.394    0.036339    -0.03688   -0.079643]
+2024-04-11 16:36:36,971 - INFO - [    0.27384      -1.531     -1.0874    0.056301   -0.080042  -0.0067201]
+2024-04-11 16:36:37,175 - INFO - [   -0.46018     -1.2935     -1.6036    0.062481   -0.025594    0.029324]
+2024-04-11 16:36:37,376 - INFO - [    -1.1705      -1.671     -1.0054    0.053839   0.0040342     0.01501]
+2024-04-11 16:36:37,578 - INFO - [   -0.74133     -1.3608     -2.3016    0.074223    -0.01006    0.015113]
+2024-04-11 16:36:37,780 - INFO - [   -0.54304     -1.5842     -1.0849    0.066688   -0.019422   0.0098779]
+2024-04-11 16:36:37,982 - INFO - [  -0.053656   -0.062418    -0.24366   -0.010625   -0.001622     0.00298]
+2024-04-11 16:36:38,184 - INFO - [    0.66785     0.11469     -1.0094  -0.0047754    -0.02293  -0.0015123]
+2024-04-11 16:36:38,387 - INFO - [    0.56059     0.30978     -0.9181    0.011209   -0.033926 -0.00065248]
+2024-04-11 16:36:38,587 - INFO - [    0.24062     0.16894     -0.7674   0.0028612   -0.020378  -0.0072444]
+2024-04-11 16:36:38,791 - INFO - [    0.57172    0.018918    -0.80156  -0.0061569   -0.019184  -0.0093568]
+2024-04-11 16:36:38,992 - INFO - [    0.15122    -0.18632    -0.64904   -0.027181    0.045095   -0.011668]
+2024-04-11 16:36:39,194 - INFO - [   0.032113     0.27619    -0.45654   -0.019832    0.061958   -0.011965]
+2024-04-11 16:36:39,396 - INFO - [    0.28809    -0.64614      3.0788   -0.091038    0.060744    0.048969]
+2024-04-11 16:36:39,396 - INFO - Box picked up
+
+2024-04-11 16:36:39,600 - INFO - Outputting distance comparison for Box_0
+2024-04-11 16:36:39,601 - INFO - Difference of distance: 0.2788601074126585mm
+2024-04-11 16:36:39,902 - INFO - Difference of distance: 0.27886136407488193mm
+2024-04-11 16:36:40,204 - INFO - Difference of distance: 0.2789424971558757mm
+2024-04-11 16:36:40,507 - INFO - Difference of distance: 0.27900737117879587mm
+2024-04-11 16:36:40,809 - INFO - Difference of distance: 0.2790384358036584mm
+2024-04-11 16:36:41,111 - INFO - Difference of distance: 0.2790091509640463mm
+2024-04-11 16:36:41,414 - INFO - Difference of distance: 0.2789379862536656mm
+2024-04-11 16:36:41,716 - INFO - Difference of distance: 0.2789691881474974mm
+2024-04-11 16:36:42,018 - INFO - Difference of distance: 0.2783667909841816mm
+2024-04-11 16:36:42,321 - INFO - Difference of distance: 0.26050036030282664mm
+2024-04-11 16:36:42,623 - INFO - Difference of distance: 0.236448293499793mm
+2024-04-11 16:36:42,925 - INFO - Difference of distance: 0.2124660893870804mm
+2024-04-11 16:36:43,229 - INFO - Difference of distance: 0.18837321867804904mm
+2024-04-11 16:36:43,530 - INFO - Difference of distance: 0.16427136076774468mm
+2024-04-11 16:36:43,833 - INFO - Difference of distance: 0.1401630740042482mm
+2024-04-11 16:36:44,135 - INFO - Difference of distance: 0.11606991331870081mm
+2024-04-11 16:36:44,438 - INFO - Difference of distance: 0.09195927598144221mm
+2024-04-11 16:36:44,740 - INFO - Difference of distance: 0.06783430606153262mm
+2024-04-11 16:36:45,043 - INFO - Difference of distance: 0.04385129658961603mm
+2024-04-11 16:36:45,345 - INFO - Difference of distance: 0.01977187614556293mm
+2024-04-11 16:36:45,348 - INFO - Box in region, outputting TCP force
+2024-04-11 16:36:45,348 - INFO - [    -1.6058      2.4632     -6.0732     0.29834     0.26306    -0.29243]
+2024-04-11 16:36:45,551 - INFO - [    -1.7339     0.66291     -7.0305     0.17415     0.27376    -0.28509]
+2024-04-11 16:36:45,754 - INFO - [    -2.5347      2.8458      -6.498      0.3179     0.33401    -0.28844]
+2024-04-11 16:36:45,956 - INFO - [    -0.8441      1.5547     -6.0064     0.26476      0.2468    -0.27053]
+2024-04-11 16:36:46,157 - INFO - [    -1.4782       1.892     -7.5797      0.2829     0.33233    -0.19072]
+2024-04-11 16:36:46,360 - INFO - [    -2.1323       2.623     -5.7054     0.30848     0.31983    -0.18819]
+2024-04-11 16:36:46,561 - INFO - [     1.1323     -0.3544      -1.681   -0.036676   -0.011434   0.0014855]
+2024-04-11 16:36:46,565 - INFO - Box stacked
+
+2024-04-11 16:36:49,070 - INFO - Outputting TCP force for BOX_1
+2024-04-11 16:36:49,072 - INFO - [     0.2729    0.049978    -0.27733   0.0049589  -0.0072803  -0.0074549]
+2024-04-11 16:36:49,073 - INFO - [   0.063899     0.14126    -0.35486   0.0020636   0.0050008  -0.0053906]
+2024-04-11 16:36:49,276 - INFO - [    0.38655     0.54382     -0.9055  -0.0072431   -0.021025   -0.030779]
+2024-04-11 16:36:49,478 - INFO - [   -0.12643    0.035935   -0.034608  -0.0077018    0.022925   -0.086294]
+2024-04-11 16:36:49,680 - INFO - [   -0.10839  -0.0053537     0.23111   -0.015048  -0.0087415   -0.088079]
+2024-04-11 16:36:49,881 - INFO - [    0.48768     0.17102    -0.95741     0.01243   -0.033849   -0.085489]
+2024-04-11 16:36:50,084 - INFO - [   -0.14643     0.41371    -0.32678   -0.004159   0.0098407   -0.082139]
+2024-04-11 16:36:50,285 - INFO - [    0.83846     -0.1743     0.25727   -0.021921   0.0053375    0.031863]
+2024-04-11 16:36:50,487 - INFO - [    0.75335    -0.18759   -0.031082  -0.0023924   0.0059563    0.017707]
+2024-04-11 16:36:50,690 - INFO - [    0.25507    -0.15403    -0.45164   0.0097286   0.0099312    0.044084]
+2024-04-11 16:36:50,891 - INFO - [    0.67523    -0.60582    -0.53479   0.0085114   -0.012392    0.044252]
+2024-04-11 16:36:51,093 - INFO - [    0.46734    -0.55271    -0.96523   0.0067036   -0.015989    0.051322]
+2024-04-11 16:36:51,296 - INFO - [    0.68829    -0.86561      -1.001    0.014556   -0.014154     0.06269]
+2024-04-11 16:36:51,499 - INFO - [    0.39547    -0.97545     -1.3828   0.0097071   -0.026051    0.074604]
+2024-04-11 16:36:51,701 - INFO - [    0.16081      -1.088     -1.2717    0.011925   -0.037129    0.080085]
+2024-04-11 16:36:51,903 - INFO - [    0.43023    -0.82832     -1.2833    0.011171   -0.029568    0.083737]
+2024-04-11 16:36:52,109 - INFO - [  -0.070698     -1.0247     -1.3425  -0.0058958   -0.022776     0.09113]
+2024-04-11 16:36:52,311 - INFO - [  -0.089253    -0.87282     -1.1316  -0.0082169   -0.032914     0.10972]
+2024-04-11 16:36:52,514 - INFO - [   -0.26115     -1.0396     -1.0663   0.0018289   -0.022768    0.099851]
+2024-04-11 16:36:52,717 - INFO - [   -0.29853     -1.0319      -1.126  -0.0091467    -0.02386    0.097242]
+2024-04-11 16:36:52,919 - INFO - [   -0.15886     -0.6938     -1.0634  -0.0091068    -0.02269     0.11322]
+2024-04-11 16:36:53,121 - INFO - [   -0.16241    -0.93515     -1.0123   -0.025928   -0.021062     0.11296]
+2024-04-11 16:36:53,324 - INFO - [   -0.45582    -0.16004    -0.90938   -0.020071   -0.019979     0.11672]
+2024-04-11 16:36:53,525 - INFO - [   -0.39023    -0.37174    -0.75957   -0.033081    -0.01968     0.10914]
+2024-04-11 16:36:53,728 - INFO - [   -0.66396    -0.38171    -0.75725   -0.028096   -0.028309      0.1206]
+2024-04-11 16:36:53,929 - INFO - [   -0.62514    0.069594      -0.935   -0.030497   -0.013518        0.12]
+2024-04-11 16:36:54,133 - INFO - [   -0.44848    -0.21813    -0.46676   -0.049707  -0.0035737     0.11417]
+2024-04-11 16:36:54,333 - INFO - [   -0.31449     0.26211    -0.34468   -0.036384  -0.0055644     0.12731]
+2024-04-11 16:36:54,535 - INFO - [     -0.324     0.21584    -0.25354   -0.052328    -0.00996     0.13776]
+2024-04-11 16:36:54,738 - INFO - [   -0.13225     0.45285    0.027607   -0.054181    0.019256     0.10885]
+2024-04-11 16:36:54,943 - INFO - [    0.53077       0.605     0.43511    -0.05615    0.029074    0.089541]
+2024-04-11 16:36:55,146 - INFO - [    0.38431     0.32295     0.42714    -0.05635    0.045476    0.075548]
+2024-04-11 16:36:55,347 - INFO - [    0.67718      0.6957     0.46319   -0.059171    0.044441    0.094774]
+2024-04-11 16:36:55,549 - INFO - [    0.87579     0.52129     0.55702   -0.067191    0.048427    0.087778]
+2024-04-11 16:36:55,752 - INFO - [     1.1004     0.57483     0.93101   -0.058585    0.069135    0.079176]
+2024-04-11 16:36:55,954 - INFO - [     1.4525     0.75994      1.0775    -0.06408     0.07318     0.06962]
+2024-04-11 16:36:56,156 - INFO - [     1.3422     0.51099      1.0098    -0.05442    0.072632    0.068369]
+2024-04-11 16:36:56,360 - INFO - [     1.2614     0.56036      1.2073    -0.06896     0.07864     0.07942]
+2024-04-11 16:36:56,562 - INFO - [     1.7492     0.59511      1.2592   -0.062278    0.089283    0.055132]
+2024-04-11 16:36:56,767 - INFO - [      2.204   -0.061986      1.4888   -0.053974     0.11347    0.048052]
+2024-04-11 16:36:56,969 - INFO - [     1.9603      0.1537      1.5008   -0.046539     0.11833    0.044209]
+2024-04-11 16:36:57,171 - INFO - [     1.9171    -0.52987      1.2282   -0.047081     0.11959    0.022404]
+2024-04-11 16:36:57,375 - INFO - [     1.6782    -0.34527      1.3453   -0.043878     0.12268    0.035253]
+2024-04-11 16:36:57,578 - INFO - [     2.0193     0.48559      1.1212    0.031436     0.14037   0.0080105]
+2024-04-11 16:36:57,780 - INFO - [     1.9602    -0.31841      1.4096   -0.028968      0.1203   0.0098334]
+2024-04-11 16:36:57,983 - INFO - [     1.7031    -0.91298       2.291    -0.04581      0.1387    0.008759]
+2024-04-11 16:36:58,185 - INFO - [      2.402    -0.70007       1.402   -0.036972     0.10511   0.0087367]
+2024-04-11 16:36:58,387 - INFO - [     1.5826    -0.40836      1.4313   -0.023309     0.13615    0.015353]
+2024-04-11 16:36:58,589 - INFO - [     1.8876    -0.70855      1.4013   -0.044209     0.12718   0.0079198]
+2024-04-11 16:36:58,792 - INFO - [     2.4984     -0.8266      1.6223    -0.03911     0.10528   0.0052127]
+2024-04-11 16:36:58,993 - INFO - [     3.5425    -0.53623      1.2379   -0.028296    0.026263    0.011745]
+2024-04-11 16:36:59,198 - INFO - [     2.3705    -0.44952      1.8638   -0.025618     0.12463    0.010909]
+2024-04-11 16:36:59,400 - INFO - [    0.30082     -0.1749    -0.26436  -0.0019287   -0.017911   0.0005196]
+2024-04-11 16:36:59,604 - INFO - [     0.4362    0.020912    -0.48891  0.00081985   -0.029508  0.00057993]
+2024-04-11 16:36:59,805 - INFO - [     1.1782   -0.084259    -0.16135    0.013791   -0.049062   0.0060838]
+2024-04-11 16:37:00,011 - INFO - [    0.71982    0.064351     -0.4082   0.0068732    -0.02932  0.00033448]
+2024-04-11 16:37:00,213 - INFO - [    0.48814    -0.30244    -0.42854   0.0035472   -0.033891  -0.0040045]
+2024-04-11 16:37:00,418 - INFO - [      1.029   -0.065678    -0.21171   0.0096475   -0.048046  -0.0027467]
+2024-04-11 16:37:00,622 - INFO - [    0.41435      0.2209    -0.47238   0.0085044   -0.035151 -0.00046286]
+2024-04-11 16:37:00,827 - INFO - [    0.82537     0.10226     -0.1752   0.0073187   -0.041347  -0.0047696]
+2024-04-11 16:37:01,029 - INFO - [     1.1818    -0.10169     -0.1276   -0.011455   -0.083631  7.3456e-05]
+2024-04-11 16:37:01,231 - INFO - [     2.3131     -1.7231      3.4945    -0.22258    -0.23125    0.031091]
+2024-04-11 16:37:01,231 - INFO - Box picked up
+
+2024-04-11 16:37:01,434 - INFO - Outputting distance comparison for Box_1
+2024-04-11 16:37:01,434 - INFO - Difference of distance: 0.23859931302951054mm
+2024-04-11 16:37:01,737 - INFO - Difference of distance: 0.23858044065526984mm
+2024-04-11 16:37:02,039 - INFO - Difference of distance: 0.2385837475095097mm
+2024-04-11 16:37:02,341 - INFO - Difference of distance: 0.23862158767718983mm
+2024-04-11 16:37:02,645 - INFO - Difference of distance: 0.23866177686473528mm
+2024-04-11 16:37:02,947 - INFO - Difference of distance: 0.23857815799871512mm
+2024-04-11 16:37:03,250 - INFO - Difference of distance: 0.23873303621784056mm
+2024-04-11 16:37:03,551 - INFO - Difference of distance: 0.2386768744106628mm
+2024-04-11 16:37:03,853 - INFO - Difference of distance: 0.23862935740209143mm
+2024-04-11 16:37:04,156 - INFO - Difference of distance: 0.23869432330065102mm
+2024-04-11 16:37:04,460 - INFO - Difference of distance: 0.23869798085537505mm
+2024-04-11 16:37:04,763 - INFO - Difference of distance: 0.2386392402841696mm
+2024-04-11 16:37:05,064 - INFO - Difference of distance: 0.23842960216276618mm
+2024-04-11 16:37:05,367 - INFO - Difference of distance: 0.2308067471320062mm
+2024-04-11 16:37:05,668 - INFO - Difference of distance: 0.22086935047375675mm
+2024-04-11 16:37:05,970 - INFO - Difference of distance: 0.21109231299351117mm
+2024-04-11 16:37:06,272 - INFO - Difference of distance: 0.20114526538061273mm
+2024-04-11 16:37:06,574 - INFO - Difference of distance: 0.19113224942366075mm
+2024-04-11 16:37:06,877 - INFO - Difference of distance: 0.18133156280353777mm
+2024-04-11 16:37:07,178 - INFO - Difference of distance: 0.17138033013883555mm
+2024-04-11 16:37:07,481 - INFO - Difference of distance: 0.1615148535420809mm
+2024-04-11 16:37:07,783 - INFO - Difference of distance: 0.15153317469765779mm
+2024-04-11 16:37:08,085 - INFO - Difference of distance: 0.14169341765221943mm
+2024-04-11 16:37:08,387 - INFO - Difference of distance: 0.13172047882872467mm
+2024-04-11 16:37:08,689 - INFO - Difference of distance: 0.12176164023307776mm
+2024-04-11 16:37:08,992 - INFO - Difference of distance: 0.111946217730746mm
+2024-04-11 16:37:09,294 - INFO - Difference of distance: 0.10198236868222037mm
+2024-04-11 16:37:09,596 - INFO - Difference of distance: 0.09211116510701346mm
+2024-04-11 16:37:09,898 - INFO - Difference of distance: 0.08219003056237868mm
+2024-04-11 16:37:10,200 - INFO - Difference of distance: 0.07228877869321378mm
+2024-04-11 16:37:10,503 - INFO - Difference of distance: 0.062342183110491646mm
+2024-04-11 16:37:10,805 - INFO - Difference of distance: 0.05247460665804369mm
+2024-04-11 16:37:11,108 - INFO - Difference of distance: 0.04247469490180976mm
+2024-04-11 16:37:11,410 - INFO - Difference of distance: 0.03264669761954134mm
+2024-04-11 16:37:11,712 - INFO - Difference of distance: 0.022645927704085182mm
+2024-04-11 16:37:11,712 - INFO - Box in region, outputting TCP force
+2024-04-11 16:37:11,712 - INFO - [    -1.6614     -3.5844     -8.6692    -0.17115     0.43255    -0.14661]
+2024-04-11 16:37:11,918 - INFO - [    -1.3375     -3.4172     -8.4279    -0.17241     0.41572    -0.15019]
+2024-04-11 16:37:12,119 - INFO - [    -1.2676     -3.4877     -8.3958     -0.2044      0.3972    -0.16145]
+2024-04-11 16:37:12,321 - INFO - [   -0.66402     -4.3932     -8.4627    -0.25284     0.38834    -0.15588]
+2024-04-11 16:37:12,523 - INFO - [   -0.83259     -3.7359     -8.2813    -0.24977     0.37043    -0.14976]
+2024-04-11 16:37:12,727 - INFO - [   -0.79108     -3.6786     -8.1913    -0.23084     0.38676    -0.15349]
+2024-04-11 16:37:12,930 - INFO - [   -0.94996     -3.3361      -7.824     -0.2053     0.40266    -0.11394]
+2024-04-11 16:37:13,131 - INFO - [   -0.11027     -3.8177     -10.685    -0.21585     0.36849   -0.037674]
+2024-04-11 16:37:13,333 - INFO - [   -0.88526      -3.699     -9.0611    -0.20749     0.39481   -0.042346]
+2024-04-11 16:37:13,539 - INFO - [     2.0684    -0.31574     -1.8461   -0.012839   -0.076508  -0.0020426]
+2024-04-11 16:37:13,539 - INFO - Box stacked
+
+2024-04-11 16:37:16,187 - INFO - Closing sockets to robot
+2024-04-11 16:37:16,289 - INFO - Robot connection closed.
+
+2024-04-11 16:37:16,290 - INFO - End of log
+#########################################
+#########################################
+
+2024-04-11 16:41:28,169 - INFO - Beginning of log
+2024-04-11 16:41:28,473 - INFO - Remove 79 bytes of garbage at begining of packet
+2024-04-11 16:41:34,710 - INFO - Moving to starting position
+
+2024-04-11 16:41:34,710 - INFO - Camera operation beginning...
+2024-04-11 16:41:37,634 - INFO - Images captured
+2024-04-11 16:41:37,655 - INFO - Images cropped
+2024-04-11 16:41:38,085 - INFO - Depth image CSV saved at C:\Users\AISMLab\Robot_Project\Code\yolov5_obb\robot_detection/cropped_images/depth/depth_csv166.csv
+2024-04-11 16:41:38,107 - INFO - Depth image CSV saved at C:\Users\AISMLab\Robot_Project\Code\yolov5_obb\robot_detection/cropped_images/depth/depth_csv166.csv
 Camera operation ending...
 
-2024-04-11 15:13:02,734 - INFO - YOLO inference beginning...
-2024-04-11 15:13:02,737 - INFO - [34m[1myolo_detect: [0mweights=weights\best.pt, source=0, imgsz=[840, 840], conf_thres=0.9, iou_thres=0.8, max_det=200, device=cpu, view_img=False, save_txt=True, save_conf=False, save_crop=False, nosave=False, classes=None, agnostic_nms=False, augment=False, visualize=False, update=False, project=runs/detect, name=exp, exist_ok=False, line_thickness=2, hide_labels=False, hide_conf=False, half=False, dnn=False
-2024-04-11 15:13:02,894 - INFO - YOLOv5  b5ff339 torch 2.2.2+cpu CPU
+2024-04-11 16:41:38,107 - INFO - YOLO inference beginning...
+2024-04-11 16:41:38,121 - INFO - [34m[1myolo_detect: [0mweights=weights\best.pt, source=0, imgsz=[840, 840], conf_thres=0.9, iou_thres=0.8, max_det=200, device=cpu, view_img=False, save_txt=True, save_conf=False, save_crop=False, nosave=False, classes=None, agnostic_nms=False, augment=False, visualize=False, update=False, project=runs/detect, name=exp, exist_ok=False, line_thickness=2, hide_labels=False, hide_conf=False, half=False, dnn=False
+2024-04-11 16:41:38,313 - INFO - YOLOv5  f1b25ff torch 2.2.2+cpu CPU
 
-2024-04-11 15:13:02,946 - INFO - Fusing layers... 
-2024-04-11 15:13:03,083 - INFO - Model Summary: 213 layers, 7500979 parameters, 0 gradients
-2024-04-11 15:13:03,776 - INFO - image 1/1 C:\Users\AISMLab\Robot_Project\Code\yolov5_obb\robot_detection\cropped_images\color\color_image152.JPEG: 864x864 3 boxs, Done. (0.590s)
-2024-04-11 15:13:03,795 - INFO - Speed: 3.2ms pre-process, 590.1ms inference, 30.0ms NMS per image at shape (1, 3, 864, 864)
-2024-04-11 15:13:03,797 - INFO - Results saved to [1mruns\detect\exp183[0m
-1 labels saved to runs\detect\exp183\labels
-2024-04-11 15:13:03,799 - INFO - YOLO inference ending...
+2024-04-11 16:41:38,372 - INFO - Fusing layers... 
+2024-04-11 16:41:38,521 - INFO - Model Summary: 213 layers, 7500979 parameters, 0 gradients
+2024-04-11 16:41:39,100 - INFO - image 1/1 C:\Users\AISMLab\Robot_Project\Code\yolov5_obb\robot_detection\cropped_images\color\color_image164.JPEG: 864x864 3 boxs, Done. (0.520s)
+2024-04-11 16:41:39,134 - INFO - Speed: 3.3ms pre-process, 520.5ms inference, 0.0ms NMS per image at shape (1, 3, 864, 864)
+2024-04-11 16:41:39,135 - INFO - Results saved to [1mruns\detect\exp195[0m
+1 labels saved to runs\detect\exp195\labels
+2024-04-11 16:41:39,138 - INFO - YOLO inference ending...
 
-2024-04-11 15:13:03,800 - INFO - Post processing beginning...
-2024-04-11 15:13:04,540 - INFO - LARGE: [-0.6313253012048193, -0.20439759036144572, 0.049694, 2.3793536185928374, -2.0397823784285483, 0.0]
-2024-04-11 15:13:04,555 - INFO - Post processing ending...
+2024-04-11 16:41:39,140 - INFO - Post processing beginning...
+2024-04-11 16:41:39,885 - INFO - Depth image subtracted saved at C:\Users\AISMLab\Robot_Project\Code\yolov5_obb\robot_detection/output/depth_img_subtracted179.csv
+2024-04-11 16:41:39,901 - INFO - ERROR for BOX0 Height:0.07
+2024-04-11 16:41:39,901 - INFO - ERROR for BOX1 Height:0.06
+2024-04-11 16:41:39,901 - INFO - ERROR for BOX2 Height:0.17
+2024-04-11 16:41:39,901 - INFO - ############## Results for BOX0 ##############
+2024-04-11 16:41:39,901 - INFO - X angle for BOX0: 3.0378824567362592 rad
+2024-04-11 16:41:39,901 - INFO - Y angle for BOX0: -0.6255762431795726 rad
+2024-04-11 16:41:39,901 - INFO - X Center for BOX0: -741.3855421686748 mm
+2024-04-11 16:41:39,901 - INFO - Y Center for BOX0: 99.75903614457835 mm
+2024-04-11 16:41:39,901 - INFO - Z (Height) for BOX0: 50.429 mm
 
-2024-04-11 15:13:04,556 - INFO - Dynamic detection thread beginning...
-2024-04-11 15:13:04,556 - INFO - Opening real-time monitor socket
-2024-04-11 15:13:04,568 - ERROR - Error during detection thread: cannot access local variable 'tcp_array' where it is not associated with a value
-2024-04-11 15:13:04,569 - ERROR - An unexpected error occurred: cannot access local variable 'tcp_array' where it is not associated with a value
-2024-04-11 15:13:04,569 - INFO - Closing sockets to robot
-2024-04-11 15:13:04,588 - INFO - Robot connection closed.
+2024-04-11 16:41:39,901 - INFO - ############## Results for BOX1 ##############
+2024-04-11 16:41:39,901 - INFO - X angle for BOX1: 2.6095008781496793 rad
+2024-04-11 16:41:39,901 - INFO - Y angle for BOX1: 1.723101692252576 rad
+2024-04-11 16:41:39,901 - INFO - X Center for BOX1: -515.3012048192771 mm
+2024-04-11 16:41:39,901 - INFO - Y Center for BOX1: 19.789156626506028 mm
+2024-04-11 16:41:39,907 - INFO - Z (Height) for BOX1: 50.735 mm
 
-2024-04-11 15:13:04,588 - INFO - End of log
+2024-04-11 16:41:39,907 - INFO - ############## Results for BOX2 ##############
+2024-04-11 16:41:39,908 - INFO - X angle for BOX2: 2.2891648192674596 rad
+2024-04-11 16:41:39,909 - INFO - Y angle for BOX2: 2.1890082667134907 rad
+2024-04-11 16:41:39,909 - INFO - X Center for BOX2: -648.6746987951808 mm
+2024-04-11 16:41:39,909 - INFO - Y Center for BOX2: -189.21686746987947 mm
+2024-04-11 16:41:39,910 - INFO - Z (Height) for BOX2: 44.816 mm
 
+2024-04-11 16:41:39,917 - INFO - BOX2 is the largest box and base for stacking
+2024-04-11 16:41:39,928 - INFO - Post processing ending...
 
-2024-04-11 15:15:25,453 - INFO - Beginning of log
-2024-04-11 15:15:26,204 - INFO - Remove 79 bytes of garbage at begining of packet
-2024-04-11 15:15:26,311 - INFO - Robot online
-2024-04-11 15:15:26,515 - ERROR - Error during robot connection: Robot stopped
-2024-04-11 15:15:26,515 - ERROR - An unexpected error occurred: Robot stopped
-2024-04-11 15:15:26,515 - INFO - Closing sockets to robot
-2024-04-11 15:15:26,614 - INFO - Robot connection closed.
+2024-04-11 16:41:39,929 - INFO - Dynamic detection thread beginning...
+2024-04-11 16:41:41,931 - INFO - Outputting TCP z force for BOX_0
+2024-04-11 16:41:41,932 - INFO - Opening real-time monitor socket
+2024-04-11 16:41:42,102 - INFO - -0.33813121827175874
+2024-04-11 16:41:42,107 - INFO - -0.555430355835633
+2024-04-11 16:41:42,316 - INFO - -0.12094341197308169
+2024-04-11 16:41:42,519 - INFO - -0.036549528423658634
+2024-04-11 16:41:42,720 - INFO - 0.014115863240092568
+2024-04-11 16:41:42,922 - INFO - -0.3994263772761849
+2024-04-11 16:41:43,125 - INFO - -0.17944757733720895
+2024-04-11 16:41:43,327 - INFO - -0.047977408043089934
+2024-04-11 16:41:43,530 - INFO - -0.3618665517519464
+2024-04-11 16:41:43,731 - INFO - -0.34930997904442423
+2024-04-11 16:41:43,933 - INFO - -0.14141825026026802
+2024-04-11 16:41:44,135 - INFO - 0.5959660116348552
+2024-04-11 16:41:44,337 - INFO - 0.3273937358438444
+2024-04-11 16:41:44,540 - INFO - -0.09591004883394069
+2024-04-11 16:41:44,743 - INFO - -0.2337234828086376
+2024-04-11 16:41:44,945 - INFO - -0.5239946998386309
+2024-04-11 16:41:45,147 - INFO - 0.6918599265268673
+2024-04-11 16:41:45,349 - INFO - 0.07515577750779961
+2024-04-11 16:41:45,551 - INFO - 0.24951591181723043
+2024-04-11 16:41:45,755 - INFO - 0.634565281885257
+2024-04-11 16:41:45,956 - INFO - 0.3598461924416061
+2024-04-11 16:41:46,159 - INFO - 0.7357396397998301
+2024-04-11 16:41:46,361 - INFO - 0.4919975317542198
+2024-04-11 16:41:46,563 - INFO - 0.09567779363624695
+2024-04-11 16:41:46,765 - INFO - 1.5493762315525372
+2024-04-11 16:41:46,967 - INFO - 0.10304406056224655
+2024-04-11 16:41:47,169 - INFO - -1.402833482628345
+2024-04-11 16:41:47,371 - INFO - -1.5351197431675405
+2024-04-11 16:41:47,573 - INFO - -1.2920634843486989
+2024-04-11 16:41:47,775 - INFO - -1.685193699332454
+2024-04-11 16:41:47,977 - INFO - -1.383087754199069
+2024-04-11 16:41:48,179 - INFO - 1.2022521609661536
+2024-04-11 16:41:48,381 - INFO - 1.8666356789468093
+2024-04-11 16:41:48,583 - INFO - 1.2089339126262608
+2024-04-11 16:41:48,784 - INFO - -2.365183817104717
+2024-04-11 16:41:48,988 - INFO - -2.376465202219342
+2024-04-11 16:41:49,193 - INFO - -4.564960438770483
+2024-04-11 16:41:49,395 - INFO - -4.846357268134345
+2024-04-11 16:41:49,597 - INFO - -4.752356131648033
+2024-04-11 16:41:49,802 - INFO - -4.343981135937819
+2024-04-11 16:41:50,005 - INFO - -4.347323476937357
+2024-04-11 16:41:50,207 - INFO - -4.32587431642693
+2024-04-11 16:41:50,409 - INFO - -5.327931059956995
+2024-04-11 16:41:50,610 - INFO - -5.087716735153041
+2024-04-11 16:41:50,812 - INFO - -4.310080551621087
+2024-04-11 16:41:51,016 - INFO - -4.5016700329572235
+2024-04-11 16:41:51,217 - INFO - -5.088277569822943
+2024-04-11 16:41:51,418 - INFO - -4.8712688524979235
+2024-04-11 16:41:51,621 - INFO - -5.38000766371339
+2024-04-11 16:41:51,823 - INFO - -5.336774689342928
+2024-04-11 16:41:52,025 - INFO - -5.521749520135668
+2024-04-11 16:41:52,227 - INFO - -5.577182114029136
+2024-04-11 16:41:52,429 - INFO - -5.868112821147652
+2024-04-11 16:41:52,631 - INFO - -6.165789615953138
+2024-04-11 16:41:52,832 - INFO - -6.1017159760806035
+2024-04-11 16:41:53,035 - INFO - -6.067196394650892
+2024-04-11 16:41:53,236 - INFO - -5.775881582553981
+2024-04-11 16:41:53,438 - INFO - -6.028109789676878
+2024-04-11 16:41:53,641 - INFO - -6.330004197997323
+2024-04-11 16:41:53,842 - INFO - -6.104786145315868
+2024-04-11 16:41:54,045 - INFO - -6.455084393724931
+2024-04-11 16:41:54,248 - INFO - -6.373194871770101
+2024-04-11 16:41:54,449 - INFO - -6.551066016339695
+2024-04-11 16:41:54,651 - INFO - -6.550694087695723
+2024-04-11 16:41:54,853 - INFO - -6.733663247412131
+2024-04-11 16:41:54,933 - INFO - Keyboard Interrupt.
+2024-04-11 16:41:54,934 - INFO - Closing sockets to robot
+2024-04-11 16:41:55,031 - INFO - Robot connection closed.
 
-2024-04-11 15:15:26,616 - INFO - End of log
+2024-04-11 16:41:55,032 - INFO - End of log
+#########################################
+#########################################
 
+2024-04-11 16:44:15,697 - INFO - Beginning of log
+2024-04-11 16:44:16,408 - INFO - Remove 79 bytes of garbage at begining of packet
+2024-04-11 16:44:24,141 - INFO - Moving to starting position
 
-2024-04-11 15:17:09,605 - INFO - Beginning of log
-2024-04-11 15:17:10,232 - INFO - Remove 79 bytes of garbage at begining of packet
-2024-04-11 15:17:10,334 - INFO - Robot online
-2024-04-11 15:17:10,535 - ERROR - Error during robot connection: Robot stopped
-2024-04-11 15:17:10,536 - ERROR - An unexpected error occurred: Robot stopped
-2024-04-11 15:17:10,536 - INFO - Closing sockets to robot
-2024-04-11 15:17:10,635 - INFO - Robot connection closed.
+2024-04-11 16:44:24,142 - INFO - Camera operation beginning...
+2024-04-11 16:44:26,841 - INFO - Images captured
+2024-04-11 16:44:26,847 - INFO - Images cropped
+2024-04-11 16:44:27,230 - INFO - Depth image CSV saved at C:\Users\AISMLab\Robot_Project\Code\yolov5_obb\robot_detection/cropped_images/depth/depth_csv167.csv
+2024-04-11 16:44:27,245 - INFO - Depth image CSV saved at C:\Users\AISMLab\Robot_Project\Code\yolov5_obb\robot_detection/cropped_images/depth/depth_csv167.csv
+Camera operation ending...
 
-2024-04-11 15:17:10,635 - INFO - End of log
+2024-04-11 16:44:27,245 - INFO - YOLO inference beginning...
+2024-04-11 16:44:27,261 - INFO - [34m[1myolo_detect: [0mweights=weights\best.pt, source=0, imgsz=[840, 840], conf_thres=0.9, iou_thres=0.8, max_det=200, device=cpu, view_img=False, save_txt=True, save_conf=False, save_crop=False, nosave=False, classes=None, agnostic_nms=False, augment=False, visualize=False, update=False, project=runs/detect, name=exp, exist_ok=False, line_thickness=2, hide_labels=False, hide_conf=False, half=False, dnn=False
+2024-04-11 16:44:27,425 - INFO - YOLOv5  f1b25ff torch 2.2.2+cpu CPU
 
+2024-04-11 16:44:27,479 - INFO - Fusing layers... 
+2024-04-11 16:44:27,604 - INFO - Model Summary: 213 layers, 7500979 parameters, 0 gradients
+2024-04-11 16:44:28,135 - INFO - image 1/1 C:\Users\AISMLab\Robot_Project\Code\yolov5_obb\robot_detection\cropped_images\color\color_image165.JPEG: 864x864 3 boxs, Done. (0.501s)
+2024-04-11 16:44:28,168 - INFO - Speed: 4.9ms pre-process, 500.7ms inference, 0.0ms NMS per image at shape (1, 3, 864, 864)
+2024-04-11 16:44:28,170 - INFO - Results saved to [1mruns\detect\exp196[0m
+1 labels saved to runs\detect\exp196\labels
+2024-04-11 16:44:28,171 - INFO - YOLO inference ending...
+
+2024-04-11 16:44:28,172 - INFO - Post processing beginning...
+2024-04-11 16:44:28,844 - INFO - Depth image subtracted saved at C:\Users\AISMLab\Robot_Project\Code\yolov5_obb\robot_detection/output/depth_img_subtracted180.csv
+2024-04-11 16:44:28,844 - INFO - ERROR for BOX0 Height:0.05
+2024-04-11 16:44:28,844 - INFO - ERROR for BOX1 Height:0.07
+2024-04-11 16:44:28,844 - INFO - ERROR for BOX2 Height:0.18
+2024-04-11 16:44:28,844 - INFO - ############## Results for BOX0 ##############
+2024-04-11 16:44:28,844 - INFO - X angle for BOX0: 2.9875780060339103 rad
+2024-04-11 16:44:28,844 - INFO - Y angle for BOX0: -0.8665274490964714 rad
+2024-04-11 16:44:28,844 - INFO - X Center for BOX0: -728.9156626506025 mm
+2024-04-11 16:44:28,844 - INFO - Y Center for BOX0: 60.72289156626509 mm
+2024-04-11 16:44:28,844 - INFO - Z (Height) for BOX0: 51.122 mm
+
+2024-04-11 16:44:28,844 - INFO - ############## Results for BOX1 ##############
+2024-04-11 16:44:28,844 - INFO - X angle for BOX1: 2.6095008781496793 rad
+2024-04-11 16:44:28,857 - INFO - Y angle for BOX1: 1.723101692252576 rad
+2024-04-11 16:44:28,857 - INFO - X Center for BOX1: -515.5722891566265 mm
+2024-04-11 16:44:28,857 - INFO - Y Center for BOX1: 19.789156626506028 mm
+2024-04-11 16:44:28,857 - INFO - Z (Height) for BOX1: 50.327 mm
+
+2024-04-11 16:44:28,857 - INFO - ############## Results for BOX2 ##############
+2024-04-11 16:44:28,858 - INFO - X angle for BOX2: 2.2990166792244877 rad
+2024-04-11 16:44:28,858 - INFO - Y angle for BOX2: 2.1888596793098563 rad
+2024-04-11 16:44:28,858 - INFO - X Center for BOX2: -650.0301204819277 mm
+2024-04-11 16:44:28,859 - INFO - Y Center for BOX2: -189.7590361445783 mm
+2024-04-11 16:44:28,859 - INFO - Z (Height) for BOX2: 44.347 mm
+
+2024-04-11 16:44:28,868 - INFO - BOX2 is the largest box and base for stacking
+2024-04-11 16:44:28,878 - INFO - Post processing ending...
+
+2024-04-11 16:44:28,878 - INFO - Dynamic detection thread beginning...
+2024-04-11 16:44:30,881 - INFO - Outputting TCP z force for BOX_0
+2024-04-11 16:44:30,881 - INFO - Opening real-time monitor socket
+2024-04-11 16:44:30,908 - INFO - 0.15545283749896788
+2024-04-11 16:44:30,929 - INFO - 0.23951816742992935
+2024-04-11 16:44:31,137 - INFO - 0.4135155230552079
+2024-04-11 16:44:31,339 - INFO - 0.37854425193720614
+2024-04-11 16:44:31,541 - INFO - 0.4796277271077748
+2024-04-11 16:44:31,743 - INFO - 0.7184399635033174
+2024-04-11 16:44:31,945 - INFO - 0.6262658220084294
+2024-04-11 16:44:32,148 - INFO - 0.2995925291785635
+2024-04-11 16:44:32,350 - INFO - 0.198030159154297
+2024-04-11 16:44:32,552 - INFO - 0.38898560039181773
+2024-04-11 16:44:32,754 - INFO - 1.3076078851324215
+2024-04-11 16:44:32,956 - INFO - 0.9871148854707354
+2024-04-11 16:44:33,163 - INFO - 0.8984095750123824
+2024-04-11 16:44:33,370 - INFO - 0.40457507943267523
+2024-04-11 16:44:33,575 - INFO - 0.46983618040695063
+2024-04-11 16:44:33,776 - INFO - 1.0192766091215408
+2024-04-11 16:44:33,978 - INFO - 1.2650107639609187
+2024-04-11 16:44:34,181 - INFO - -0.16849138698443336
+2024-04-11 16:44:34,382 - INFO - 0.7174857484663056
+2024-04-11 16:44:34,584 - INFO - 1.5589913235317228
+2024-04-11 16:44:34,786 - INFO - 0.3732324825698958
+2024-04-11 16:44:34,988 - INFO - 0.5790320128322299
+2024-04-11 16:44:35,190 - INFO - 1.0452149664621704
+2024-04-11 16:44:35,395 - INFO - 1.2146426639585726
+2024-04-11 16:44:35,598 - INFO - 0.5203958301993643
+2024-04-11 16:44:35,800 - INFO - -0.6912446573506342
+2024-04-11 16:44:36,002 - INFO - -0.4606014904730239
+2024-04-11 16:44:36,204 - INFO - -0.6622979020205924
+2024-04-11 16:44:36,406 - INFO - -1.0353297032912143
+2024-04-11 16:44:36,608 - INFO - -0.6574722416870545
+2024-04-11 16:44:36,810 - INFO - -0.6682135917712959
+2024-04-11 16:44:37,012 - INFO - 2.50741063755565
+2024-04-11 16:44:37,012 - INFO - BOX_0 picked up
+
+2024-04-11 16:44:37,214 - INFO - Outputting distance comparison for BOX_0
+2024-04-11 16:44:37,214 - INFO - Difference of distance: 0.26222318048760423mm
+2024-04-11 16:44:37,518 - INFO - Difference of distance: 0.2621892858347789mm
+2024-04-11 16:44:37,820 - INFO - Difference of distance: 0.26233501691233585mm
+2024-04-11 16:44:38,122 - INFO - Difference of distance: 0.2623078077076271mm
+2024-04-11 16:44:38,425 - INFO - Difference of distance: 0.2624267271894833mm
+2024-04-11 16:44:38,727 - INFO - Difference of distance: 0.26243479599532804mm
+2024-04-11 16:44:39,029 - INFO - Difference of distance: 0.2624023831181866mm
+2024-04-11 16:44:39,331 - INFO - Difference of distance: 0.26237943793068086mm
+2024-04-11 16:44:39,633 - INFO - Difference of distance: 0.25975690566123966mm
+2024-04-11 16:44:39,936 - INFO - Difference of distance: 0.2482641900756186mm
+2024-04-11 16:44:40,238 - INFO - Difference of distance: 0.23614098134375708mm
+2024-04-11 16:44:40,541 - INFO - Difference of distance: 0.22397764774781387mm
+2024-04-11 16:44:40,842 - INFO - Difference of distance: 0.21181196324684598mm
+2024-04-11 16:44:41,144 - INFO - Difference of distance: 0.1997208999617735mm
+2024-04-11 16:44:41,447 - INFO - Difference of distance: 0.1875863152580478mm
+2024-04-11 16:44:41,751 - INFO - Difference of distance: 0.17141067839518523mm
+2024-04-11 16:44:42,053 - INFO - Difference of distance: 0.159284540286948mm
+2024-04-11 16:44:42,355 - INFO - Difference of distance: 0.14709932113478677mm
+2024-04-11 16:44:42,657 - INFO - Difference of distance: 0.13500516342746371mm
+2024-04-11 16:44:42,960 - INFO - Difference of distance: 0.12282593441678316mm
+2024-04-11 16:44:43,262 - INFO - Difference of distance: 0.11067252984114798mm
+2024-04-11 16:44:43,565 - INFO - Difference of distance: 0.09865825953012315mm
+2024-04-11 16:44:43,867 - INFO - Difference of distance: 0.09048577649515174mm
+2024-04-11 16:44:44,169 - INFO - Difference of distance: 0.0742950413846494mm
+2024-04-11 16:44:44,471 - INFO - Difference of distance: 0.06217184848011325mm
+2024-04-11 16:44:44,773 - INFO - Difference of distance: 0.05001459289503802mm
+2024-04-11 16:44:45,075 - INFO - Difference of distance: 0.03789741565563397mm
+2024-04-11 16:44:45,377 - INFO - Difference of distance: 0.02569627092596793mm
+2024-04-11 16:44:45,377 - INFO - BOX_0 in region, outputting TCP force
+2024-04-11 16:44:45,377 - INFO - -6.611220490865244
+2024-04-11 16:44:45,581 - INFO - -6.657272550991631
+2024-04-11 16:44:45,784 - INFO - -6.613626365244828
+2024-04-11 16:44:45,986 - INFO - -6.458207237352572
+2024-04-11 16:44:46,188 - INFO - -6.22873182878949
+2024-04-11 16:44:46,390 - INFO - -5.728846123563362
+2024-04-11 16:44:46,592 - INFO - -6.3032014002544186
+2024-04-11 16:44:46,794 - INFO - -6.765941951334496
+2024-04-11 16:44:46,996 - INFO - -3.0083215089568256
+2024-04-11 16:44:47,197 - INFO - -2.8034546230048325
+2024-04-11 16:44:47,400 - INFO - -2.757194798223041
+2024-04-11 16:44:47,603 - INFO - -2.350881673419884
+2024-04-11 16:44:47,806 - INFO - -2.2667515810077803
+2024-04-11 16:44:48,007 - INFO - -3.2296473411922366
+2024-04-11 16:44:48,211 - INFO - -1.9591860196234168
+2024-04-11 16:44:48,414 - INFO - -2.022262012907255
+2024-04-11 16:44:48,615 - INFO - -1.7517421434798095
+2024-04-11 16:44:48,818 - INFO - -1.9851090841014885
+2024-04-11 16:44:49,020 - INFO - -1.6780079431855905
+2024-04-11 16:44:49,222 - INFO - 0.1970000042422472
+2024-04-11 16:44:49,423 - INFO - -0.10284101338693685
+2024-04-11 16:44:49,625 - INFO - -0.4865680552546579
+2024-04-11 16:44:49,827 - INFO - 0.2850526596471115
+2024-04-11 16:44:50,029 - INFO - 0.10587411312778133
+2024-04-11 16:44:50,231 - INFO - -0.16181858520583642
+2024-04-11 16:44:50,434 - INFO - -0.12456553502006057
+2024-04-11 16:44:50,635 - INFO - -0.1980826806539341
+2024-04-11 16:44:50,837 - INFO - -0.16222979857164277
+2024-04-11 16:44:51,039 - INFO - -0.2693799979088992
+2024-04-11 16:44:51,245 - INFO - -0.0863159292112322
+2024-04-11 16:44:51,448 - INFO - 0.27962463855746
+2024-04-11 16:44:51,649 - INFO - -0.003804629007569114
+2024-04-11 16:44:51,852 - INFO - -0.09865364422467479
+2024-04-11 16:44:52,053 - INFO - -0.3922148807150241
+2024-04-11 16:44:52,255 - INFO - 0.10273040709234983
+2024-04-11 16:44:52,468 - INFO - -0.05403486696085924
+2024-04-11 16:44:52,671 - INFO - -0.05739446757731188
+2024-04-11 16:44:52,875 - INFO - 0.10284300834834267
+2024-04-11 16:44:53,077 - INFO - -0.02496168188098939
+2024-04-11 16:44:53,281 - INFO - 0.307155887981658
+2024-04-11 16:44:53,489 - INFO - 0.44319507392167745
+2024-04-11 16:44:53,692 - INFO - 0.6361069138183885
+2024-04-11 16:44:53,894 - INFO - 0.11010771121168388
+2024-04-11 16:44:54,096 - INFO - 0.2548182658753209
+2024-04-11 16:44:54,299 - INFO - 0.530264293340473
+2024-04-11 16:44:54,501 - INFO - 0.2404650509941019
+2024-04-11 16:44:54,703 - INFO - 0.730928090771315
+2024-04-11 16:44:54,905 - INFO - -0.06043474045004123
+2024-04-11 16:44:55,107 - INFO - 0.35424760086221596
+2024-04-11 16:44:55,309 - INFO - -2.0875625099393402
+2024-04-11 16:44:55,511 - INFO - -0.4000098940060467
+2024-04-11 16:44:55,714 - INFO - -0.73160323778315
+2024-04-11 16:44:55,915 - INFO - -0.8322592284464043
+2024-04-11 16:44:56,117 - INFO - -1.143903694107698
+2024-04-11 16:44:56,319 - INFO - -0.8326832269508365
+2024-04-11 16:44:56,522 - INFO - -0.7898955399535522
+2024-04-11 16:44:56,723 - INFO - 3.051841828625971
+2024-04-11 16:44:56,925 - INFO - 3.2072579384956166
+2024-04-11 16:44:57,128 - INFO - 5.8429266197192415
+2024-04-11 16:44:57,140 - INFO - Keyboard Interrupt.
+2024-04-11 16:44:57,140 - INFO - Closing sockets to robot
+2024-04-11 16:44:57,149 - INFO - Robot connection closed.
+
+2024-04-11 16:44:57,150 - INFO - End of log
+#########################################
+#########################################
+
+2024-04-11 17:06:30,602 - INFO - Beginning of log
+2024-04-11 17:06:31,135 - INFO - Remove 79 bytes of garbage at begining of packet
+2024-04-11 17:06:37,774 - INFO - Moving to starting position
+
+2024-04-11 17:06:37,774 - INFO - Camera operation beginning...
+2024-04-11 17:06:40,849 - INFO - Images captured
+2024-04-11 17:06:40,865 - INFO - Images cropped
+2024-04-11 17:06:41,350 - INFO - Depth image CSV saved at C:\Users\AISMLab\Robot_Project\Code\yolov5_obb\robot_detection/cropped_images/depth/depth_csv168.csv
+2024-04-11 17:06:41,405 - INFO - Depth image CSV saved at C:\Users\AISMLab\Robot_Project\Code\yolov5_obb\robot_detection/cropped_images/depth/depth_csv168.csv
+Camera operation ending...
+
+2024-04-11 17:06:41,405 - INFO - YOLO inference beginning...
+2024-04-11 17:06:41,405 - INFO - [34m[1myolo_detect: [0mweights=weights\best.pt, source=0, imgsz=[840, 840], conf_thres=0.9, iou_thres=0.8, max_det=200, device=cpu, view_img=False, save_txt=True, save_conf=False, save_crop=False, nosave=False, classes=None, agnostic_nms=False, augment=False, visualize=False, update=False, project=runs/detect, name=exp, exist_ok=False, line_thickness=2, hide_labels=False, hide_conf=False, half=False, dnn=False
+2024-04-11 17:06:41,632 - INFO - YOLOv5  f1b25ff torch 2.2.2+cpu CPU
+
+2024-04-11 17:06:41,718 - INFO - Fusing layers... 
+2024-04-11 17:06:41,868 - INFO - Model Summary: 213 layers, 7500979 parameters, 0 gradients
+2024-04-11 17:06:42,510 - INFO - image 1/1 C:\Users\AISMLab\Robot_Project\Code\yolov5_obb\robot_detection\cropped_images\color\color_image166.JPEG: 864x864 3 boxs, Done. (0.591s)
+2024-04-11 17:06:42,545 - INFO - Speed: 4.0ms pre-process, 590.6ms inference, 0.0ms NMS per image at shape (1, 3, 864, 864)
+2024-04-11 17:06:42,546 - INFO - Results saved to [1mruns\detect\exp197[0m
+1 labels saved to runs\detect\exp197\labels
+2024-04-11 17:06:42,548 - INFO - YOLO inference ending...
+
+2024-04-11 17:06:42,550 - INFO - Post processing beginning...
+2024-04-11 17:06:43,337 - INFO - Depth image subtracted saved at C:\Users\AISMLab\Robot_Project\Code\yolov5_obb\robot_detection/output/depth_img_subtracted181.csv
+2024-04-11 17:06:43,337 - INFO - ERROR for BOX0 Height:0.09
+2024-04-11 17:06:43,337 - INFO - ERROR for BOX1 Height:0.18
+2024-04-11 17:06:43,337 - INFO - ERROR for BOX2 Height:0.06
+2024-04-11 17:06:43,341 - INFO - ############## Results for BOX0 ##############
+2024-04-11 17:06:43,341 - INFO - X angle for BOX0: 3.10394044833235 rad
+2024-04-11 17:06:43,341 - INFO - Y angle for BOX0: 0.33434298961585274 rad
+2024-04-11 17:06:43,341 - INFO - X Center for BOX0: -616.9578313253013 mm
+2024-04-11 17:06:43,344 - INFO - Y Center for BOX0: 56.656626506024125 mm
+2024-04-11 17:06:43,345 - INFO - Z (Height) for BOX0: 49.306 mm
+
+2024-04-11 17:06:43,345 - INFO - ############## Results for BOX1 ##############
+2024-04-11 17:06:43,346 - INFO - X angle for BOX1: 2.248742309077148 rad
+2024-04-11 17:06:43,347 - INFO - Y angle for BOX1: -2.258939774085161 rad
+2024-04-11 17:06:43,347 - INFO - X Center for BOX1: -662.7710843373495 mm
+2024-04-11 17:06:43,347 - INFO - Y Center for BOX1: -184.3373493975903 mm
+2024-04-11 17:06:43,348 - INFO - Z (Height) for BOX1: 44.306 mm
+
+2024-04-11 17:06:43,348 - INFO - ############## Results for BOX2 ##############
+2024-04-11 17:06:43,349 - INFO - X angle for BOX2: 2.8966730112423242 rad
+2024-04-11 17:06:43,350 - INFO - Y angle for BOX2: -1.194061705912416 rad
+2024-04-11 17:06:43,350 - INFO - X Center for BOX2: -781.5060240963855 mm
+2024-04-11 17:06:43,350 - INFO - Y Center for BOX2: 14.096385542168704 mm
+2024-04-11 17:06:43,350 - INFO - Z (Height) for BOX2: 50.939 mm
+
+2024-04-11 17:06:43,361 - INFO - BOX1 is the largest box and base for stacking
+2024-04-11 17:06:43,376 - INFO - Post processing ending...
+
+2024-04-11 17:06:43,378 - INFO - Dynamic detection thread beginning...
+2024-04-11 17:06:45,380 - INFO - Outputting TCP z force for BOX_0
+2024-04-11 17:06:45,381 - INFO - Opening real-time monitor socket
+2024-04-11 17:06:45,530 - INFO - -0.7889753023205461
+2024-04-11 17:06:45,549 - INFO - -0.7489244822024038
+2024-04-11 17:06:45,758 - INFO - -0.4571786296952252
+2024-04-11 17:06:45,959 - INFO - -0.6429503946192655
+2024-04-11 17:06:46,161 - INFO - -0.6793183331948294
+2024-04-11 17:06:46,363 - INFO - -0.7104026518364354
+2024-04-11 17:06:46,565 - INFO - -0.817062522570875
+2024-04-11 17:06:46,767 - INFO - -1.1340444349162093
+2024-04-11 17:06:46,971 - INFO - -0.8290753265625829
+2024-04-11 17:06:47,173 - INFO - -1.0748425522503589
+2024-04-11 17:06:47,375 - INFO - -1.1858112571405253
+2024-04-11 17:06:47,577 - INFO - -0.9821572757645073
+2024-04-11 17:06:47,779 - INFO - -0.6904093056775021
+2024-04-11 17:06:47,981 - INFO - -0.3557743820015359
+2024-04-11 17:06:48,185 - INFO - -1.0493459248616814
+2024-04-11 17:06:48,386 - INFO - -1.3642204756769838
+2024-04-11 17:06:48,589 - INFO - -1.0648848568394966
+2024-04-11 17:06:48,791 - INFO - -2.0726885994303625
+2024-04-11 17:06:48,995 - INFO - -0.9247594182853252
+2024-04-11 17:06:49,196 - INFO - -1.0703358547105277
+2024-04-11 17:06:49,399 - INFO - -0.33577530488909024
+2024-04-11 17:06:49,601 - INFO - -0.865003640626544
+2024-04-11 17:06:49,806 - INFO - -0.6524901127933548
+2024-04-11 17:06:50,007 - INFO - -0.5232520846184725
+2024-04-11 17:06:50,209 - INFO - -0.662182423396802
+2024-04-11 17:06:50,412 - INFO - -0.3345579589526968
+2024-04-11 17:06:50,615 - INFO - 1.0380305334838105
+2024-04-11 17:06:50,817 - INFO - 3.419838566011348
+2024-04-11 17:06:51,019 - INFO - 3.364181122986486
+2024-04-11 17:06:51,221 - INFO - 5.533064826654987
+2024-04-11 17:06:51,425 - INFO - 4.28525173302975
+2024-04-11 17:06:51,626 - INFO - 5.396403049707921
+2024-04-11 17:06:51,829 - INFO - -3.3068285237676514
+2024-04-11 17:06:51,829 - INFO - BOX_0 picked up
+
+2024-04-11 17:06:52,032 - INFO - Outputting distance comparison for BOX_0
+2024-04-11 17:06:52,032 - INFO - Difference of distance: 0.245095642285983mm
+2024-04-11 17:06:52,339 - INFO - Difference of distance: 0.2451075606539113mm
+2024-04-11 17:06:52,642 - INFO - Difference of distance: 0.24514210789939403mm
+2024-04-11 17:06:52,945 - INFO - Difference of distance: 0.24516052755073575mm
+2024-04-11 17:06:53,247 - INFO - Difference of distance: 0.24515224655503884mm
+2024-04-11 17:06:53,551 - INFO - Difference of distance: 0.24511311343806907mm
+2024-04-11 17:06:53,853 - INFO - Difference of distance: 0.24507481870528544mm
+2024-04-11 17:06:54,157 - INFO - Difference of distance: 0.23766609782218562mm
+2024-04-11 17:06:54,461 - INFO - Difference of distance: 0.22444095088514798mm
+2024-04-11 17:06:54,763 - INFO - Difference of distance: 0.21120299225310873mm
+2024-04-11 17:06:55,066 - INFO - Difference of distance: 0.19802593499762855mm
+2024-04-11 17:06:55,368 - INFO - Difference of distance: 0.18479161049812226mm
+2024-04-11 17:06:55,670 - INFO - Difference of distance: 0.1715032711829689mm
+2024-04-11 17:06:55,973 - INFO - Difference of distance: 0.15835946238878718mm
+2024-04-11 17:06:56,275 - INFO - Difference of distance: 0.1451591457621644mm
+2024-04-11 17:06:56,577 - INFO - Difference of distance: 0.13188933429643818mm
+2024-04-11 17:06:56,879 - INFO - Difference of distance: 0.11870589696494023mm
+2024-04-11 17:06:57,181 - INFO - Difference of distance: 0.10552429140902876mm
+2024-04-11 17:06:57,482 - INFO - Difference of distance: 0.09217523862750197mm
+2024-04-11 17:06:57,785 - INFO - Difference of distance: 0.07896419456591858mm
+2024-04-11 17:06:58,087 - INFO - Difference of distance: 0.06580036981074762mm
+2024-04-11 17:06:58,390 - INFO - Difference of distance: 0.052569305153611044mm
+2024-04-11 17:06:58,692 - INFO - Difference of distance: 0.039274202720834504mm
+2024-04-11 17:06:58,994 - INFO - Difference of distance: 0.026077906186023223mm
+2024-04-11 17:06:58,994 - INFO - BOX_0 in region, outputting TCP force
+2024-04-11 17:06:58,994 - INFO - -5.790802865202801
+2024-04-11 17:06:59,198 - INFO - -6.479742478862514
+2024-04-11 17:06:59,401 - INFO - -6.647041283933198
+2024-04-11 17:06:59,603 - INFO - -6.196191760861275
+2024-04-11 17:06:59,805 - INFO - -6.444003146952681
+2024-04-11 17:07:00,007 - INFO - -6.3894466624685995
+2024-04-11 17:07:00,210 - INFO - -6.709166689461492
+2024-04-11 17:07:00,413 - INFO - -6.799541823510321
+2024-04-11 17:07:00,614 - INFO - -2.513162830526772
+2024-04-11 17:07:00,614 - INFO - BOX_0 stacked
+
+2024-04-11 17:07:05,119 - INFO - Outputting TCP z force for BOX_1
+2024-04-11 17:07:05,119 - INFO - 2.445689275066967
+2024-04-11 17:07:05,119 - INFO - 2.276770258053375
+2024-04-11 17:07:05,327 - INFO - 2.271553975965879
+2024-04-11 17:07:05,529 - INFO - 2.9488621489509748
+2024-04-11 17:07:05,731 - INFO - 3.085836661617794
+2024-04-11 17:07:05,933 - INFO - 2.8647372022097843
+2024-04-11 17:07:06,135 - INFO - 3.044798662326846
+2024-04-11 17:07:06,337 - INFO - 3.1209262693220787
+2024-04-11 17:07:06,539 - INFO - 2.9218664571530097
+2024-04-11 17:07:06,741 - INFO - 2.7598578004853844
+2024-04-11 17:07:06,943 - INFO - 3.072015933696673
+2024-04-11 17:07:07,145 - INFO - 3.537777402074126
+2024-04-11 17:07:07,347 - INFO - 2.997917851236089
+2024-04-11 17:07:07,548 - INFO - 3.6712425206284784
+2024-04-11 17:07:07,751 - INFO - 3.323268339106779
+2024-04-11 17:07:07,953 - INFO - 3.365491008546283
+2024-04-11 17:07:08,155 - INFO - 2.966930381750967
+2024-04-11 17:07:08,359 - INFO - -1.3864831199822851
+2024-04-11 17:07:08,359 - INFO - BOX_1 picked up
+
+2024-04-11 17:07:08,562 - INFO - Outputting distance comparison for BOX_1
+2024-04-11 17:07:08,563 - INFO - Difference of distance: 0.23101024462193875mm
+2024-04-11 17:07:08,865 - INFO - Difference of distance: 0.23106855704817061mm
+2024-04-11 17:07:09,167 - INFO - Difference of distance: 0.2310542372852934mm
+2024-04-11 17:07:09,471 - INFO - Difference of distance: 0.23109515282183135mm
+2024-04-11 17:07:09,773 - INFO - Difference of distance: 0.23108543186544395mm
+2024-04-11 17:07:10,076 - INFO - Difference of distance: 0.23110734068557587mm
+2024-04-11 17:07:10,378 - INFO - Difference of distance: 0.2310674652878791mm
+2024-04-11 17:07:10,680 - INFO - Difference of distance: 0.23118705296322145mm
+2024-04-11 17:07:10,982 - INFO - Difference of distance: 0.23106920708073467mm
+2024-04-11 17:07:11,284 - INFO - Difference of distance: 0.23114311958478662mm
+2024-04-11 17:07:11,587 - INFO - Difference of distance: 0.23115115876041423mm
+2024-04-11 17:07:11,889 - INFO - Difference of distance: 0.23120717516997835mm
+2024-04-11 17:07:12,191 - INFO - Difference of distance: 0.23114352170292266mm
+2024-04-11 17:07:12,494 - INFO - Difference of distance: 0.23113079710319653mm
+2024-04-11 17:07:12,796 - INFO - Difference of distance: 0.23127012673149624mm
+2024-04-11 17:07:13,100 - INFO - Difference of distance: 0.23037353214093095mm
+2024-04-11 17:07:13,401 - INFO - Difference of distance: 0.2108909875981859mm
+2024-04-11 17:07:13,705 - INFO - Difference of distance: 0.18681013869425755mm
+2024-04-11 17:07:14,009 - INFO - Difference of distance: 0.1626414577275809mm
+2024-04-11 17:07:14,310 - INFO - Difference of distance: 0.13854267362465328mm
+2024-04-11 17:07:14,613 - INFO - Difference of distance: 0.11438448449412093mm
+2024-04-11 17:07:14,915 - INFO - Difference of distance: 0.090385393438417mm
+2024-04-11 17:07:15,218 - INFO - Difference of distance: 0.0663321743826666mm
+2024-04-11 17:07:15,520 - INFO - Difference of distance: 0.042191758618020526mm
+2024-04-11 17:07:15,823 - INFO - Difference of distance: 0.018096009812246495mm
+2024-04-11 17:07:15,823 - INFO - BOX_1 in region, outputting TCP force
+2024-04-11 17:07:15,823 - INFO - -6.942350444548424
+2024-04-11 17:07:16,026 - INFO - -6.774242108756774
+2024-04-11 17:07:16,229 - INFO - -7.150771920147547
+2024-04-11 17:07:16,432 - INFO - -6.773813001980263
+2024-04-11 17:07:16,633 - INFO - -8.697741442480334
+2024-04-11 17:07:16,835 - INFO - -6.668776132890975
+2024-04-11 17:07:17,039 - INFO - -2.1869407299371586
+2024-04-11 17:07:17,039 - INFO - BOX_1 stacked
+
+2024-04-11 17:07:20,370 - INFO - Closing sockets to robot
+2024-04-11 17:07:20,470 - INFO - Robot connection closed.
+
+2024-04-11 17:07:20,471 - INFO - End of log
+#########################################
+#########################################
 
