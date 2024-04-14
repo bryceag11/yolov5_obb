@@ -87,6 +87,7 @@ class Detector:
             time.sleep(4)
 
         return
+    
 # Function to generate a unique log file name
 def generate_log_file_name():
     now = datetime.datetime.now()
@@ -200,10 +201,10 @@ def main():
         test_urx.define_box_locations(BOX_L, box_dict)
 
         # DYNAMIC DETECTION THREAD
-        info_logger.info("Dynamic detection thread beginning...")
-        detector = Detector(post_proc, BOX_L, robot, logger=info_logger)
-        detection_thread = threading.Thread(target=detector.run_detection, args=(len(box_dict),))
-        detection_thread.start()
+        # info_logger.info("Dynamic detection thread beginning...")
+        # detector = Detector(post_proc, BOX_L, robot, logger=info_logger)
+        # detection_thread = threading.Thread(target=detector.run_detection, args=(len(box_dict),))
+        # detection_thread.start()
 
         test_urx.pick_up_boxes(1, 0.08)
 

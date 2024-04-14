@@ -56,6 +56,20 @@ class TestURX:
         self.robot.movel(self.STARTING_POSITION, acceleration, speed)
         self.activate_gripper(100, 20, 2)
 
+    def move_until_force(self, acceleration, speed, force_threshold):
+        tcp_array = []
+        while True:
+            self.robot.translate((0, 0, -0.005), acceleration, speed)
+            force = self.robot.get_tcp_force()
+            tcp_array.append(force[2])
+            print(force[2])
+            if len(tcp_array) > 1:
+                diff = abs(tcp_array[-1] - tcp_array[-2])
+                if diff > 2.5:
+                    break
+            time.sleep(0.05)
+
+
     def pick_up_boxes(self, acceleration, speed):
         # time.sleep(5)
         # Open gripper
@@ -82,9 +96,9 @@ class TestURX:
             self.activate_gripper(75, 20, 2)
             self.BOX_L[2] += self.HB_dict[f"HB_{i}"]
             self.robot.translate((0, 0, (self.BOX_L[2])), acceleration, speed)
-            
             self.robot.movel(self.BOX_L, acceleration, speed)
-            self.robot.translate((0, 0, -(self.HB_dict[f"HB_{i}"]/2)), acceleration, speed)
+            self.move_until_force(acceleration, .08, 3)
+            # self.robot.translate((0, 0, -(self.HB_dict[f"HB_{i}"]/2)), acceleration, speed)
             # time.sleep(5)
             # robot.translate((0,0, -.0225), acceleration, speed)
             # time.sleep(5)
