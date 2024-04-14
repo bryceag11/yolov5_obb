@@ -26,8 +26,8 @@ import glob
 IMAGE_DESTINATION_PATH = os.getcwd()
 
 class PostProcess():
-    def __init__(self):
-        pass
+    def __init__(self, logger):
+        self.logger = logger 
 
     def get_obj_height(self, depth_img, bb_coords):
         # Load calibrated depth image of table alone
@@ -38,7 +38,7 @@ class PostProcess():
 
         # Save csv
         depth_img_substracted_path = self.save_depth_csv(depth_img_subtracted, 'robot_detection/output/depth_img_subtracted')
-        print(f"Depth image subtracted saved at {depth_img_substracted_path}")
+        self.logger.info(f"Depth image subtracted saved at {depth_img_substracted_path}")
 
         # Initialize box height
         box_height = []
@@ -77,7 +77,7 @@ class PostProcess():
             error = abs(round(((height - 54) / 54), 2))
             # print(f"BOX{counter} HEIGHT:")
             # print(height)
-            print(f"\nERROR for BOX{counter} Height:{error}")
+            self.logger.info(f"ERROR for BOX{counter} Height:{error}")
             # print(error)
 
             counter += 1
@@ -154,7 +154,7 @@ class PostProcess():
         ang_z = []
         counter = 0
         for coord in coords:
-            print(f"\n############## Results for BOX{counter} ##############")
+            self.logger.info(f"############## Results for BOX{counter} ##############")
             x_coordinates = []
             y_coordinates = []
 
@@ -175,15 +175,15 @@ class PostProcess():
 
             rob_x, rob_y = self.map_orientation(angle_x, angle_y)
 
-            print(f"X angle for BOX{counter}: {rob_x} rad")
-            print(f"Y angle for BOX{counter}: {rob_y} rad")
+            self.logger.info(f"X angle for BOX{counter}: {rob_x} rad")
+            self.logger.info(f"Y angle for BOX{counter}: {rob_y} rad")
 
             # Calculate center coordinates
             cen_x = -1* (np.mean(x_coordinates))
             cen_y = np.mean(y_coordinates)
-            print(f"X Center for BOX{counter}: {cen_x} mm")
-            print(f"Y Center for BOX{counter}: {-1 * cen_y} mm")
-            print(f"Z (Height) for BOX{counter}: {(1000 * height[counter])} mm")
+            self.logger.info(f"X Center for BOX{counter}: {cen_x} mm")
+            self.logger.info(f"Y Center for BOX{counter}: {-1 * cen_y} mm")
+            self.logger.info(f"Z (Height) for BOX{counter}: {(1000 * height[counter])} mm\n")
             # Add to the list
             center_x.append(cen_x/1000)
             center_y.append((cen_y/1000)*-1)
@@ -296,7 +296,7 @@ class PostProcess():
             selected_txt = txt_files[0]
             return selected_txt
         else:
-            print("No .txt files found in the folder.")
+            self.logger.info("No .txt files found in the folder.")
             return None
         
     def pull_coordinates(self, txt_path):

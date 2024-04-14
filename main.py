@@ -35,59 +35,56 @@ sys.path.append(r'C:/Users/AISMLab/Robot_Project/Code/yolov5_obb/robot_control/c
 from test_urx import TestURX
 
 class Detector:
-    def __init__(self, post_process_instance, BOX_L, robot):
+    def __init__(self, post_process_instance, BOX_L, robot, logger):
         self.post_process_instance = post_process_instance
         self.BOX_L = BOX_L
         self.robot = robot
-        self.if_stacked = False
-        self.picked_up = False 
+        self.logger = logger
 
     def run_detection(self, length):
+        time.sleep(2)
         for i in range(length):
             self.if_stacked = False
             self.picked_up = False 
 
             # While loop for box being picked up
+            tcp_array = []
+            self.logger.info(f"Outputting TCP z force for BOX_{i}")
             while not self.picked_up:
-                print(f"\nOutputting force for BOX_{i}")
                 force = self.robot.get_tcp_force()
-                print(force)
+                self.logger.info(force[2])
                 tcp_array.append(force[2])
                 if len(tcp_array) > 1:
                     diff = abs(tcp_array[-1] - tcp_array[-2])
-                    print(diff)
                     if diff > 3:
-                        print("\nBox picked up")
+                        self.logger.info(f"BOX_{i} picked up\n")
                         self.picked_up = True 
-                    time.sleep(0.5)
-
-            time.sleep(0.5)
+                    time.sleep(0.2)
 
             # While loop for box being stacked
+            self.logger.info(f"Outputting distance comparison for BOX_{i}")
             while not self.if_stacked:
-                print(f"\n Outputting distance comparison for Box_{i}")
                 box_coords = self.robot.getl()
                 # Compare centroids 
                 stacked = self.post_process_instance.compare_boxes(self.BOX_L, box_coords)
-                print(f"Difference of distance: {stacked}mm")
+                self.logger.info(f"Difference of distance: {stacked}mm")
                 tcp_array = []
                 # # Determine if distance is below threshold, indicating if boxes are stacked
-                if stacked < 30:
-                    print("\nBox in region")
-                    tcp_array = []
-                    while True:
+                if stacked < .030:
+                    self.logger.info(f"BOX_{i} in region, outputting TCP force")
+                    while not self.if_stacked:
                         force = self.robot.get_tcp_force()
-                        print(force)
+                        self.logger.info(force[2])
                         tcp_array.append(force[2])
-                        if len(tcp_array) > 1:
+                        if len(tcp_array) > 2:
                             diff = tcp_array[-1] - tcp_array[-2]
-                            if abs(diff) > 2:
-                                print("\nBox stacked")
-                                self.stacked = True
-                        time.sleep(0.5)
-                time.sleep(0.5)
+                            if abs(diff) > 2.5:
+                                self.logger.info(f"BOX_{i} stacked\n")
+                                self.if_stacked = True
+                        time.sleep(0.2)
+                time.sleep(0.3)
 
-            time.sleep(5)
+            time.sleep(4)
 
         return
 # Function to generate a unique log file name
@@ -104,27 +101,28 @@ def generate_log_file_name():
 
 # Stack boxes function
 def main():
+    # Log file configuration
+    log_file_name = generate_log_file_name()
+    # Set up logging configuration
+    info_handler = logging.FileHandler(filename=f"robot_detection/runs/{log_file_name}")
+    info_handler.setLevel(logging.INFO)
+
+    # Define the format for info logs
+    info_formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
+    info_handler.setFormatter(info_formatter)
+
+    # Create a logger object
+    info_logger = logging.getLogger()
+    info_logger.addHandler(info_handler)
+
     # Create class instances
     test_urx = TestURX()
     camera_op = CameraOperation()
     pre_proc = PreProcess()
     yolov5 = YOLOV5Detector()
-    post_proc = PostProcess()
+    post_proc = PostProcess(logger=info_logger)
 
     try:
-        # Log file configuration
-        log_file_name = generate_log_file_name()
-        # Set up logging configuration
-        info_handler = logging.FileHandler(filename=f"robot_detection/runs/{log_file_name}")
-        info_handler.setLevel(logging.INFO)
-
-        # Define the format for info logs
-        info_formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
-        info_handler.setFormatter(info_formatter)
-
-        # Create a logger object
-        info_logger = logging.getLogger()
-        info_logger.addHandler(info_handler)
         info_logger.info("Beginning of log")
 
         # Move robot to starting position
@@ -185,7 +183,7 @@ def main():
 
             # Separate largest box from the rest to act as a base for stacking 
             BOX_L = [inner_list[largest_area_index] for inner_list in rwc]
-            info_logger.info(f"LARGE: {BOX_L}")
+            info_logger.info(f"BOX{largest_area_index} is the largest box and base for stacking")
             for sublist in rwc:
                 del sublist[largest_area_index]
             
@@ -202,16 +200,11 @@ def main():
         test_urx.define_box_locations(BOX_L, box_dict)
 
         # DYNAMIC DETECTION THREAD
-        try:
-            info_logger.info("Dynamic detection thread beginning...")
-            detector = Detector(post_proc, BOX_L, robot)
-            detection_thread = threading.Thread(target=detector.run_detection(len(box_dict)))
-            detection_thread.start()
+        info_logger.info("Dynamic detection thread beginning...")
+        detector = Detector(post_proc, BOX_L, robot, logger=info_logger)
+        detection_thread = threading.Thread(target=detector.run_detection, args=(len(box_dict),))
+        detection_thread.start()
 
-        except Exception as e:
-            info_logger.error(f"Error during detection thread: {e}")
-            raise
-    
         test_urx.pick_up_boxes(1, 0.08)
 
     except Exception as e:
@@ -222,13 +215,16 @@ def main():
     except KeyboardInterrupt:
         print("\nExiting gracefully....")
         info_logger.info("Keyboard Interrupt.")
+        sys.exit(0)
 
     finally:
         # Ensure robot connection is closed
         test_urx.close_robot_connection()
         info_logger.info("Robot connection closed.\n")
-        info_logger.info("End of log\n\n")
+        info_logger.info('''End of log\n#########################################
+#########################################\n''')
         info_handler.close()
+        sys.exit(0)
 
 if __name__ == "__main__":
     main()
