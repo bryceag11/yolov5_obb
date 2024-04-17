@@ -117,7 +117,7 @@ def main():
     info_logger.addHandler(info_handler)
 
     # Create class instances
-    test_urx = TestURX()
+    test_urx = TestURX(logger=info_logger)
     camera_op = CameraOperation()
     pre_proc = PreProcess()
     yolov5 = YOLOV5Detector()
@@ -130,7 +130,6 @@ def main():
         try:
             robot = test_urx.connect_to_robot()
             test_urx.move_to_starting_position(1, 0.08)
-            info_logger.info("Moving to starting position\n")
         except Exception as e:
             info_logger.error(f"Error during robot connection: {e}")
             raise
@@ -201,7 +200,7 @@ def main():
         test_urx.define_box_locations(BOX_L, box_dict)
 
         # DYNAMIC DETECTION THREAD
-        info_logger.info("Dynamic detection thread beginning...")
+        info_logger.info("Box stacking beginning...")
         # detector = Detector(post_proc, BOX_L, robot, logger=info_logger)
         # detection_thread = threading.Thread(target=detector.run_detection, args=(len(box_dict),))
         # detection_thread.start()

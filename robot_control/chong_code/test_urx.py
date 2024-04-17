@@ -4,20 +4,21 @@ import time
 from robot_rg import RobotMovement 
 
 class TestURX:
-    def __init__(self):
+    def __init__(self, logger):
         # HARDCODED STARTING POSITION
-        self.STARTING_POSITION = [-0.3855075887632609, -0.08245739447612332, 0.22352142951900683, 3.1415926535897932, 0, 0]
+        self.STARTING_POSITION = [-0.100, -0.40, 0.22352142951900683, 3.14159, 0, 0]
+        self.SECONDARY_POSITION = [-0.3855075887632609, -0.08245739447612332, 0.22352142951900683, 3.1415926535897932, 0, 0]
         self.BOX_L = None
         self.BOX_DICT = None
         self.HB_0 = None
         self.HB_1 = None
         self.robot = None
+        self.logger = logger
         self.box_lists = {}
         self.HB_dict = {}
 
     def define_box_locations(self, BOX_L, BOX_DICT):
         # HARDCODED STARTING POSITION
-        self.STARTING_POSITION = [-0.3855075887632609, -0.08245739447612332, 0.22352142951900683, 3.1415926535897932, 0, 0]
         self.BOX_L = BOX_L
         self.BOX_DICT = BOX_DICT
         # self.HB_0 = self.BOX_0[2]
@@ -33,10 +34,10 @@ class TestURX:
         self.robot = urx.Robot(RobotIP)
 
         if self.robot.is_running():
-            print("\nRobot is Online")
+            self.logger.info("Robot is Online")
             return self.robot
         else:
-            print("Robot is Stopped")
+            self.logger.error("Robot is Stopped")
 
     def activate_gripper(self, width, force, mass):
         # print("ACTIVATE GRIPPER")
@@ -52,8 +53,9 @@ class TestURX:
         # Move slightly
         self.robot.translate((0,0.000001,0), acceleration, speed)
         # Move to starting position
-        print("MOVE TO STARTING POSITION\n")
+        self.logger.info("MOVE TO STARTING POSITION\n")
         self.robot.movel(self.STARTING_POSITION, acceleration, speed)
+        self.robot.movel(self.SECONDARY_POSITION, acceleration, speed)
         self.activate_gripper(100, 20, 2)
 
     def move_until_force(self, acceleration, speed, force_threshold):
@@ -79,11 +81,13 @@ class TestURX:
             if len(tcp_array) > 1:
                 diff = abs(tcp_array[-1] - tcp_array[-2])
                 if diff > force_threshold:
+                    self.logger.info("Box has beeen stacked")
                     break
-            time.sleep(0.05)
+            time.sleep(0.1)
         self.robot.stopl(acceleration)
 
     def pick_up_boxes(self, acceleration, speed):
+
         # time.sleep(5)
         # Open gripper
         # print("OPEN GRIPPER")
@@ -107,6 +111,7 @@ class TestURX:
             self.robot.movel(self.BOX_DICT[f'BOX_{i}'], acceleration, speed)
             self.robot.translate((0,0, -1.5*(self.HB_dict[f"HB_{i}"])), acceleration, speed)
             self.activate_gripper(75, 20, 2)
+            self.logger.info(f"BOX_{i} has been picked up")
             self.BOX_L[2] += self.HB_dict[f"HB_{i}"]
             self.robot.translate((0, 0, (self.BOX_L[2])), acceleration, speed)
             self.robot.movel(self.BOX_L, acceleration, speed)
@@ -116,6 +121,7 @@ class TestURX:
             # robot.translate((0,0, -.0225), acceleration, speed)
             # time.sleep(5)
             self.activate_gripper(100, 20, 2)
+            self.logger.info(f"BOX_{i} has been stacked")
             self.robot.translate((0, 0, (self.HB_dict[f"HB_{i}"])), acceleration, speed)
         # time.sleep(5)    
         # time.sleep(5)
