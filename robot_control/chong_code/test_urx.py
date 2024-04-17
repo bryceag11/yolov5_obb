@@ -69,6 +69,19 @@ class TestURX:
                     break
             time.sleep(0.05)
 
+    def move_until_force_smooth(self, acceleration, speed, force_threshold):
+        tcp_array = []
+        self.robot.translate((0, 0, -0.050), acceleration, speed, wait=False)
+        while True:
+            force = self.robot.get_tcp_force()
+            tcp_array.append(force[2])
+            print(force[2])
+            if len(tcp_array) > 1:
+                diff = abs(tcp_array[-1] - tcp_array[-2])
+                if diff > force_threshold:
+                    break
+            time.sleep(0.05)
+        self.robot.stopl(acceleration)
 
     def pick_up_boxes(self, acceleration, speed):
         # time.sleep(5)
@@ -97,7 +110,7 @@ class TestURX:
             self.BOX_L[2] += self.HB_dict[f"HB_{i}"]
             self.robot.translate((0, 0, (self.BOX_L[2])), acceleration, speed)
             self.robot.movel(self.BOX_L, acceleration, speed)
-            self.move_until_force(acceleration, .08, 3)
+            self.move_until_force_smooth(acceleration, .05, 2.5)
             # self.robot.translate((0, 0, -(self.HB_dict[f"HB_{i}"]/2)), acceleration, speed)
             # time.sleep(5)
             # robot.translate((0,0, -.0225), acceleration, speed)
