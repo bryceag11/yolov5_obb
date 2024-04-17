@@ -240,9 +240,9 @@ class YOLOV5Detector():
         parser.add_argument('--weights', nargs='+', type=str, default=ROOT / 'weights/best.pt', help='model path(s)')
         parser.add_argument('--source', type=str, default=0, help='file/dir/URL/glob, 0 for webcam')
         # Inference size for processing 
-        parser.add_argument('--imgsz', '--img', '--img-size', nargs='+', type=int, default=[840], help='inference size h,w')
-        parser.add_argument('--conf-thres', type=float, default=0.9, help='confidence threshold')
-        parser.add_argument('--iou-thres', type=float, default=0.8, help='NMS IoU threshold')
+        parser.add_argument('--imgsz', '--img', '--img-size', nargs='+', type=int, default=[832], help='inference size h,w')
+        parser.add_argument('--conf-thres', type=float, default=0.8, help='confidence threshold')
+        parser.add_argument('--iou-thres', type=float, default=0.7, help='NMS IoU threshold')
         parser.add_argument('--max-det', type=int, default=200, help='maximum detections per image')
         parser.add_argument('--device', default='cpu', help='cuda device, i.e. 0 or 0,1,2,3 or cpu')
         parser.add_argument('--view-img', action='store_true', help='show results')

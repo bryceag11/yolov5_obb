@@ -55,7 +55,6 @@ class TestURX:
         # Move to starting position
         self.logger.info("MOVE TO STARTING POSITION\n")
         self.robot.movel(self.STARTING_POSITION, acceleration, speed)
-        self.robot.movel(self.SECONDARY_POSITION, acceleration, speed)
         self.activate_gripper(100, 20, 2)
 
     def move_until_force(self, acceleration, speed, force_threshold):
@@ -87,7 +86,6 @@ class TestURX:
         self.robot.stopl(acceleration)
 
     def pick_up_boxes(self, acceleration, speed):
-
         # time.sleep(5)
         # Open gripper
         # print("OPEN GRIPPER")
@@ -107,11 +105,12 @@ class TestURX:
         # time.sleep(5)
         # activate_gripper(robot, 100, 20, 2)
         # time.sleep(5)
+        count = 0
         for i in range(len(self.BOX_DICT)):
             self.robot.movel(self.BOX_DICT[f'BOX_{i}'], acceleration, speed)
             self.robot.translate((0,0, -1.5*(self.HB_dict[f"HB_{i}"])), acceleration, speed)
             self.activate_gripper(75, 20, 2)
-            self.logger.info(f"BOX_{i} has been picked up")
+            self.logger.info(f"BOX_{i} has been picked up, preparing to stack...\n")
             self.BOX_L[2] += self.HB_dict[f"HB_{i}"]
             self.robot.translate((0, 0, (self.BOX_L[2])), acceleration, speed)
             self.robot.movel(self.BOX_L, acceleration, speed)
@@ -121,8 +120,13 @@ class TestURX:
             # robot.translate((0,0, -.0225), acceleration, speed)
             # time.sleep(5)
             self.activate_gripper(100, 20, 2)
-            self.logger.info(f"BOX_{i} has been stacked")
+            self.logger.info(f"BOX_{i} has been stacked\n")
             self.robot.translate((0, 0, (self.HB_dict[f"HB_{i}"])), acceleration, speed)
+            count += 1
+
+        self.logger.info(f"{count} Boxes stacked successfully, returning to starting position...")
+        self.robot.movel(self.STARTING_POSITION, acceleration, speed)
+
         # time.sleep(5)    
         # time.sleep(5)
         # activate_gripper(robot, 100, 20, 2)

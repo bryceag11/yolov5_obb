@@ -190,22 +190,31 @@ def main():
             # Create dictionary for the rest of the boxes and dynamically assign variable names
             box_dict = {}
             for i in range(len(rwc[0])):
-                box_dict[f"BOX_{i}"] = [inner_list[i] for inner_list in rwc]
-                info_logger.info(f"BOX_{i}:", box_dict[f"BOX_{i}"])
+                x = (rwc[0][i]) * 1000
+                y = (rwc[1][i]) * 1000
+                if -780 <= x.item() <= -350 and -400 <= y.item() <= 160:
+                    box_dict[f"BOX_{i}"] = [inner_list[i] for inner_list in rwc]
+                    info_logger.info(f"BOX_{i}:", box_dict[f"BOX_{i}"])
+                else:
+                    info_logger.info(f"BOX_{i} is outside valid range and will be ignored.")
             info_logger.info("Post processing ending...\n")
+
         except Exception as e:
             info_logger.error(f"Error during Post Processing: {e}")
             raise 
 
-        test_urx.define_box_locations(BOX_L, box_dict)
+        if len(box_dict) == 0:
+            info_logger.info("Unable to stack boxes due to boxes being absent or out of robot range\n")
+        else:
+            test_urx.define_box_locations(BOX_L, box_dict)
 
-        # DYNAMIC DETECTION THREAD
-        info_logger.info("Box stacking beginning...")
-        # detector = Detector(post_proc, BOX_L, robot, logger=info_logger)
-        # detection_thread = threading.Thread(target=detector.run_detection, args=(len(box_dict),))
-        # detection_thread.start()
-
-        test_urx.pick_up_boxes(1, 0.08)
+            # # DYNAMIC DETECTION THREAD
+            info_logger.info("Box stacking beginning...")
+            # # detector = Detector(post_proc, BOX_L, robot, logger=info_logger)
+            # # detection_thread = threading.Thread(target=detector.run_detection, args=(len(box_dict),))
+            # # detection_thread.start()
+            test_urx.pick_up_boxes(1, 0.08)
+            pass
 
     except Exception as e:
         info_logger.error(f"An unexpected error occurred: {e}")

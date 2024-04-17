@@ -205,6 +205,7 @@ class PostProcess():
             # Apply the shoelace formula to calculate the area
             area = 0.5 * abs(sum(x_coords[i] * y_coords[i + 1] - x_coords[i + 1] * y_coords[i] for i in range(-1, len(x_coords) - 1)))
             areas.append(area)
+        self.logger.info(f"Area: {areas}")
         return areas
     
     def compare_boxes(self, box1_coords, box2_coords):
