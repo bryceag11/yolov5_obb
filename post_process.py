@@ -21,6 +21,7 @@ import cv2
 import os
 import math as m 
 import glob
+import logging
 
 # Path to folder where captured image will be saved
 IMAGE_DESTINATION_PATH = os.getcwd()
@@ -28,33 +29,32 @@ IMAGE_DESTINATION_PATH = os.getcwd()
 class PostProcess():
     def __init__(self, logger):
         self.logger = logger 
+        # Initialize constants based on focal length to real world map
+        self.SCALE = 900 / 830
+        self.LEFT_EDGE = 1225
+        self.TOP_EDGE = - 450
+        
+        # Load calibrated depth image of table alone
+        self.depth_table_alone = np.loadtxt('robot_detection/depth_table.csv', delimiter=',')
 
     def get_obj_height(self, depth_img, bb_coords):
-        # Load calibrated depth image of table alone
-        depth_table_alone = np.loadtxt('robot_detection/depth_table.csv', delimiter=',')
-
         # Take difference of depth_img with box and depth_img with table
-        depth_img_subtracted = np.abs(depth_table_alone - depth_img)
+        depth_img_subtracted = np.abs(self.depth_table_alone - depth_img)
 
         # Save csv
         depth_img_substracted_path = self.save_depth_csv(depth_img_subtracted, 'robot_detection/output/depth_img_subtracted')
         self.logger.info(f"Depth image subtracted saved at {depth_img_substracted_path}")
 
-        # Initialize box height
-        box_height = []
-        
+        # Initialize box height and rwc array
+        real_world_coordinates = []
+
         counter = 0
 
         # Obtain height for any number of boxes
         for coords in bb_coords:
-            # print(f"\n############## Results for BOX{counter} ##############")
 
             # Crop image using leftmost x, rightmost x, uppermost y, lowermost y
             box_depth_img = self.get_cropped_box_depth_img(depth_img_subtracted, coords)
-
-        #     # # Save cropped depth_img
-        #     # box_csv_path = self.save_depth_csv(box_depth_img, 'robot_detection/output/box_csv')
-        #     # print(f"Box image CSV saved at {box_csv_path}")
 
             # Find center x and y of box csv
             x = np.shape(box_depth_img)[0] - 1
@@ -70,19 +70,34 @@ class PostProcess():
                 for j in range(-3,4):
                     arr.append(box_depth_img[center_x + i][center_y + j])
             
+
+            # Convert pixel coordinates to real world coordinates
+            temp_rwc = list(self.pixel_conversion(coords))
+
             # Box height is the average of the array
             height = round((sum(arr) / len(arr)), 3)
-            box_height.append(height/1000)
-            # Display stats
-            error = abs(round(((height - 54) / 54), 2))
-            # print(f"BOX{counter} HEIGHT:")
-            # print(height)
-            self.logger.info(f"ERROR for BOX{counter} Height:{error}")
-            # print(error)
+            abs_height = 0
+            
+            # Error calculations and height correction depending on box size
+            if temp_rwc[6] >= 175:
+                if temp_rwc[6] >= 300:
+                    abs_height = 46
+                else:
+                    abs_height = 42
+            else:
+                abs_height = 54
 
+            error = abs(round(((height - abs_height) / abs_height), 2))
+            if error >= 0.2:
+                temp_rwc[2] = abs_height / 1000
+            else:
+                temp_rwc[2] = height / 1000
+
+
+            real_world_coordinates.append(temp_rwc)
             counter += 1
 
-        return box_height
+        return real_world_coordinates
 
     def get_cropped_box_depth_img(self, depth_img, bb_coords):
         # Separate x and y coordinates and put them in arrays
@@ -107,7 +122,7 @@ class PostProcess():
         return depth_img[min_row:max_row, min_column:max_column]
 
     # Convert the pixels to real world coordinates
-    def pixel_conversion(self, coords, height):
+    def pixel_conversion(self, coords):
 
         '''
         TABLE DIMENSIONS: 
@@ -143,57 +158,33 @@ class PostProcess():
         ''' 
     
         # Set conversion constants based on table dimensions
-        SCALE = 900 / 830
-        LEFT_EDGE = 1225
-        TOP_EDGE = - 450
+
+        x_coordinates = []
+        y_coordinates = []
+        for coor in coords:
+            x_coordinates.append(self.LEFT_EDGE - (self.SCALE * coor[0]))
+            y_coordinates.append(self.TOP_EDGE + (self.SCALE * coor[1]))
         
-        center_x = []
-        center_y = []
-        ang_x = []
-        ang_y = []
-        ang_z = []
-        counter = 0
-        for coord in coords:
-            self.logger.info(f"############## Results for BOX{counter} ##############")
-            x_coordinates = []
-            y_coordinates = []
+        # Calculate lengths of edges based on Euclidean distance
+        length = max([np.sqrt((x2 - x1)**2 + (y2 - y1)**2) for x1, y1, x2, y2 in zip(x_coordinates, y_coordinates, x_coordinates[1:] + [x_coordinates[0]], y_coordinates[1:] + [y_coordinates[0]])])
 
-            for coor in coord:
-                x_coordinates.append(LEFT_EDGE - (SCALE * coor[0]))
-                y_coordinates.append(TOP_EDGE + (SCALE * coor[1]))
+        # Calculate orientation angles based on the edges (in radians)
+        angles = [np.arctan2((y2 - y1), (x2 - x1)) for x1, y1, x2, y2 in zip(x_coordinates, y_coordinates, x_coordinates[1:] + [x_coordinates[0]], y_coordinates[1:] + [y_coordinates[0]])]
+        angles = [np.arctan2((y2 - y1), (x2 - x1)) for x1, y1, x2, y2 in zip(x_coordinates, y_coordinates, x_coordinates[1:] + [x_coordinates[0]], y_coordinates[1:] + [y_coordinates[0]])]
 
-            # Calculate lengths of edges based on Euclidean distance
-            # lengths = [np.sqrt((x2 - x1)**2 + (y2 - y1)**2) for x1, y1, x2, y2 in zip(x_coordinates, y_coordinates, x_coordinates[1:] + [x_coordinates[0]], y_coordinates[1:] + [y_coordinates[0]])]
+        angle_x = angles[0]
+        angle_y = angles[1]
 
-            # print(f"Edge Lengths for BOX{counter}:", lengths)
+        rob_x, rob_y = self.map_orientation(angle_x, angle_y)
 
-            # Calculate orientation angles based on the edges (in radians)
-            angles = [np.arctan2((y2 - y1), (x2 - x1)) for x1, y1, x2, y2 in zip(x_coordinates, y_coordinates, x_coordinates[1:] + [x_coordinates[0]], y_coordinates[1:] + [y_coordinates[0]])]
-            
-            angle_x = angles[0]
-            angle_y = angles[1]
 
-            rob_x, rob_y = self.map_orientation(angle_x, angle_y)
 
-            self.logger.info(f"X angle for BOX{counter}: {rob_x} rad")
-            self.logger.info(f"Y angle for BOX{counter}: {rob_y} rad")
-
-            # Calculate center coordinates
-            cen_x = -1* (np.mean(x_coordinates))
-            cen_y = np.mean(y_coordinates)
-            self.logger.info(f"X Center for BOX{counter}: {cen_x} mm")
-            self.logger.info(f"Y Center for BOX{counter}: {-1 * cen_y} mm")
-            self.logger.info(f"Z (Height) for BOX{counter}: {(1000 * height[counter])} mm\n")
-            # Add to the list
-            center_x.append(cen_x/1000)
-            center_y.append((cen_y/1000)*-1)
-            ang_x.append(rob_x)
-            ang_y.append(rob_y)
-            ang_z.append(0.0)
-            counter += 1
+        # Calculate center coordinates
+        cen_x = ((-1* np.mean(x_coordinates)) / 1000)
+        cen_y = ((-1 * np.mean(y_coordinates)) / 1000)
 
         # Return x_coordinates, y_coordinates, lengths, angles, center_x, and center_y  
-        return (center_x, center_y, height, ang_x, ang_y, ang_z)
+        return (cen_x, cen_y, 0.0, rob_x, rob_y, 0.0, length)
     
     def calculate_area(self, bb_coords):
         areas = []
@@ -205,7 +196,6 @@ class PostProcess():
             # Apply the shoelace formula to calculate the area
             area = 0.5 * abs(sum(x_coords[i] * y_coords[i + 1] - x_coords[i + 1] * y_coords[i] for i in range(-1, len(x_coords) - 1)))
             areas.append(area)
-        self.logger.info(f"Area: {areas}")
         return areas
     
     def compare_boxes(self, box1_coords, box2_coords):
@@ -321,48 +311,53 @@ def main():
 
     # Perform post processing with cropped images 
     # Change path as needed
-    depth_image_path = 'robot_detection/cropped_images/depth/depth_csv46.csv'
+
+    info_handler = logging.FileHandler(filename="robot_detection/runs/post_proc.log")
+    info_handler.setLevel(logging.INFO)
+
+    # Define the format for info logs
+    info_formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
+    info_handler.setFormatter(info_formatter)
+
+    # Create a logger object
+    info_logger = logging.getLogger()
+    info_logger.addHandler(info_handler)
+
+
+    depth_image_path = 'robot_detection/cropped_images/depth/depth_csv216.csv'
     depth_img = np.loadtxt(depth_image_path, delimiter=',')
 
-    post_proc = PostProcess()
+    post_proc = PostProcess(info_logger)
 
 
-    sd = "runs\detect\exp75\labels\color_image46.txt"
-    # file_path = post_proc.get_txt_path(sd)
+    sd = "runs\detect\exp239\labels"
+    file_path = post_proc.get_txt_path(sd)
 
-    coords = post_proc.pull_coordinates(sd)
-    height = post_proc.get_obj_height(depth_img, coords) # Return object height
-    rwc = post_proc.pixel_conversion(coords, height) # Return real world coordinates
+    coords = post_proc.pull_coordinates(file_path)
+    rwc = post_proc.get_obj_height(depth_img, coords) # Return real world coordinates
 
-    # Calculate areas for each box
     areas = post_proc.calculate_area(coords)
     print("Areas:", areas)
+    largest_area_index = areas.index(max(areas)) 
+
+    # Separate largest box from the rest to act as a base for stacking 
+    BOX_L = rwc[largest_area_index]
+    print(f"BOX_{largest_area_index} is the largest box and base for stacking")
+    print(f"BOX_{largest_area_index}: {BOX_L}")
+    del rwc[largest_area_index]
     
-    largest_area_index = areas.index(max(areas))
-    # Reorder the bounding box coordinates so that the box with the largest area is first
-
-
+    # Create dictionary for the rest of the boxes and dynamically assign variable names
     box_dict = {}
-    for i in range(len(rwc[0])):
-        box_dict[f"box_{i}"] = [inner_list[i] for inner_list in rwc]
-        print(f"BOX {i}:", box_dict[f"box_{i}"])
+    print(len(rwc))
+    for i in range(len(rwc)):
+        x = (rwc[i][0]) * 1000
+        y = (rwc[i][1]) * 1000
+        if -780 <= x <= -350 and -400 <= y <= 160:
+            box_dict[f"BOX_{i}"] = rwc[i]
+            print(f"BOX_{i}:", box_dict[f"BOX_{i}"])
+        else:
+            print(f"BOX_{i} is outside valid range and will be ignored.")
 
-    # Retrieve the box with the largest area
-    largest_area_index = areas.index(max(areas))
-    largest_box_coords = rwc[largest_area_index]
-
-    # Separate the largest box from the rest
-    largest_box_dict = {"BOX_L": largest_box_coords}
-    del box_dict[f"box_{largest_area_index}"]
-
-    # Print the largest box coordinates
-    print("Box with largest area:", largest_box_coords)
-
-    # Print the rest of the boxes
-    print("Other boxes:")
-    for key, value in box_dict.items():
-        print(f"{key}: {value}")
-                    
 
 
 if __name__ == "__main__":

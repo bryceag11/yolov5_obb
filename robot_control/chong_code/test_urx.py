@@ -9,35 +9,39 @@ class TestURX:
         self.STARTING_POSITION = [-0.100, -0.40, 0.22352142951900683, 3.14159, 0, 0]
         self.SECONDARY_POSITION = [-0.3855075887632609, -0.08245739447612332, 0.22352142951900683, 3.1415926535897932, 0, 0]
         self.BOX_L = None
-        self.BOX_DICT = None
-        self.HB_0 = None
-        self.HB_1 = None
+        self.BOX_dict = None
         self.robot = None
+        self.STACK_dict = None
         self.logger = logger
         self.box_lists = {}
         self.HB_dict = {}
+        self.L_dict = {}
 
-    def define_box_locations(self, BOX_L, BOX_DICT):
+    def define_box_locations(self, BOX_L, BOX_dict, STACK_dict):
         # HARDCODED STARTING POSITION
         self.BOX_L = BOX_L
-        self.BOX_DICT = BOX_DICT
+        self.BOX_dict = BOX_dict
+        self.STACK_dict = STACK_dict
         # self.HB_0 = self.BOX_0[2]
         # self.HB_1 = self.BOX_1[2]
-        # Parse box_dict into lists for each box and assign HB... to the respective height
-        for i, box_key in enumerate(BOX_DICT.keys()):
-            box_coords = BOX_DICT[box_key]
+        # Parse BOX_dict into lists for each box and assign HB... to the respective height
+        for i in range(len(BOX_dict)):
+            box_coords = BOX_dict[f"BOX_{i}"]
             self.HB_dict[f"HB_{i}"] = box_coords[2] # Assign height to HB_dict key
+            self.L_dict[f"L_{i}"] = box_coords[6]
+            del BOX_dict[f"BOX_{i}"][6]
             box_coords[2] *= 2
 
-    def connect_to_robot(self):
-        RobotIP = "192.168.1.102"  # Your PC must have same first 3 components of IP but different last
-        self.robot = urx.Robot(RobotIP)
 
-        if self.robot.is_running():
-            self.logger.info("Robot is Online")
-            return self.robot
-        else:
-            self.logger.error("Robot is Stopped")
+    def connect_to_robot(self):
+            RobotIP = "192.168.1.102"  # Your PC must have same first 3 components of IP but different last
+            self.robot = urx.Robot(RobotIP)
+
+            if self.robot.is_running():
+                self.logger.info("Robot is Online")
+                return self.robot
+            else:
+                self.logger.error("Robot is Stopped")
 
     def activate_gripper(self, width, force, mass):
         # print("ACTIVATE GRIPPER")
@@ -66,7 +70,7 @@ class TestURX:
             print(force[2])
             if len(tcp_array) > 1:
                 diff = abs(tcp_array[-1] - tcp_array[-2])
-                if diff > 2.5:
+                if diff > 3:
                     break
             time.sleep(0.05)
 
@@ -106,10 +110,20 @@ class TestURX:
         # activate_gripper(robot, 100, 20, 2)
         # time.sleep(5)
         count = 0
-        for i in range(len(self.BOX_DICT)):
-            self.robot.movel(self.BOX_DICT[f'BOX_{i}'], acceleration, speed)
+        g_state = 0
+        for i in range(len(self.BOX_dict)):
+            if self.L_dict[f"L_{i}"] >= 300:
+                self.activate_gripper(150, 20, 2)
+                g_state = 1
+            else:
+                g_state = 0
+
+            self.robot.movel(self.BOX_dict[f'BOX_{i}'], acceleration, speed)
             self.robot.translate((0,0, -1.5*(self.HB_dict[f"HB_{i}"])), acceleration, speed)
-            self.activate_gripper(75, 20, 2)
+            if g_state ==1:
+                self.activate_gripper(125, 20, 2)
+            else:
+                self.activate_gripper(75, 20, 2)   
             self.logger.info(f"BOX_{i} has been picked up, preparing to stack...\n")
             self.BOX_L[2] += self.HB_dict[f"HB_{i}"]
             self.robot.translate((0, 0, (self.BOX_L[2])), acceleration, speed)
@@ -119,14 +133,22 @@ class TestURX:
             # time.sleep(5)
             # robot.translate((0,0, -.0225), acceleration, speed)
             # time.sleep(5)
-            self.activate_gripper(100, 20, 2)
+            if g_state == 1:
+                self.activate_gripper(150, 20, 2)
+            else:
+                self.activate_gripper(100, 20, 2)
             self.logger.info(f"BOX_{i} has been stacked\n")
+            self.STACK_dict[f"BOX_{i}"] = True
             self.robot.translate((0, 0, (self.HB_dict[f"HB_{i}"])), acceleration, speed)
+            self.activate_gripper(100, 20, 2)
+
+
             count += 1
 
-        self.logger.info(f"{count} Boxes stacked successfully, returning to starting position...")
-        self.robot.movel(self.STARTING_POSITION, acceleration, speed)
-
+        self.logger.info(f"{count} Boxes stacked successfully, awaiting further input...")
+        
+        
+        return (self.BOX_L) # Return dictionary of current space
         # time.sleep(5)    
         # time.sleep(5)
         # activate_gripper(robot, 100, 20, 2)
@@ -146,6 +168,8 @@ class TestURX:
         # pos = robot.getl()
         # robot.movel((pos[0],pos[1],STARTING_POSITION[2],pos[3],pos[4],pos[5]), acceleration, speed)
         # robot.movel(STARTING_POSITION, acceleration, speed)
+    def post_pickup(self, acceleration, speed):
+        pass
 
     def demo(self, acceleration, speed):
         self.move_to_starting_position(acceleration, speed)
