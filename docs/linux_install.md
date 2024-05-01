@@ -96,6 +96,13 @@ torchvision.__version__
 
 Clone the repository on your machine: ``` git clone https://github.com/bryceag11/yolov5_obb.git ```
 
-Once you are in the folder, run ``` pip install -r requirements.txt ``` to install all the dependencies (python modules). Once you have done this, you are officially ready to train using yolov5_obb.
+Once you are in the folder, run ``` pip install -r requirements.txt ``` to install all the dependencies (python modules). \
+
+Next, setup the environment.
+```
+cd utils/nms_rotated
+pip install -v -e .  #or "pip install -v -e ."
+```
+Once you have done this, you are officially ready to train using yolov5_obb.
 
 

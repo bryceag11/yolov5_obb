@@ -12,6 +12,63 @@ The YOLO network consists of a backbone: a CNN aggregating and forming image fea
 
 # Train a model
 
+## Preparing dataset
+**0. Prepare dataset using Roboflow**
+Our original dataset can be found here: [AISMBoxes](https://universe.roboflow.com/ukyaism/boxes_2-pwu7p).
+
+0.1 Create a new version of the dataset with your split, preprocessing steps, and any augmentation steps
+![Generating version](image.png)
+
+0.2 Export the dataset with the YOLOv5 OBB structure
+
+![Export](image-1.png)
+
+Labels format should be [poly classname difficult], e.g., we set **difficult=0**
+```
+  x1      y1       x2        y2       x3       y3       x4       y4       classname     diffcult
+
+1309.0783 285.1795 1292.1972 405.3417 968.7130 390.9620 985.5957 270.8007 box 0
+```
+
+0.2 Move the file to the respective folder for usage 
+
+0.3 File structure should resemble the structure below:
+```
+parent
+├── yolov5
+|── data
+|   └── final_box.yaml
+└── dataset
+    └── FINAL_BOX
+        ├── train
+        ├── val
+        └── test
+            ├── images
+                 |────1.jpg
+                 |────...
+                 └────10000.jpg
+            ├── labelTxt
+                 |────1.txt
+                 |────...
+                 └────10000.txt
+
+```
+
+In our case the .yaml file was moved to /data and the file name was changed to correspond to the dataset it was referencing.
+Additionally change
+
+0.4 Change the .yaml file appropriately
+```
+path: ./dataset/FINAL_BOX #TODO: Change this corresponding to where the dataset is located
+
+train: train/images
+val: valid/images
+test: test/images
+
+nc: 2
+names: ['box', 'background']
+```
+
 **1. Prepare custom dataset files**
 
 1.1 Make sure the labels format is [poly classname diffcult], e.g., You can set **diffcult=0**
@@ -37,11 +94,11 @@ cd yolov5_obb
 ```
 parent
 ├── yolov5
-└── datasets
-    └── DOTAv1.5
-        ├── train_split_rate1.0_subsize1024_gap200
-        ├── val_split_rate1.0_subsize1024_gap200
-        └── test_split_rate1.0_subsize1024_gap200
+└── dataset
+    └── FINAL_BOX
+        ├── train
+        ├── val
+        └── test
             ├── images
                  |────1.jpg
                  |────...
@@ -56,44 +113,40 @@ parent
 **Note:**
 * DOTA is a high resolution image dataset, so it needs to be splited before training/testing to get better performance.
 
+## Training
 **2. Train**
 
 2.1 Train with specified GPUs. (for example with GPU=3)
 
 ```shell
-python train.py --device 3
+python yolo_train.py --device 3
 ```
 
 2.2 Train with multiple(4) GPUs. (DDP Mode)
 
 ```shell
-python -m torch.distributed.launch --nproc_per_node 4 train.py --device 0,1,2,3
+python -m torch.distributed.launch --nproc_per_node 4 yolo_train.py --device 0,1,2,3
 ```
 
 2.3 Train the orignal dataset demo.
 ```shell
-python train.py \
+python yolo_train.py \
   --weights 'weights/yolov5n_s_m_l_x.pt' \
-  --data 'data/yolov5obb_demo.yaml' \
-  --hyp 'data/hyps/obb/hyp.finetune_dota.yaml' \
+  --data 'data/final_box.yaml' \
+  --hyp 'data/hyps/hyp.yaml' \
   --epochs 10 \
   --batch-size 1 \
   --img 1024 \
   --device 0
 ```
-
-2.4 Train the splited dataset demo.
-```shell
-python train.py \
-  --weights 'weights/yolov5n_s_m_l_x.pt' \
-  --data 'data/yolov5obb_demo_split.yaml' \
-  --hyp 'data/hyps/obb/hyp.finetune_dota.yaml' \
-  --epochs 10 \
-  --batch-size 2 \
-  --img 1024 \
-  --device 0
+2.4 Additional details on parameters
 ```
-
+--cfg # sets the model configuration, by default this is blank, using 'models/yolov5s-obb-C3STR.yaml'
+will utilize the Swin Transformer architecture. Additional details on models can be found in that folder's README
+--hyp sets the hyperparameters for the training of the model, these can be adjusted for each training example.
+The selected hyperparameters will be output in the runs/train/exp for reference in retrospect
+--weights can be configured for transfer learning by passing in previous model results 'best.pt' within the runs
+```
 # Inferenece with pretrained models. (Splited Dataset)
 This repo provides the validation/testing scripts to evaluate the trained model.
 
@@ -104,7 +157,7 @@ Assume that you have already downloaded the checkpoints to `runs/train/yolov5m_c
 1. Test yolov5-obb with single GPU. Get the HBB metrics.
 
 ```shell
-python val.py \
+python yolo_val.py \
  --data 'data/yolov5obb_demo_split.yaml' \
  --weights 'runs/train/yolov5m_csl_dotav1.5/weights/best.pt' \
  --batch-size 2 --img 1024 --task 'val' --device 0 --save-json --name 'obb_demo_split'
@@ -149,53 +202,32 @@ We provide the validation/testing scripts to evaluate the trained model.
 
 Examples:
 
-Assume that you have already downloaded the checkpoints to `runs/train/yolov5m_csl_dotav1.5/weights`.
+Assume that you have already downloaded the checkpoints to `runs/train/exp151/weights/best.pt`.
 
 1. Test yolov5-obb with single GPU. Get the HBB metrics.
 
 ```shell
-python val.py \
- --data 'data/yolov5obb_demo.yaml' \
- --weights 'runs/train/yolov5m_csl_dotav1.5/weights/best.pt' \
- --batch-size 1 --img 2048 --task 'val' --device 0 --save-json --name 'obb_demo'
+python yolo_val.py \
+ --data 'data/final_box.yaml' \
+ --weights 'runs/train/exp151/weights/best.pt' \
+ --task 'val' --device 0 --imgsz 630 
 
-               Class     Images     Labels          P          R     mAP@.5 mAP@.5:.95: 100%|██████████| 1/1 [00:00<00:00,  1.98it/s]                                        
-                 all          1         56       0.97       0.85      0.953      0.752
-               plane          1         11          1          1      0.995      0.944
-       small-vehicle          1         34          1      0.641      0.889      0.535
-       large-vehicle          1         11       0.91      0.909      0.976      0.777
-Speed: .................................................... per image at shape (1, 3, 2048, 2048)
-...
-Evaluating pycocotools mAP... saving runs/val/obb_demo/best_obb_predictions.json...
----------------------The hbb and obb results has been saved in json file-----------------------
+               Class     Images     Labels          P          R  HBBmAP@.5  HBBmAP@.5:.95: 100%|██████████| 23/23 [00:02<00:00,  8.14it/s]
+                 all        178        433      0.982      0.995      0.991      0.886
+                 box        178        433      0.982      0.995      0.991      0.886
+Speed: 0.2ms pre-process, 5.3ms inference, 2.7ms NMS per image at shape (8, 3, 640, 640)
+Results saved to runs\val\exp7
+
 ```
 
-2. Parse the results. Get the poly format results.
-```shell 
-python tools/TestJson2VocClassTxt.py --json_path 'runs/val/obb_demo/best_obb_predictions.json' --save_path 'runs/val/obb_demo/obb_predictions_Txt'
-``` 
-
-3. Get the OBB metrics
-```shell
-python DOTA_devkit/dota_evaluation_task1.py \
-    --detpath 'runs/val/obb_demo/obb_predictions_Txt/Task1_{:s}.txt' \
-    --annopath 'dataset/dataset_demo/labelTxt/{:s}.txt' \
-    --imagesetfile 'dataset/dataset_demo/imgnamefile.txt'
-
-...
-map: 0.6666666666666669
-classaps:  [100.   0. 100.]
-```
 
 # Run inference on images, videos, directories, streams, etc. Then save the detection file.
 1. image demo
 ```shell
-python detect.py --weights 'runs/train/yolov5m_csl_dotav1.5/weights/best.pt' \
-  --source 'dataset/dataset_demo/images/' \
-  --img 2048 --device 0 --conf-thres 0.25 --iou-thres 0.2 --hide-labels --hide-conf
+python detect.py --weights 'runs/train/exp151/weights/best.pt' \
+  --source 'dataset/final_box/test/images' \
+  --img 830 --device 0 --conf-thres 0.8 --iou-thres 0.2 --hide-labels --hide-conf
 ```
-
-***If you want to evaluate the result on DOTA test-dev, please zip the poly format results files and submit it to the  [evaluation server](https://captain-whu.github.io/DOTA/index.html).**
 
 # Data Analysis
 The confusion matrix produced by the results requires 4 attributes:
@@ -210,10 +242,21 @@ The precision measures how well you can find true positives out of all positive 
 
 Average precision is calculated as the weighted mean of precisions at each threshold, the weight is the increase in recall from the prior threshold. The mAP or mean average precision is the average of AP of each class. An mAP at .5 refers to the mean average precision at an IoU threshold of .5 while .95 is the precision at an IoU threshold of .95.
 
-![PR_Curve](https://github.com/bryceag11/yolov5_obb/assets/67086260/8fe5c6ec-dde9-4806-8174-d31d805ba3bd)
+![PR_Curve](../runs/train/exp151/PR_curve.png)
 
-PR curve or precision-recall curve is obtained by plotting the model’s precision and recall values as a function of the model’s confidence score threshold. When a model has a high recall but low precision, the model classifies most of the positive samples correctly but has many false positives. When a model has high precision but low recall, it may only classify some of the positive samples. As the confidence score is decreased, more predictions are made (increasing recall), and fewer correct predictions are made (lowering precision). In Figure 16, we can observe that the model has many false positives. 
+PR curve or precision-recall curve is obtained by plotting the model’s precision and recall values as a function of the model’s confidence score threshold. When a model has a high recall but low precision, the model classifies most of the positive samples correctly but has many false positives. When a model has high precision but low recall, it may only classify some of the positive samples. As the confidence score is decreased, more predictions are made (increasing recall), and fewer correct predictions are made (lowering precision). 
 
-![F1_Curve](https://github.com/bryceag11/yolov5_obb/assets/67086260/a0bf611f-26f8-4b1c-b2e9-55ca1ef4f285)
+![F1_Curve](../runs/train/exp151/F1_curve.png)
 
-F1 score finds the most optimal confidence score threshold where precision and recall give the highest relationship. In Figure 16, we can see that the highest recall and precision is achieved with a confidence score of roughly 0.55.
+The F1 score is a single metric that combines both precision and recall into a single value. It is calculated as the harmonic mean of precision and recall, and it provides a balance between these two metrics. The F1 score reaches its best value at 1 (perfect precision and recall) and worst at 0.
+
+![Confusion Matrix](../runs/train/exp151/confusion_matrix.png)
+
+The confusion matrix is a table that is often used to describe the performance of a classification model (or "classifier") on a set of test data for which the true values are known. It allows visualization of the performance of an algorithm, typically a supervised learning one. Each row of the matrix represents the instances in an actual class while each column represents the instances in a predicted class (or vice versa). The name stems from the fact that it makes it easy to see if the system is confusing two classes (i.e., commonly mislabeling one as another).
+
+![P Curve](../runs/train/exp151/P_curve.png)
+
+The precision curve, often referred to as the P curve, is a graphical representation of the precision (positive predictive value) of a classifier system as a function of the decision threshold. It is obtained by plotting precision values against different threshold values for a binary classification system. The precision indicates the proportion of positive identifications (or predicted positives) that were actually correct. The P curve helps assess the trade-off between precision and recall, providing insights into the classifier's performance across various decision thresholds.
+
+![R Curve](../runs/train/exp151/R_curve.png)
+The recall curve, also known as the R curve or sensitivity curve, is a graphical representation of the recall (true positive rate) of a classifier system as a function of the decision threshold. It is obtained by plotting recall values against different threshold values for a binary classification system. Recall measures the proportion of actual positive cases that were correctly identified by the classifier. The R curve helps evaluate the classifier's ability to detect all relevant instances of a class, providing insights into its sensitivity to different decision thresholds

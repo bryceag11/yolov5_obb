@@ -1,5 +1,6 @@
 # Windows Installation
 ## Requirements
+### Configured so that running inference is possible without CUDA
 * Windows
 * Python 3.9+ 
 * PyTorch ≥ 2.0.1+cu117, Torchvision ≥ 0.15.2+cu117, Torchaudio ≥ 2.0.2+cu117
@@ -39,7 +40,11 @@ e. Install yolov5-obb requirements.
 ```
 pip install -r requirements.txt
 ```
-
+f. Set up the environment
+```
+cd utils/nms_rotated
+pip install -v -e .  #or "pip install -v -e ."
+```
 ## Install DOTA_devkit. 
 **(Custom Install, it's just a tool to split the high resolution image and evaluation the obb)**
 
