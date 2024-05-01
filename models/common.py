@@ -20,6 +20,8 @@ import torch.nn as nn
 from PIL import Image
 from torch.cuda import amp
 
+from models.SwinTransformer import SwinTransformerLayer
+
 from utils.datasets import exif_transpose, letterbox
 from utils.general import (LOGGER, check_requirements, check_suffix, check_version, colorstr, increment_path,
                            make_divisible, non_max_suppression, scale_coords, xywh2xyxy, xyxy2xywh)
@@ -89,7 +91,23 @@ class TransformerBlock(nn.Module):
         b, _, w, h = x.shape
         p = x.flatten(2).permute(2, 0, 1)
         return self.tr(p + self.linear(p)).permute(1, 2, 0).reshape(b, self.c2, w, h)
+    
+class SwinTransformerBlock(nn.Module):
+    def __init__(self, c1, c2, num_heads, num_layers, window_size=8):
+        super().__init__()
+        self.conv = None
+        if c1 != c2:
+            self.conv = Conv(c1, c2)
 
+        # remove input_resolution
+        self.blocks = nn.Sequential(*[SwinTransformerLayer(dim=c2, num_heads=num_heads, window_size=window_size,
+                                 shift_size=0 if (i % 2 == 0) else window_size // 2) for i in range(num_layers)])
+
+    def forward(self, x):
+        if self.conv is not None:
+            x = self.conv(x)
+        x = self.blocks(x)
+        return x
 
 class Bottleneck(nn.Module):
     # Standard bottleneck
@@ -137,7 +155,17 @@ class C3(nn.Module):
     def forward(self, x):
         return self.cv3(torch.cat((self.m(self.cv1(x)), self.cv2(x)), dim=1))
 
-
+# -------------------------------------------------------------------------
+# C3STR
+# num_heads=[3, 6, 12, 24] --> c_ // 32
+class C3STR(C3):
+    # C3 module with SwinTransformerBlock()
+    def __init__(self, c1, c2, n=1, shortcut=True, g=1, e=0.5):
+        super().__init__(c1, c2, n, shortcut, g, e)
+        c_ = int(c2 * e)
+        num_heads = c_ // 32
+        self.m = SwinTransformerBlock(c_, c_, num_heads, n)
+        
 class C3TR(C3):
     # C3 module with TransformerBlock()
     def __init__(self, c1, c2, n=1, shortcut=True, g=1, e=0.5):

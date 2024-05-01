@@ -237,10 +237,10 @@ class YOLOV5Detector():
 
     def parse_opt(self):
         parser = argparse.ArgumentParser()
-        parser.add_argument('--weights', nargs='+', type=str, default=ROOT / 'weights/best.pt', help='model path(s)')
+        parser.add_argument('--weights', nargs='+', type=str, default=ROOT / 'runs/train/exp151/weights/best.pt', help='model path(s)')
         parser.add_argument('--source', type=str, default=0, help='file/dir/URL/glob, 0 for webcam')
         # Inference size for processing 
-        parser.add_argument('--imgsz', '--img', '--img-size', nargs='+', type=int, default=[832], help='inference size h,w')
+        parser.add_argument('--imgsz', '--img', '--img-size', nargs='+', type=int, default=[640], help='inference size h,w')
         parser.add_argument('--conf-thres', type=float, default=0.8, help='confidence threshold')
         parser.add_argument('--iou-thres', type=float, default=0.5, help='NMS IoU threshold')
         parser.add_argument('--max-det', type=int, default=200, help='maximum detections per image')
@@ -275,7 +275,7 @@ def main():
     check_requirements(exclude=('tensorboard', 'thop'))
 
     # Assign image paths
-    color_image_path = 'robot_detection/cropped_images/color/color_image146.jpeg'
+    color_image_path = 'robot.jpg'
 
     # Create yolov5 object
     yolov5 = YOLOV5Detector()
@@ -296,5 +296,5 @@ def main():
 
 
 
-# if __name__ == "__main__":
-#     main()
+if __name__ == "__main__":
+    main()

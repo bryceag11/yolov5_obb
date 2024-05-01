@@ -1,0 +1,352 @@
+2024-04-23 11:40:47,636 - INFO - Beginning of log
+2024-04-23 11:40:47,636 - INFO - Camera operation beginning...
+2024-04-23 11:40:50,619 - INFO - Images captured
+2024-04-23 11:40:50,625 - INFO - Images cropped
+2024-04-23 11:40:50,887 - INFO - Depth image CSV saved at C:\Users\Bryce\yolov5_obb\robot_detection/cropped_images/depth/depth_csv203.csv
+2024-04-23 11:40:50,909 - INFO - Depth image CSV saved at C:\Users\Bryce\yolov5_obb\robot_detection/cropped_images/depth/depth_csv203.csv
+Camera operation ending...
+
+2024-04-23 11:40:50,909 - INFO - YOLO inference beginning...
+2024-04-23 11:40:50,913 - INFO - [34m[1myolo_detect: [0mweights=weights\best.pt, source=0, imgsz=[832, 832], conf_thres=0.8, iou_thres=0.7, max_det=200, device=cpu, view_img=False, save_txt=True, save_conf=False, save_crop=False, nosave=False, classes=None, agnostic_nms=False, augment=False, visualize=False, update=False, project=runs/detect, name=exp, exist_ok=False, line_thickness=2, hide_labels=False, hide_conf=False, half=False, dnn=False
+2024-04-23 11:40:50,992 - INFO - YOLOv5  9606ed5 torch 2.0.1+cu118 CPU
+
+2024-04-23 11:40:51,045 - INFO - Fusing layers... 
+2024-04-23 11:40:51,210 - INFO - Model Summary: 213 layers, 7500979 parameters, 0 gradients, 17.3 GFLOPs
+2024-04-23 11:40:51,545 - INFO - image 1/1 C:\Users\Bryce\yolov5_obb\robot_detection\cropped_images\color\color_image201.JPEG: 832x832 3 boxs, Done. (0.262s)
+2024-04-23 11:40:51,558 - INFO - Speed: 3.0ms pre-process, 261.5ms inference, 10.5ms NMS per image at shape (1, 3, 832, 832)
+2024-04-23 11:40:51,559 - INFO - Results saved to [1mruns\detect\exp231[0m
+1 labels saved to runs\detect\exp231\labels
+2024-04-23 11:40:51,560 - INFO - YOLO inference ending...
+
+2024-04-23 11:40:51,566 - INFO - Post processing beginning...
+2024-04-23 11:40:51,974 - INFO - Depth image subtracted saved at C:\Users\Bryce\yolov5_obb\robot_detection/output/depth_img_subtracted213.csv
+2024-04-23 11:40:51,975 - INFO - ERROR for BOX0 Height:0.17
+2024-04-23 11:40:51,975 - INFO - ERROR for BOX1 Height:0.19
+2024-04-23 11:40:51,976 - INFO - ERROR for BOX2 Height:0.07
+2024-04-23 11:40:51,976 - INFO - ############## Results for BOX0 ##############
+2024-04-23 11:40:51,982 - INFO - X angle for BOX0: 2.3206143980694662 rad
+2024-04-23 11:40:51,982 - INFO - Y angle for BOX0: -2.1388354744309255 rad
+2024-04-23 11:40:51,983 - INFO - X Center for BOX0: -776.6265060240964 mm
+2024-04-23 11:40:51,983 - INFO - Y Center for BOX0: -18.433734939759006 mm
+2024-04-23 11:40:51,983 - INFO - Z (Height) for BOX0: 45.0 mm
+
+2024-04-23 11:40:51,983 - INFO - ############## Results for BOX1 ##############
+2024-04-23 11:40:51,984 - INFO - X angle for BOX1: 3.153306337402867 rad
+2024-04-23 11:40:51,984 - INFO - Y angle for BOX1: -0.02127442198063667 rad
+2024-04-23 11:40:51,984 - INFO - X Center for BOX1: -776.0843373493976 mm
+2024-04-23 11:40:51,984 - INFO - Y Center for BOX1: -17.89156626506022 mm
+2024-04-23 11:40:51,984 - INFO - Z (Height) for BOX1: 43.735 mm
+
+2024-04-23 11:40:51,984 - INFO - ############## Results for BOX2 ##############
+2024-04-23 11:40:51,985 - INFO - X angle for BOX2: 3.1323458000731605 rad
+2024-04-23 11:40:51,985 - INFO - Y angle for BOX2: -0.20358453504984375 rad
+2024-04-23 11:40:51,985 - INFO - X Center for BOX2: -531.566265060241 mm
+2024-04-23 11:40:51,985 - INFO - Y Center for BOX2: -99.4879518072289 mm
+2024-04-23 11:40:51,985 - INFO - Z (Height) for BOX2: 50.469 mm
+
+2024-04-23 11:40:51,985 - INFO - Area: [37176.0, 39860.0, 38965.5]
+2024-04-23 11:40:51,990 - INFO - BOX1 is the largest box and base for stacking
+2024-04-23 11:40:51,995 - INFO - Post processing ending...
+
+2024-04-23 11:40:51,996 - INFO - Box stacking beginning...
+2024-04-23 11:40:51,996 - INFO - Robot connection closed.
+
+2024-04-23 11:40:51,996 - INFO - End of log
+#########################################
+#########################################
+
+2024-04-23 11:42:02,731 - INFO - Beginning of log
+2024-04-23 11:42:02,732 - INFO - Camera operation beginning...
+2024-04-23 11:42:05,205 - INFO - Images captured
+2024-04-23 11:42:05,208 - INFO - Images cropped
+2024-04-23 11:42:05,468 - INFO - Depth image CSV saved at C:\Users\Bryce\yolov5_obb\robot_detection/cropped_images/depth/depth_csv204.csv
+2024-04-23 11:42:05,484 - INFO - Depth image CSV saved at C:\Users\Bryce\yolov5_obb\robot_detection/cropped_images/depth/depth_csv204.csv
+Camera operation ending...
+
+2024-04-23 11:42:05,484 - INFO - YOLO inference beginning...
+2024-04-23 11:42:05,487 - INFO - [34m[1myolo_detect: [0mweights=weights\best.pt, source=0, imgsz=[832, 832], conf_thres=0.8, iou_thres=0.5, max_det=200, device=cpu, view_img=False, save_txt=True, save_conf=False, save_crop=False, nosave=False, classes=None, agnostic_nms=False, augment=False, visualize=False, update=False, project=runs/detect, name=exp, exist_ok=False, line_thickness=2, hide_labels=False, hide_conf=False, half=False, dnn=False
+2024-04-23 11:42:05,531 - INFO - YOLOv5  9606ed5 torch 2.0.1+cu118 CPU
+
+2024-04-23 11:42:05,561 - INFO - Fusing layers... 
+2024-04-23 11:42:05,684 - INFO - Model Summary: 213 layers, 7500979 parameters, 0 gradients, 17.3 GFLOPs
+2024-04-23 11:42:05,990 - INFO - image 1/1 C:\Users\Bryce\yolov5_obb\robot_detection\cropped_images\color\color_image202.JPEG: 832x832 2 boxs, Done. (0.264s)
+2024-04-23 11:42:06,003 - INFO - Speed: 1.0ms pre-process, 264.4ms inference, 4.2ms NMS per image at shape (1, 3, 832, 832)
+2024-04-23 11:42:06,004 - INFO - Results saved to [1mruns\detect\exp232[0m
+1 labels saved to runs\detect\exp232\labels
+2024-04-23 11:42:06,005 - INFO - YOLO inference ending...
+
+2024-04-23 11:42:06,011 - INFO - Post processing beginning...
+2024-04-23 11:42:06,397 - INFO - Depth image subtracted saved at C:\Users\Bryce\yolov5_obb\robot_detection/output/depth_img_subtracted214.csv
+2024-04-23 11:42:06,397 - INFO - ERROR for BOX0 Height:0.22
+2024-04-23 11:42:06,397 - INFO - ERROR for BOX1 Height:0.08
+2024-04-23 11:42:06,399 - INFO - ############## Results for BOX0 ##############
+2024-04-23 11:42:06,399 - INFO - X angle for BOX0: 3.151795153852678 rad
+2024-04-23 11:42:06,399 - INFO - Y angle for BOX0: -0.012714660333551286 rad
+2024-04-23 11:42:06,399 - INFO - X Center for BOX0: -776.6265060240964 mm
+2024-04-23 11:42:06,399 - INFO - Y Center for BOX0: -17.34939759036142 mm
+2024-04-23 11:42:06,399 - INFO - Z (Height) for BOX0: 42.061 mm
+
+2024-04-23 11:42:06,400 - INFO - ############## Results for BOX1 ##############
+2024-04-23 11:42:06,400 - INFO - X angle for BOX1: 3.132345800073143 rad
+2024-04-23 11:42:06,400 - INFO - Y angle for BOX1: -0.20358453504984375 rad
+2024-04-23 11:42:06,400 - INFO - X Center for BOX1: -531.566265060241 mm
+2024-04-23 11:42:06,401 - INFO - Y Center for BOX1: -100.30120481927707 mm
+2024-04-23 11:42:06,401 - INFO - Z (Height) for BOX1: 49.714 mm
+
+2024-04-23 11:42:06,401 - INFO - Area: [39982.0, 38947.0]
+2024-04-23 11:42:06,405 - INFO - BOX0 is the largest box and base for stacking
+2024-04-23 11:42:06,408 - INFO - Post processing ending...
+
+2024-04-23 11:42:06,408 - INFO - Box stacking beginning...
+2024-04-23 11:42:06,408 - INFO - Robot connection closed.
+
+2024-04-23 11:42:06,409 - INFO - End of log
+#########################################
+#########################################
+
+2024-04-23 11:44:01,466 - INFO - Beginning of log
+2024-04-23 11:44:01,466 - INFO - Camera operation beginning...
+2024-04-23 11:44:03,925 - INFO - Images captured
+2024-04-23 11:44:03,927 - INFO - Images cropped
+2024-04-23 11:44:04,180 - INFO - Depth image CSV saved at C:\Users\Bryce\yolov5_obb\robot_detection/cropped_images/depth/depth_csv205.csv
+2024-04-23 11:44:04,196 - INFO - Depth image CSV saved at C:\Users\Bryce\yolov5_obb\robot_detection/cropped_images/depth/depth_csv205.csv
+Camera operation ending...
+
+2024-04-23 11:44:04,197 - INFO - YOLO inference beginning...
+2024-04-23 11:44:04,199 - INFO - [34m[1myolo_detect: [0mweights=weights\best.pt, source=0, imgsz=[832, 832], conf_thres=0.8, iou_thres=0.5, max_det=200, device=cpu, view_img=False, save_txt=True, save_conf=False, save_crop=False, nosave=False, classes=None, agnostic_nms=False, augment=False, visualize=False, update=False, project=runs/detect, name=exp, exist_ok=False, line_thickness=2, hide_labels=False, hide_conf=False, half=False, dnn=False
+2024-04-23 11:44:04,247 - INFO - YOLOv5  9606ed5 torch 2.0.1+cu118 CPU
+
+2024-04-23 11:44:04,276 - INFO - Fusing layers... 
+2024-04-23 11:44:04,400 - INFO - Model Summary: 213 layers, 7500979 parameters, 0 gradients, 17.3 GFLOPs
+2024-04-23 11:44:04,707 - INFO - image 1/1 C:\Users\Bryce\yolov5_obb\robot_detection\cropped_images\color\color_image203.JPEG: 832x832 2 boxs, Done. (0.268s)
+2024-04-23 11:44:04,725 - INFO - Speed: 1.3ms pre-process, 268.0ms inference, 4.4ms NMS per image at shape (1, 3, 832, 832)
+2024-04-23 11:44:04,726 - INFO - Results saved to [1mruns\detect\exp233[0m
+1 labels saved to runs\detect\exp233\labels
+2024-04-23 11:44:04,727 - INFO - YOLO inference ending...
+
+2024-04-23 11:44:04,734 - INFO - Post processing beginning...
+2024-04-23 11:44:05,178 - INFO - Depth image subtracted saved at C:\Users\Bryce\yolov5_obb\robot_detection/output/depth_img_subtracted215.csv
+2024-04-23 11:44:05,179 - INFO - ERROR for BOX0 Height:0.01
+2024-04-23 11:44:05,179 - INFO - ERROR for BOX1 Height:0.11
+2024-04-23 11:44:05,180 - INFO - ############## Results for BOX0 ##############
+2024-04-23 11:44:05,180 - INFO - X angle for BOX0: 3.1536036548165285 rad
+2024-04-23 11:44:05,180 - INFO - Y angle for BOX0: -0.02081937280246171 rad
+2024-04-23 11:44:05,180 - INFO - X Center for BOX0: -538.8855421686748 mm
+2024-04-23 11:44:05,181 - INFO - Y Center for BOX0: -32.801204819277075 mm
+2024-04-23 11:44:05,182 - INFO - Z (Height) for BOX0: 53.265 mm
+
+2024-04-23 11:44:05,182 - INFO - ############## Results for BOX1 ##############
+2024-04-23 11:44:05,182 - INFO - X angle for BOX1: 3.1470697964072905 rad
+2024-04-23 11:44:05,182 - INFO - Y angle for BOX1: -0.004328086186280888 rad
+2024-04-23 11:44:05,182 - INFO - X Center for BOX1: -775.0 mm
+2024-04-23 11:44:05,182 - INFO - Y Center for BOX1: -24.126506024096344 mm
+2024-04-23 11:44:05,182 - INFO - Z (Height) for BOX1: 47.837 mm
+
+2024-04-23 11:44:05,182 - INFO - Area: [38871.0, 41852.0]
+2024-04-23 11:44:05,187 - INFO - BOX1 is the largest box and base for stacking
+2024-04-23 11:44:05,190 - INFO - Post processing ending...
+
+2024-04-23 11:44:05,190 - INFO - Box stacking beginning...
+2024-04-23 11:44:05,190 - INFO - Robot connection closed.
+
+2024-04-23 11:44:05,190 - INFO - End of log
+#########################################
+#########################################
+
+2024-04-23 11:46:57,345 - INFO - Beginning of log
+2024-04-23 11:46:57,345 - INFO - Camera operation beginning...
+2024-04-23 11:46:59,801 - INFO - Images captured
+2024-04-23 11:46:59,805 - INFO - Images cropped
+2024-04-23 11:47:00,054 - INFO - Depth image CSV saved at C:\Users\Bryce\yolov5_obb\robot_detection/cropped_images/depth/depth_csv206.csv
+2024-04-23 11:47:00,070 - INFO - Depth image CSV saved at C:\Users\Bryce\yolov5_obb\robot_detection/cropped_images/depth/depth_csv206.csv
+Camera operation ending...
+
+2024-04-23 11:47:00,071 - INFO - YOLO inference beginning...
+2024-04-23 11:47:00,074 - INFO - [34m[1myolo_detect: [0mweights=weights\best.pt, source=0, imgsz=[832, 832], conf_thres=0.8, iou_thres=0.5, max_det=200, device=cpu, view_img=False, save_txt=True, save_conf=False, save_crop=False, nosave=False, classes=None, agnostic_nms=False, augment=False, visualize=False, update=False, project=runs/detect, name=exp, exist_ok=False, line_thickness=2, hide_labels=False, hide_conf=False, half=False, dnn=False
+2024-04-23 11:47:00,119 - INFO - YOLOv5  9606ed5 torch 2.0.1+cu118 CPU
+
+2024-04-23 11:47:00,150 - INFO - Fusing layers... 
+2024-04-23 11:47:00,268 - INFO - Model Summary: 213 layers, 7500979 parameters, 0 gradients, 17.3 GFLOPs
+2024-04-23 11:47:00,576 - INFO - image 1/1 C:\Users\Bryce\yolov5_obb\robot_detection\cropped_images\color\color_image204.JPEG: 832x832 2 boxs, Done. (0.257s)
+2024-04-23 11:47:00,588 - INFO - Speed: 1.0ms pre-process, 257.1ms inference, 5.0ms NMS per image at shape (1, 3, 832, 832)
+2024-04-23 11:47:00,589 - INFO - Results saved to [1mruns\detect\exp234[0m
+1 labels saved to runs\detect\exp234\labels
+2024-04-23 11:47:00,590 - INFO - YOLO inference ending...
+
+2024-04-23 11:47:00,596 - INFO - Post processing beginning...
+2024-04-23 11:47:00,983 - INFO - Depth image subtracted saved at C:\Users\Bryce\yolov5_obb\robot_detection/output/depth_img_subtracted216.csv
+2024-04-23 11:47:00,984 - INFO - ERROR for BOX0 Height:0.15
+2024-04-23 11:47:00,984 - INFO - ERROR for BOX1 Height:0.21
+2024-04-23 11:47:00,985 - INFO - ############## Results for BOX0 ##############
+2024-04-23 11:47:00,985 - INFO - X angle for BOX0: 3.022136254448717 rad
+2024-04-23 11:47:00,985 - INFO - Y angle for BOX0: 0.7643675911395549 rad
+2024-04-23 11:47:00,986 - INFO - X Center for BOX0: -569.5180722891566 mm
+2024-04-23 11:47:00,986 - INFO - Y Center for BOX0: 11.385542168674746 mm
+2024-04-23 11:47:00,986 - INFO - Z (Height) for BOX0: 45.673 mm
+
+2024-04-23 11:47:00,986 - INFO - ############## Results for BOX1 ##############
+2024-04-23 11:47:00,987 - INFO - X angle for BOX1: 2.9488596785405203 rad
+2024-04-23 11:47:00,987 - INFO - Y angle for BOX1: 1.0122715167382357 rad
+2024-04-23 11:47:00,987 - INFO - X Center for BOX1: -819.1867469879519 mm
+2024-04-23 11:47:00,987 - INFO - Y Center for BOX1: -131.74698795180723 mm
+2024-04-23 11:47:00,988 - INFO - Z (Height) for BOX1: 42.551 mm
+
+2024-04-23 11:47:00,988 - INFO - Area: [38736.0, 45630.5]
+2024-04-23 11:47:00,992 - INFO - BOX1 is the largest box and base for stacking
+2024-04-23 11:47:00,995 - INFO - Post processing ending...
+
+2024-04-23 11:47:00,995 - INFO - Box stacking beginning...
+2024-04-23 11:47:00,995 - INFO - Robot connection closed.
+
+2024-04-23 11:47:00,996 - INFO - End of log
+#########################################
+#########################################
+
+2024-04-23 11:47:31,500 - INFO - Beginning of log
+2024-04-23 11:47:31,501 - INFO - Camera operation beginning...
+2024-04-23 11:47:33,954 - INFO - Images captured
+2024-04-23 11:47:33,957 - INFO - Images cropped
+2024-04-23 11:47:34,205 - INFO - Depth image CSV saved at C:\Users\Bryce\yolov5_obb\robot_detection/cropped_images/depth/depth_csv207.csv
+2024-04-23 11:47:34,220 - INFO - Depth image CSV saved at C:\Users\Bryce\yolov5_obb\robot_detection/cropped_images/depth/depth_csv207.csv
+Camera operation ending...
+
+2024-04-23 11:47:34,220 - INFO - YOLO inference beginning...
+2024-04-23 11:47:34,222 - INFO - [34m[1myolo_detect: [0mweights=weights\best.pt, source=0, imgsz=[832, 832], conf_thres=0.8, iou_thres=0.5, max_det=200, device=cpu, view_img=False, save_txt=True, save_conf=False, save_crop=False, nosave=False, classes=None, agnostic_nms=False, augment=False, visualize=False, update=False, project=runs/detect, name=exp, exist_ok=False, line_thickness=2, hide_labels=False, hide_conf=False, half=False, dnn=False
+2024-04-23 11:47:34,270 - INFO - YOLOv5  9606ed5 torch 2.0.1+cu118 CPU
+
+2024-04-23 11:47:34,299 - INFO - Fusing layers... 
+2024-04-23 11:47:34,416 - INFO - Model Summary: 213 layers, 7500979 parameters, 0 gradients, 17.3 GFLOPs
+2024-04-23 11:47:34,683 - INFO - image 1/1 C:\Users\Bryce\yolov5_obb\robot_detection\cropped_images\color\color_image205.JPEG: 832x832 1 box, Done. (0.233s)
+2024-04-23 11:47:34,696 - INFO - Speed: 1.2ms pre-process, 233.3ms inference, 2.3ms NMS per image at shape (1, 3, 832, 832)
+2024-04-23 11:47:34,697 - INFO - Results saved to [1mruns\detect\exp235[0m
+1 labels saved to runs\detect\exp235\labels
+2024-04-23 11:47:34,698 - INFO - YOLO inference ending...
+
+2024-04-23 11:47:34,704 - INFO - Post processing beginning...
+2024-04-23 11:47:35,097 - INFO - Depth image subtracted saved at C:\Users\Bryce\yolov5_obb\robot_detection/output/depth_img_subtracted217.csv
+2024-04-23 11:47:35,097 - INFO - ERROR for BOX0 Height:0.17
+2024-04-23 11:47:35,098 - INFO - ############## Results for BOX0 ##############
+2024-04-23 11:47:35,099 - INFO - X angle for BOX0: 2.359646939928396 rad
+2024-04-23 11:47:35,099 - INFO - Y angle for BOX0: -2.0897189099260154 rad
+2024-04-23 11:47:35,099 - INFO - X Center for BOX0: -676.3253012048193 mm
+2024-04-23 11:47:35,100 - INFO - Y Center for BOX0: -4.337349397590344 mm
+2024-04-23 11:47:35,100 - INFO - Z (Height) for BOX0: 44.857 mm
+
+2024-04-23 11:47:35,100 - INFO - Area: [39848.0]
+2024-04-23 11:47:35,104 - INFO - BOX0 is the largest box and base for stacking
+2024-04-23 11:47:35,104 - INFO - Post processing ending...
+
+2024-04-23 11:47:35,104 - INFO - Unable to stack boxes due to boxes being absent or out of robot range
+
+2024-04-23 11:47:35,104 - INFO - Robot connection closed.
+
+2024-04-23 11:47:35,104 - INFO - End of log
+#########################################
+#########################################
+
+2024-04-23 11:50:06,522 - INFO - Beginning of log
+2024-04-23 11:50:06,522 - INFO - Camera operation beginning...
+2024-04-23 11:50:06,542 - INFO - Robot connection closed.
+
+2024-04-23 11:50:06,542 - INFO - End of log
+#########################################
+#########################################
+
+2024-04-23 11:50:21,794 - INFO - Beginning of log
+2024-04-23 11:50:21,794 - INFO - Camera operation beginning...
+2024-04-23 11:50:24,536 - INFO - Images captured
+2024-04-23 11:50:24,539 - INFO - Images cropped
+2024-04-23 11:50:24,782 - INFO - Depth image CSV saved at C:\Users\Bryce\yolov5_obb\robot_detection/cropped_images/depth/depth_csv208.csv
+2024-04-23 11:50:24,798 - INFO - Depth image CSV saved at C:\Users\Bryce\yolov5_obb\robot_detection/cropped_images/depth/depth_csv208.csv
+Camera operation ending...
+
+2024-04-23 11:50:24,798 - INFO - YOLO inference beginning...
+2024-04-23 11:50:24,802 - INFO - [34m[1myolo_detect: [0mweights=weights\best.pt, source=0, imgsz=[832, 832], conf_thres=0.8, iou_thres=0.5, max_det=200, device=cpu, view_img=False, save_txt=True, save_conf=False, save_crop=False, nosave=False, classes=None, agnostic_nms=False, augment=False, visualize=False, update=False, project=runs/detect, name=exp, exist_ok=False, line_thickness=2, hide_labels=False, hide_conf=False, half=False, dnn=False
+2024-04-23 11:50:24,849 - INFO - YOLOv5  9606ed5 torch 2.0.1+cu118 CPU
+
+2024-04-23 11:50:24,878 - INFO - Fusing layers... 
+2024-04-23 11:50:25,000 - INFO - Model Summary: 213 layers, 7500979 parameters, 0 gradients, 17.3 GFLOPs
+2024-04-23 11:50:25,278 - INFO - image 1/1 C:\Users\Bryce\yolov5_obb\robot_detection\cropped_images\color\color_image206.JPEG: 832x832 2 boxs, Done. (0.234s)
+2024-04-23 11:50:25,290 - INFO - Speed: 1.2ms pre-process, 234.3ms inference, 4.0ms NMS per image at shape (1, 3, 832, 832)
+2024-04-23 11:50:25,291 - INFO - Results saved to [1mruns\detect\exp236[0m
+1 labels saved to runs\detect\exp236\labels
+2024-04-23 11:50:25,291 - INFO - YOLO inference ending...
+
+2024-04-23 11:50:25,298 - INFO - Post processing beginning...
+2024-04-23 11:50:25,683 - INFO - Depth image subtracted saved at C:\Users\Bryce\yolov5_obb\robot_detection/output/depth_img_subtracted218.csv
+2024-04-23 11:50:25,683 - INFO - ERROR for BOX0 Height:0.01
+2024-04-23 11:50:25,684 - INFO - ERROR for BOX1 Height:0.03
+2024-04-23 11:50:25,684 - INFO - ############## Results for BOX0 ##############
+2024-04-23 11:50:25,686 - INFO - X angle for BOX0: 2.5297387089504433 rad
+2024-04-23 11:50:25,686 - INFO - Y angle for BOX0: 1.8548046361922639 rad
+2024-04-23 11:50:25,686 - INFO - X Center for BOX0: -616.1445783132531 mm
+2024-04-23 11:50:25,686 - INFO - Y Center for BOX0: 3.524096385542194 mm
+2024-04-23 11:50:25,686 - INFO - Z (Height) for BOX0: 54.714 mm
+
+2024-04-23 11:50:25,686 - INFO - ############## Results for BOX1 ##############
+2024-04-23 11:50:25,687 - INFO - X angle for BOX1: 3.071157619550042 rad
+2024-04-23 11:50:25,687 - INFO - Y angle for BOX1: 0.5273063174227208 rad
+2024-04-23 11:50:25,687 - INFO - X Center for BOX1: -839.5180722891566 mm
+2024-04-23 11:50:25,687 - INFO - Y Center for BOX1: -183.52409638554212 mm
+2024-04-23 11:50:25,687 - INFO - Z (Height) for BOX1: 55.367 mm
+
+2024-04-23 11:50:25,687 - INFO - Area: [10328.5, 10369.5]
+2024-04-23 11:50:25,691 - INFO - BOX1 is the largest box and base for stacking
+2024-04-23 11:50:25,694 - INFO - Post processing ending...
+
+2024-04-23 11:50:25,695 - INFO - Box stacking beginning...
+2024-04-23 11:50:25,695 - INFO - Robot connection closed.
+
+2024-04-23 11:50:25,695 - INFO - End of log
+#########################################
+#########################################
+
+2024-04-23 11:50:47,424 - INFO - Beginning of log
+2024-04-23 11:50:47,424 - INFO - Camera operation beginning...
+2024-04-23 11:50:49,807 - INFO - Images captured
+2024-04-23 11:50:49,810 - INFO - Images cropped
+2024-04-23 11:50:50,064 - INFO - Depth image CSV saved at C:\Users\Bryce\yolov5_obb\robot_detection/cropped_images/depth/depth_csv209.csv
+2024-04-23 11:50:50,079 - INFO - Depth image CSV saved at C:\Users\Bryce\yolov5_obb\robot_detection/cropped_images/depth/depth_csv209.csv
+Camera operation ending...
+
+2024-04-23 11:50:50,081 - INFO - YOLO inference beginning...
+2024-04-23 11:50:50,084 - INFO - [34m[1myolo_detect: [0mweights=weights\best.pt, source=0, imgsz=[832, 832], conf_thres=0.8, iou_thres=0.5, max_det=200, device=cpu, view_img=False, save_txt=True, save_conf=False, save_crop=False, nosave=False, classes=None, agnostic_nms=False, augment=False, visualize=False, update=False, project=runs/detect, name=exp, exist_ok=False, line_thickness=2, hide_labels=False, hide_conf=False, half=False, dnn=False
+2024-04-23 11:50:50,130 - INFO - YOLOv5  9606ed5 torch 2.0.1+cu118 CPU
+
+2024-04-23 11:50:50,161 - INFO - Fusing layers... 
+2024-04-23 11:50:50,290 - INFO - Model Summary: 213 layers, 7500979 parameters, 0 gradients, 17.3 GFLOPs
+2024-04-23 11:50:50,563 - INFO - image 1/1 C:\Users\Bryce\yolov5_obb\robot_detection\cropped_images\color\color_image207.JPEG: 832x832 2 boxs, Done. (0.234s)
+2024-04-23 11:50:50,576 - INFO - Speed: 1.0ms pre-process, 233.9ms inference, 4.5ms NMS per image at shape (1, 3, 832, 832)
+2024-04-23 11:50:50,577 - INFO - Results saved to [1mruns\detect\exp237[0m
+1 labels saved to runs\detect\exp237\labels
+2024-04-23 11:50:50,578 - INFO - YOLO inference ending...
+
+2024-04-23 11:50:50,584 - INFO - Post processing beginning...
+2024-04-23 11:50:50,986 - INFO - Depth image subtracted saved at C:\Users\Bryce\yolov5_obb\robot_detection/output/depth_img_subtracted219.csv
+2024-04-23 11:50:50,986 - INFO - ERROR for BOX0 Height:0.53
+2024-04-23 11:50:50,987 - INFO - ERROR for BOX1 Height:0.04
+2024-04-23 11:50:50,987 - INFO - ############## Results for BOX0 ##############
+2024-04-23 11:50:50,988 - INFO - X angle for BOX0: 2.6596828911279706 rad
+2024-04-23 11:50:50,988 - INFO - Y angle for BOX0: 1.6414364203870568 rad
+2024-04-23 11:50:50,988 - INFO - X Center for BOX0: -600.421686746988 mm
+2024-04-23 11:50:50,989 - INFO - Y Center for BOX0: -104.09638554216865 mm
+2024-04-23 11:50:50,989 - INFO - Z (Height) for BOX0: 82.776 mm
+
+2024-04-23 11:50:50,989 - INFO - ############## Results for BOX1 ##############
+2024-04-23 11:50:50,989 - INFO - X angle for BOX1: 2.825299612666363 rad
+2024-04-23 11:50:50,989 - INFO - Y angle for BOX1: -1.3814560068263126 rad
+2024-04-23 11:50:50,989 - INFO - X Center for BOX1: -789.6385542168675 mm
+2024-04-23 11:50:50,990 - INFO - Y Center for BOX1: 47.1686746987952 mm
+2024-04-23 11:50:50,990 - INFO - Z (Height) for BOX1: 51.837 mm
+
+2024-04-23 11:50:50,990 - INFO - Area: [7250.0, 10311.0]
+2024-04-23 11:50:50,994 - INFO - BOX1 is the largest box and base for stacking
+2024-04-23 11:50:50,997 - INFO - Post processing ending...
+
+2024-04-23 11:50:50,997 - INFO - Box stacking beginning...
+2024-04-23 11:50:50,997 - INFO - Robot connection closed.
+
+2024-04-23 11:50:50,998 - INFO - End of log
+#########################################
+#########################################
+
