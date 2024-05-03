@@ -1,0 +1,172 @@
+2024-04-29 16:43:59,005 - INFO - Beginning of log
+2024-04-29 16:43:59,258 - INFO - Remove 79 bytes of garbage at begining of packet
+2024-04-29 16:43:59,358 - INFO - Robot is Online
+2024-04-29 16:43:59,664 - INFO - MOVE TO STARTING POSITION
+
+2024-04-29 16:44:07,084 - INFO - Camera operation beginning...
+2024-04-29 16:44:11,739 - INFO - Images captured
+2024-04-29 16:44:11,748 - INFO - Images cropped
+2024-04-29 16:44:12,836 - INFO - Depth image CSV saved at C:\Users\AISMLab\Robot_Project\Code\yolov5_obb\robot_detection/cropped_images/depth/depth_csv225.csv
+2024-04-29 16:44:12,952 - INFO - Depth image CSV saved at C:\Users\AISMLab\Robot_Project\Code\yolov5_obb\robot_detection/cropped_images/depth/depth_csv225.csv
+Camera operation ending...
+
+2024-04-29 16:44:12,954 - INFO - YOLO inference beginning...
+2024-04-29 16:44:12,959 - INFO - [34m[1myolo_detect: [0mweights=weights\best.pt, source=0, imgsz=[832, 832], conf_thres=0.8, iou_thres=0.5, max_det=200, device=cpu, view_img=False, save_txt=True, save_conf=False, save_crop=False, nosave=False, classes=None, agnostic_nms=False, augment=False, visualize=False, update=False, project=runs/detect, name=exp, exist_ok=False, line_thickness=2, hide_labels=False, hide_conf=False, half=False, dnn=False
+2024-04-29 16:44:13,463 - INFO - YOLOv5  b2d3b7e torch 2.2.2+cpu CPU
+
+2024-04-29 16:44:13,647 - INFO - Fusing layers... 
+2024-04-29 16:44:14,055 - INFO - Model Summary: 213 layers, 7500979 parameters, 0 gradients
+2024-04-29 16:44:15,824 - INFO - image 1/1 C:\Users\AISMLab\Robot_Project\Code\yolov5_obb\robot_detection\cropped_images\color\color_image223.JPEG: 832x832 2 boxs, Done. (1.586s)
+2024-04-29 16:44:15,856 - INFO - Speed: 14.3ms pre-process, 1586.4ms inference, 41.1ms NMS per image at shape (1, 3, 832, 832)
+2024-04-29 16:44:15,864 - INFO - Results saved to [1mruns\detect\exp249[0m
+1 labels saved to runs\detect\exp249\labels
+2024-04-29 16:44:15,865 - INFO - YOLO inference ending...
+
+2024-04-29 16:44:15,868 - INFO - Post processing beginning...
+2024-04-29 16:44:16,971 - INFO - Depth image subtracted saved at C:\Users\AISMLab\Robot_Project\Code\yolov5_obb\robot_detection/output/depth_img_subtracted235.csv
+2024-04-29 16:44:17,015 - INFO - BOX_1 is the largest box and base for stacking
+2024-04-29 16:44:17,016 - INFO - BOX_1: [-0.5185542168674699, -0.19545180722891564, 0.040163, 2.428280196686468, 1.9929009917958762, 0.0, 272.6607178058524]
+2024-04-29 16:44:17,017 - INFO - BOX_0 is outside valid range and will be ignored.
+2024-04-29 16:44:17,017 - INFO - Unable to stack boxes due to boxes being absent or out of robot range
+
+2024-04-29 16:44:22,582 - INFO - Closing sockets to robot
+2024-04-29 16:44:22,606 - INFO - Robot connection closed.
+
+2024-04-29 16:44:22,607 - INFO - End of log
+#########################################
+#########################################
+
+2024-04-29 16:44:42,489 - INFO - Beginning of log
+2024-04-29 16:44:43,104 - INFO - Remove 79 bytes of garbage at begining of packet
+2024-04-29 16:44:43,206 - INFO - Robot is Online
+2024-04-29 16:44:43,513 - INFO - MOVE TO STARTING POSITION
+
+2024-04-29 16:44:48,177 - INFO - Camera operation beginning...
+2024-04-29 16:44:53,213 - INFO - Images captured
+2024-04-29 16:44:53,214 - INFO - Images cropped
+2024-04-29 16:44:54,771 - INFO - Depth image CSV saved at C:\Users\AISMLab\Robot_Project\Code\yolov5_obb\robot_detection/cropped_images/depth/depth_csv226.csv
+2024-04-29 16:44:54,945 - INFO - Depth image CSV saved at C:\Users\AISMLab\Robot_Project\Code\yolov5_obb\robot_detection/cropped_images/depth/depth_csv226.csv
+Camera operation ending...
+
+2024-04-29 16:44:54,951 - INFO - YOLO inference beginning...
+2024-04-29 16:44:54,957 - INFO - [34m[1myolo_detect: [0mweights=weights\best.pt, source=0, imgsz=[832, 832], conf_thres=0.8, iou_thres=0.5, max_det=200, device=cpu, view_img=False, save_txt=True, save_conf=False, save_crop=False, nosave=False, classes=None, agnostic_nms=False, augment=False, visualize=False, update=False, project=runs/detect, name=exp, exist_ok=False, line_thickness=2, hide_labels=False, hide_conf=False, half=False, dnn=False
+2024-04-29 16:44:55,948 - INFO - YOLOv5  b2d3b7e torch 2.2.2+cpu CPU
+
+2024-04-29 16:44:56,459 - INFO - Fusing layers... 
+2024-04-29 16:44:58,636 - INFO - Model Summary: 213 layers, 7500979 parameters, 0 gradients
+2024-04-29 16:45:00,942 - INFO - image 1/1 C:\Users\AISMLab\Robot_Project\Code\yolov5_obb\robot_detection\cropped_images\color\color_image224.JPEG: 832x832 2 boxs, Done. (2.086s)
+2024-04-29 16:45:00,982 - INFO - Speed: 35.3ms pre-process, 2085.6ms inference, 37.0ms NMS per image at shape (1, 3, 832, 832)
+2024-04-29 16:45:00,985 - INFO - Results saved to [1mruns\detect\exp250[0m
+1 labels saved to runs\detect\exp250\labels
+2024-04-29 16:45:00,987 - INFO - YOLO inference ending...
+
+2024-04-29 16:45:00,990 - INFO - Post processing beginning...
+2024-04-29 16:45:02,404 - INFO - Depth image subtracted saved at C:\Users\AISMLab\Robot_Project\Code\yolov5_obb\robot_detection/output/depth_img_subtracted236.csv
+2024-04-29 16:45:02,441 - INFO - BOX_1 is the largest box and base for stacking
+2024-04-29 16:45:02,441 - INFO - BOX_1: [-0.5190963855421687, -0.19545180722891564, 0.039857, 2.428280196686468, 2.0019082951554026, 0.0, 273.73881084994]
+2024-04-29 16:45:02,499 - INFO - Box stacking beginning...
+2024-04-29 16:45:21,833 - INFO - BOX_0 has been picked up, preparing to stack...
+
+2024-04-29 16:45:32,315 - INFO - Opening real-time monitor socket
+2024-04-29 16:45:32,798 - INFO - Box has beeen stacked
+2024-04-29 16:45:36,934 - INFO - BOX_0 has been stacked
+
+2024-04-29 16:45:42,373 - INFO - 1 Boxes stacked successfully, awaiting further input...
+2024-04-29 16:45:42,376 - INFO - PART 2
+
+2024-04-29 16:45:44,937 - INFO - Images captured
+2024-04-29 16:45:44,940 - INFO - Images cropped
+2024-04-29 16:45:46,100 - INFO - Depth image CSV saved at C:\Users\AISMLab\Robot_Project\Code\yolov5_obb\robot_detection/cropped_images/depth/depth_csv227.csv
+2024-04-29 16:45:46,228 - INFO - Depth image CSV saved at C:\Users\AISMLab\Robot_Project\Code\yolov5_obb\robot_detection/cropped_images/depth/depth_csv227.csv
+Camera operation ending...
+
+2024-04-29 16:45:46,230 - INFO - YOLO inference beginning...
+2024-04-29 16:45:46,233 - INFO - [34m[1myolo_detect: [0mweights=weights\best.pt, source=0, imgsz=[832, 832], conf_thres=0.8, iou_thres=0.5, max_det=200, device=cpu, view_img=False, save_txt=True, save_conf=False, save_crop=False, nosave=False, classes=None, agnostic_nms=False, augment=False, visualize=False, update=False, project=runs/detect, name=exp, exist_ok=False, line_thickness=2, hide_labels=False, hide_conf=False, half=False, dnn=False
+2024-04-29 16:45:46,815 - INFO - YOLOv5  b2d3b7e torch 2.2.2+cpu CPU
+
+2024-04-29 16:45:46,986 - INFO - Fusing layers... 
+2024-04-29 16:45:47,351 - INFO - Model Summary: 213 layers, 7500979 parameters, 0 gradients
+2024-04-29 16:45:49,021 - INFO - image 1/1 C:\Users\AISMLab\Robot_Project\Code\yolov5_obb\robot_detection\cropped_images\color\color_image225.JPEG: 832x832 1 box, Done. (1.552s)
+2024-04-29 16:45:49,066 - INFO - Speed: 12.3ms pre-process, 1552.4ms inference, 9.9ms NMS per image at shape (1, 3, 832, 832)
+2024-04-29 16:45:49,086 - INFO - Results saved to [1mruns\detect\exp251[0m
+1 labels saved to runs\detect\exp251\labels
+2024-04-29 16:45:49,095 - INFO - YOLO inference ending...
+
+2024-04-29 16:45:49,108 - INFO - Post processing beginning...
+2024-04-29 16:45:50,619 - INFO - Depth image subtracted saved at C:\Users\AISMLab\Robot_Project\Code\yolov5_obb\robot_detection/output/depth_img_subtracted237.csv
+2024-04-29 16:45:50,702 - INFO - Box stacking beginning...
+2024-04-29 16:46:01,846 - INFO - BOX_0 has been picked up, preparing to stack...
+
+2024-04-29 17:06:12,539 - INFO - Beginning of log
+2024-04-29 17:06:12,553 - INFO - Remove 79 bytes of garbage at begining of packet
+2024-04-29 17:06:12,654 - INFO - Robot is Online
+2024-04-29 17:06:12,960 - INFO - MOVE TO STARTING POSITION
+
+2024-04-29 17:06:18,585 - ERROR - Robot not running: {'size': 47, 'type': 0, 'timestamp': 418569000, 'isPhysicalRobotConnected': True, 'isRealRobotEnabled': True, 'isPowerOnRobot': True, 'isEmergencyStopped': False, 'isSecurityStopped': True, 'isProgramRunning': True, 'isProgramPaused': False, 'robotMode': 7, 'controlMode': 0, 'speedFraction': 1.0, 'speedScaling': 1.0, 'speedFractionLimit': 63}
+2024-04-29 17:06:18,601 - ERROR - Error during robot connection: Robot stopped
+2024-04-29 17:06:18,601 - ERROR - An unexpected error occurred: Robot stopped
+2024-04-29 17:06:19,198 - INFO - Closing sockets to robot
+2024-04-29 17:06:19,201 - INFO - Robot connection closed.
+
+2024-04-29 17:06:19,201 - INFO - End of log
+#########################################
+#########################################
+
+2024-04-29 17:10:03,303 - INFO - Beginning of log
+2024-04-29 17:10:03,368 - INFO - Remove 79 bytes of garbage at begining of packet
+2024-04-29 17:10:03,468 - INFO - Robot is Online
+2024-04-29 17:10:03,761 - INFO - MOVE TO STARTING POSITION
+
+2024-04-29 17:10:10,281 - INFO - Camera operation beginning...
+2024-04-29 17:10:15,205 - INFO - Images captured
+2024-04-29 17:10:15,221 - INFO - Images cropped
+2024-04-29 17:10:16,630 - INFO - Depth image CSV saved at C:\Users\AISMLab\Robot_Project\Code\yolov5_obb\robot_detection/cropped_images/depth/depth_csv228.csv
+2024-04-29 17:10:16,742 - INFO - Depth image CSV saved at C:\Users\AISMLab\Robot_Project\Code\yolov5_obb\robot_detection/cropped_images/depth/depth_csv228.csv
+Camera operation ending...
+
+2024-04-29 17:10:16,744 - INFO - YOLO inference beginning...
+2024-04-29 17:10:16,750 - INFO - [34m[1myolo_detect: [0mweights=weights\best.pt, source=0, imgsz=[832, 832], conf_thres=0.8, iou_thres=0.5, max_det=200, device=cpu, view_img=False, save_txt=True, save_conf=False, save_crop=False, nosave=False, classes=None, agnostic_nms=False, augment=False, visualize=False, update=False, project=runs/detect, name=exp, exist_ok=False, line_thickness=2, hide_labels=False, hide_conf=False, half=False, dnn=False
+2024-04-29 17:10:17,278 - INFO - YOLOv5  b2d3b7e torch 2.2.2+cpu CPU
+
+2024-04-29 17:10:17,472 - INFO - Fusing layers... 
+2024-04-29 17:10:17,849 - INFO - Model Summary: 213 layers, 7500979 parameters, 0 gradients
+2024-04-29 17:10:20,007 - INFO - image 1/1 C:\Users\AISMLab\Robot_Project\Code\yolov5_obb\robot_detection\cropped_images\color\color_image226.JPEG: 832x832 2 boxs, Done. (1.959s)
+2024-04-29 17:10:20,074 - INFO - Speed: 10.4ms pre-process, 1958.9ms inference, 42.4ms NMS per image at shape (1, 3, 832, 832)
+2024-04-29 17:10:20,077 - INFO - Results saved to [1mruns\detect\exp253[0m
+1 labels saved to runs\detect\exp253\labels
+2024-04-29 17:10:20,110 - INFO - YOLO inference ending...
+
+2024-04-29 17:10:20,113 - INFO - Post processing beginning...
+2024-04-29 17:10:21,415 - INFO - Depth image subtracted saved at C:\Users\AISMLab\Robot_Project\Code\yolov5_obb\robot_detection/output/depth_img_subtracted238.csv
+2024-04-29 17:10:21,451 - INFO - BOX_1 is the largest box and base for stacking
+2024-04-29 17:10:21,451 - INFO - BOX_1: [-0.560843373493976, -0.14665662650602404, 0.043531, 2.348229448475525, -2.099767507296514, 0.0, 264.95356560945237]
+2024-04-29 17:10:21,470 - INFO - Box stacking beginning...
+2024-04-29 17:10:34,464 - INFO - BOX_0 has been picked up, preparing to stack...
+
+2024-04-29 17:10:39,888 - INFO - Opening real-time monitor socket
+2024-04-29 17:10:40,740 - INFO - Box has beeen stacked
+2024-04-29 17:10:43,403 - INFO - BOX_0 has been stacked
+
+2024-04-29 17:10:45,611 - INFO - 1 Boxes stacked successfully, awaiting further input...
+2024-04-29 17:10:45,611 - INFO - PART 2
+
+2024-04-29 17:10:48,708 - INFO - Images captured
+2024-04-29 17:10:48,708 - INFO - Images cropped
+2024-04-29 17:10:51,316 - INFO - Depth image CSV saved at C:\Users\AISMLab\Robot_Project\Code\yolov5_obb\robot_detection/cropped_images/depth/depth_csv229.csv
+2024-04-29 17:10:51,682 - INFO - Depth image CSV saved at C:\Users\AISMLab\Robot_Project\Code\yolov5_obb\robot_detection/cropped_images/depth/depth_csv229.csv
+Camera operation ending...
+
+2024-04-29 17:10:51,685 - INFO - YOLO inference beginning...
+2024-04-29 17:10:51,713 - INFO - [34m[1myolo_detect: [0mweights=weights\best.pt, source=0, imgsz=[832, 832], conf_thres=0.8, iou_thres=0.5, max_det=200, device=cpu, view_img=False, save_txt=True, save_conf=False, save_crop=False, nosave=False, classes=None, agnostic_nms=False, augment=False, visualize=False, update=False, project=runs/detect, name=exp, exist_ok=False, line_thickness=2, hide_labels=False, hide_conf=False, half=False, dnn=False
+2024-04-29 17:10:52,156 - INFO - YOLOv5  b2d3b7e torch 2.2.2+cpu CPU
+
+2024-04-29 17:10:52,500 - INFO - Fusing layers... 
+2024-04-29 17:10:53,837 - INFO - Model Summary: 213 layers, 7500979 parameters, 0 gradients
+2024-04-29 17:10:55,951 - INFO - image 1/1 C:\Users\AISMLab\Robot_Project\Code\yolov5_obb\robot_detection\cropped_images\color\color_image227.JPEG: 832x832 Done. (1.952s)
+2024-04-29 17:10:56,003 - INFO - Speed: 34.5ms pre-process, 1951.9ms inference, 4.2ms NMS per image at shape (1, 3, 832, 832)
+2024-04-29 17:10:56,020 - INFO - Results saved to [1mruns\detect\exp254[0m
+0 labels saved to runs\detect\exp254\labels
+2024-04-29 17:10:56,029 - INFO - YOLO inference ending...
+
+2024-04-29 17:10:56,037 - INFO - No .txt files found in the folder.
+2024-04-29 17:10:56,038 - ERROR - An unexpected error occurred: expected str, bytes or os.PathLike object, not NoneType

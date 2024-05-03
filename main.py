@@ -230,6 +230,9 @@ def main():
             # # detection_thread.start()
             BOX_L_Neo  = test_urx.pick_up_boxes(1, 0.08) # Stack boxes first iteration
 
+
+
+            # # SECOND ITERATION
             print(BOX_L_Neo)
             # Stack boxes second iteration
             info_logger.info("PART 2\n")
