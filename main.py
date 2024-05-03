@@ -26,6 +26,8 @@ import threading
 import os 
 import logging
 import datetime
+import cv2
+import queue
 
 # Bryce path
 # sys.path.append('C:/Users/Bryce/yolov5_obb/robot_control/chong_code')
@@ -100,6 +102,29 @@ def generate_log_file_name():
     return log_file_name
 
 
+def capture_frames(cap, output_queue, stop_event):
+    while not stop_event.is_set():
+        ret, frame = cap.read()
+        if not ret:
+            break
+        output_queue.put(frame)
+
+    # Signal that capturing is done
+    output_queue.put(None)
+
+def write_video(output_path, input_queue, width, height, fps):
+    fourcc = cv2.VideoWriter_fourcc(*'mp4v')
+    out = cv2.VideoWriter(output_path, fourcc, fps, (width, height))
+
+    while True:
+        frame = input_queue.get()
+        if frame is None:  # None indicates end of frames
+            break
+        out.write(frame)
+
+    out.release()
+
+
 # Stack boxes function
 def main():
     # Log file configuration
@@ -134,12 +159,28 @@ def main():
             info_logger.error(f"Error during robot connection: {e}")
             raise
 
-
         try:
+            # Create a video writer object for saving the captured video
+
             info_logger.info("Camera operation beginning...")
             # CAMERA OPERATION
             depth_img, color_img = camera_op.obtain_images()
             info_logger.info("Images captured")
+
+            # Start video capture thread
+            cap = cv2.VideoCapture(1)
+            width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
+            height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
+            fps = 20.0
+            output_queue = queue.Queue()
+            stop_event = threading.Event()
+
+            capture_thread = threading.Thread(target=capture_frames, args=(cap, output_queue, stop_event))
+            write_thread = threading.Thread(target=write_video, args=("captured_video.mp4", output_queue, width, height, fps))
+
+            capture_thread.start()
+            write_thread.start()
+
             # IMAGE PREPROCESSING
             depth_img, color_img = pre_proc.crop_images_to_table(depth_img, color_img)
             info_logger.info("Images cropped")
@@ -151,8 +192,9 @@ def main():
             info_logger.info(f"Depth image CSV saved at {depth_csv_path}\nCamera operation ending...\n")
 
         except Exception as e:
-            info_logger.error(f"Error during image capture or preprocessing: {e}")
-            raise # Handle exception at higher level
+            info_logger.error(f"Error during image capture: {e}")
+            raise           
+
 
 
 
@@ -230,14 +272,36 @@ def main():
             # # detection_thread.start()
             BOX_L_Neo  = test_urx.pick_up_boxes(1, 0.08) # Stack boxes first iteration
 
+            stop_event.set()
 
+            capture_thread.join()
+            write_thread.join()
 
+            cap.release()
+            # Signal the thread to stop
+
+            stop_event2 = threading.Event()
             # # SECOND ITERATION
             print(BOX_L_Neo)
             # Stack boxes second iteration
             info_logger.info("PART 2\n")
             depth_img, color_img = camera_op.obtain_images()
             info_logger.info("Images captured")
+            
+
+            cap2 = cv2.VideoCapture(1)
+            width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
+            height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
+            fps = 20.0
+            output_queue2 = queue.Queue()
+            stop_event2 = threading.Event()
+
+            capture_thread2 = threading.Thread(target=capture_frames, args=(cap2, output_queue2, stop_event2))
+            write_thread2 = threading.Thread(target=write_video, args=("captured_video2.mp4", output_queue2, width, height, fps))
+
+            capture_thread2.start()
+            write_thread2.start()
+
 
             # # IMAGE PREPROCESSING
             depth_img, color_img = pre_proc.crop_images_to_table(depth_img, color_img)
@@ -276,15 +340,15 @@ def main():
                 pass
             
             
-                        # Reconfigure rwc to prioritize stacking largest box first
-            if any(box[6] > 300 for box in rwc):
-                # Sort rwc based on the 7th element of each list
-                sorted_rwc = sorted(enumerate(rwc), key=lambda x: x[1][6], reverse=True)
-                # Create a new list with updated order
-                new_rwc = [box for _, box in sorted_rwc]
+            #             # Reconfigure rwc to prioritize stacking largest box first
+            # if any(box[6] > 300 for box in rwc):
+            #     # Sort rwc based on the 7th element of each list
+            #     sorted_rwc = sorted(enumerate(rwc), key=lambda x: x[1][6], reverse=True)
+            #     # Create a new list with updated order
+            #     new_rwc = [box for _, box in sorted_rwc]
 
-                # Now rwc is sorted
-                rwc = new_rwc
+            #     # Now rwc is sorted
+            #     rwc = new_rwc
 
             # Create dictionary for the rest of the boxes and dynamically assign variable names
             box_dict = {}
@@ -310,6 +374,11 @@ def main():
                 # # detection_thread = threading.Thread(target=detector.run_detection, args=(len(box_dict),))
                 # # detection_thread.start()
                 test_urx.pick_up_boxes(1, 0.08) # Stack boxes first iteration
+                stop_event2.set()
+
+                capture_thread2.join()
+                write_thread2.join()
+                cap2.release()
 
     except Exception as e:
         info_logger.error(f"An unexpected error occurred: {e}")

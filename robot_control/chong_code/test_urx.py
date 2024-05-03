@@ -146,7 +146,8 @@ class TestURX:
             count += 1
 
         self.logger.info(f"{count} Boxes stacked successfully, awaiting further input...")
-        
+        self.robot.translate((.25, 0, 0), acceleration, speed)
+
         
         return (self.BOX_L) # Return dictionary of current space
         # time.sleep(5)    
