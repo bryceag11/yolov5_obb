@@ -238,13 +238,13 @@ class YOLOV5Detector():
     def parse_opt(self):
         parser = argparse.ArgumentParser()
         parser.add_argument('--weights', nargs='+', type=str, default=ROOT / 'weights/best.pt', help='model path(s)')
-        parser.add_argument('--source', type=str, default=0, help='file/dir/URL/glob, 0 for webcam')
+        parser.add_argument('--source', type=str, default='captured_video2.mp4', help='file/dir/URL/glob, 0 for webcam')
         # Inference size for processing 
-        parser.add_argument('--imgsz', '--img', '--img-size', nargs='+', type=int, default=[830], help='inference size h,w')
-        parser.add_argument('--conf-thres', type=float, default=0.9, help='confidence threshold')
-        parser.add_argument('--iou-thres', type=float, default=0.3, help='NMS IoU threshold')
+        parser.add_argument('--imgsz', '--img', '--img-size', nargs='+', type=int, default=[840], help='inference size h,w')
+        parser.add_argument('--conf-thres', type=float, default=0.8, help='confidence threshold')
+        parser.add_argument('--iou-thres', type=float, default=0.5, help='NMS IoU threshold')
         parser.add_argument('--max-det', type=int, default=200, help='maximum detections per image')
-        parser.add_argument('--device', default='cpu', help='cuda device, i.e. 0 or 0,1,2,3 or cpu')
+        parser.add_argument('--device', default= 'cpu', help='cuda device, i.e. 0 or 0,1,2,3 or cpu')
         parser.add_argument('--view-img', action='store_true', help='show results')
         parser.add_argument('--save-txt', default = True, help='save results to *.txt')
         parser.add_argument('--save-conf', action='store_true', help='save confidences in --save-txt labels')
@@ -282,7 +282,7 @@ def main():
 
 
     opt = yolov5.parse_opt()
-    opt.source = color_image_path
+    # opt.source = color_image_path
     
 
     yolov5.run(**vars(opt)) # Path for the bounding box coordinate txt file

@@ -37,13 +37,13 @@ class PostProcess():
         # Load calibrated depth image of table alone
         self.depth_table_alone = np.loadtxt('robot_detection/depth_table.csv', delimiter=',')
 
-    def get_obj_height(self, depth_img, bb_coords):
+    def get_rwc(self, depth_img, bb_coords):
         # Take difference of depth_img with box and depth_img with table
         depth_img_subtracted = np.abs(self.depth_table_alone - depth_img)
 
         # Save csv
         depth_img_substracted_path = self.save_depth_csv(depth_img_subtracted, 'robot_detection/output/depth_img_subtracted')
-        self.logger.info(f"Depth image subtracted saved at {depth_img_substracted_path}")
+        self.logger.info(f"Depth image subtracted saved at {depth_img_substracted_path}\n")
 
         # Initialize box height and rwc array
         real_world_coordinates = []
@@ -93,6 +93,14 @@ class PostProcess():
             else:
                 temp_rwc[2] = height / 1000
 
+            self.logger.info(f"############## Results for BOX_{counter} ##############")
+            self.logger.info(f"X Center: {temp_rwc[0]} mm")
+            self.logger.info(f"Y Center: {temp_rwc[1]} mm")
+            self.logger.info(f"Height: {temp_rwc[2]} mm")
+            self.logger.info(f"X Angle: {temp_rwc[3]} rad")
+            self.logger.info(f"Y Angle: {temp_rwc[4]} rad")
+            self.logger.info(f"Box Length: {temp_rwc[6]} mm")
+            self.logger.info(f"Box Area: {temp_rwc[7]} mm^2\n")
 
             real_world_coordinates.append(temp_rwc)
             counter += 1
@@ -177,34 +185,27 @@ class PostProcess():
 
         rob_x, rob_y = self.map_orientation(angle_x, angle_y)
 
-
+        area = self.calculate_area(x_coordinates, y_coordinates)
 
         # Calculate center coordinates
         cen_x = ((-1* np.mean(x_coordinates)) / 1000)
         cen_y = ((-1 * np.mean(y_coordinates)) / 1000)
 
         # Return x_coordinates, y_coordinates, lengths, angles, center_x, and center_y  
-        return (cen_x, cen_y, 0.0, rob_x, rob_y, 0.0, length)
+        return (cen_x, cen_y, 0.0, rob_x, rob_y, 0.0, length, area)
     
-    def calculate_area(self, bb_coords):
-        areas = []
-        for coords in bb_coords:
-            # Extract x and y coordinates of the bounding box vertices
-            x_coords = [coord[0] for coord in coords]
-            y_coords = [coord[1] for coord in coords]
+    def calculate_area(self, x_coords, y_coords):
 
-            # Apply the shoelace formula to calculate the area
-            area = 0.5 * abs(sum(x_coords[i] * y_coords[i + 1] - x_coords[i + 1] * y_coords[i] for i in range(-1, len(x_coords) - 1)))
-            areas.append(area)
-        return areas
+        # Apply the shoelace formula to calculate the area
+        area = 0.5 * abs(sum(x_coords[i] * y_coords[i + 1] - x_coords[i + 1] * y_coords[i] for i in range(-1, len(x_coords) - 1)))
+        return area
     
-    def compare_boxes(self, box1_coords, box2_coords):
-        center_x1, center_y1 = box1_coords[0], box1_coords[1]
-        center_x2, center_y2 = box2_coords[0], box2_coords[1]
+    def compare_boxes(self, BOX_L, rwc):
+        center_x1, center_y1 = rwc[0], rwc[1]
+        center_x2, center_y2 = BOX_L[0], BOX_L[1]
         
         # Coputer Euclidian distance between centroids
         distance = np.sqrt((center_x2 - center_x1)**2 + (center_y2 - center_y1)**2)
-    
         # Return distance 
         return distance 
     
@@ -334,7 +335,7 @@ def main():
     file_path = post_proc.get_txt_path(sd)
 
     coords = post_proc.pull_coordinates(file_path)
-    rwc = post_proc.get_obj_height(depth_img, coords) # Return real world coordinates
+    rwc = post_proc.get_rwc(depth_img, coords) # Return real world coordinates
 
     areas = post_proc.calculate_area(coords)
     print("Areas:", areas)

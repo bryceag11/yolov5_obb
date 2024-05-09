@@ -154,7 +154,7 @@ def main():
         # Move robot to starting position
         try:
             robot = test_urx.connect_to_robot()
-            test_urx.move_to_starting_position(1, 0.08)
+            test_urx.move_to_starting_position(1, 0.25)
         except Exception as e:
             info_logger.error(f"Error during robot connection: {e}")
             raise
@@ -189,7 +189,7 @@ def main():
             info_logger.info(f"Depth image CSV saved at {depth_csv_path}")
 
             color_image_path = pre_proc.save_captured_image(color_img, 'robot_detection/cropped_images/color/color_image')
-            info_logger.info(f"Depth image CSV saved at {depth_csv_path}\nCamera operation ending...\n")
+            info_logger.info(f"Color image saved at {color_image_path}\nCamera operation ending...\n")
 
         except Exception as e:
             info_logger.error(f"Error during image capture: {e}")
@@ -215,23 +215,20 @@ def main():
         # POST PROCESSING
         try:
             info_logger.info("Post processing beginning...")
-            rwc = post_proc.get_obj_height(depth_img, coords) # Return rwc
-            
-            areas = post_proc.calculate_area(coords)
-            info_logger.info("Areas:", areas)
-            largest_area_index = areas.index(max(areas)) 
+            rwc = post_proc.get_rwc(depth_img, coords) # Return rwc
+
+            # Find largest area index
+            largest_area_index = max(range(len(rwc)), key=lambda i: rwc[i][7])
 
             # Separate largest box from the rest to act as a base for stacking 
             BOX_L = rwc[largest_area_index]
-            info_logger.info(f"BOX_{largest_area_index} is the largest box and base for stacking")
-            info_logger.info(f"BOX_{largest_area_index}: {BOX_L}")
             del rwc[largest_area_index]
-            del BOX_L[6]
+            del BOX_L[6:]
             
-
+            info_logger.info(f"BOX_{largest_area_index} is the largest box and base for stacking")
 
             # Reconfigure rwc to prioritize stacking largest box first
-            if any(box[6] > 300 for box in rwc):
+            if any(box[6] > 300 for box in rwc) and (len(rwc) > 1):
                 # Sort rwc based on the 7th element of each list
                 sorted_rwc = sorted(enumerate(rwc), key=lambda x: x[1][6], reverse=True)
                 # Create a new list with updated order
@@ -242,18 +239,18 @@ def main():
 
             # Create dictionary for the rest of the boxes and dynamically assign variable names
             box_dict = {}
-            stack_dict = {}
             for i in range(len(rwc)):
                 x = (rwc[i][0]) * 1000
                 y = (rwc[i][1]) * 1000
                 if -780 <= x <= -350 and -400 <= y <= 160:
                     box_dict[f"BOX_{i}"] = rwc[i]
-                    stack_dict[f"BOX_{i}"] = False
-                    info_logger.info(f"BOX_{i}:", box_dict[f"BOX_{i}"])
                 else:
                     info_logger.info(f"BOX_{i} is outside valid range and will be ignored.")
-    
-           
+            
+
+
+
+
 
 
         except Exception as e:
@@ -262,15 +259,24 @@ def main():
 
         if len(box_dict) == 0:
             info_logger.info("Unable to stack boxes due to boxes being absent or out of robot range\n")
+            stop_event.set()
+
+            capture_thread.join()
+            write_thread.join()
+
+            cap.release()
+            time.sleep(5)
+
         else:
-            test_urx.define_box_locations(BOX_L, box_dict, stack_dict)
+            test_urx.define_box_locations(BOX_L, box_dict)
 
             # # DYNAMIC DETECTION THREAD
             info_logger.info("Box stacking beginning...")
             # # detector = Detector(post_proc, BOX_L, robot, logger=info_logger)
             # # detection_thread = threading.Thread(target=detector.run_detection, args=(len(box_dict),))
             # # detection_thread.start()
-            BOX_L_Neo  = test_urx.pick_up_boxes(1, 0.08) # Stack boxes first iteration
+            BOX_L_Neo  = test_urx.pick_up_boxes(1, .3) # Stack boxes first iteration
+
 
             stop_event.set()
 
@@ -278,112 +284,129 @@ def main():
             write_thread.join()
 
             cap.release()
-            # Signal the thread to stop
 
-            stop_event2 = threading.Event()
-            # # SECOND ITERATION
-            print(BOX_L_Neo)
-            # Stack boxes second iteration
-            info_logger.info("PART 2\n")
-            depth_img, color_img = camera_op.obtain_images()
+            ########################################################################################
+            # SECOND ITERATION of stacking 
+            time.sleep(2)
+        try:
+                
+            info_logger.info("Checking for additional boxes added...\n")
+            depth_img2, color_img2 = camera_op.obtain_images()
             info_logger.info("Images captured")
             
 
-            cap2 = cv2.VideoCapture(1)
+            cap = cv2.VideoCapture(1)
             width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
             height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
             fps = 20.0
-            output_queue2 = queue.Queue()
-            stop_event2 = threading.Event()
 
-            capture_thread2 = threading.Thread(target=capture_frames, args=(cap2, output_queue2, stop_event2))
-            write_thread2 = threading.Thread(target=write_video, args=("captured_video2.mp4", output_queue2, width, height, fps))
+            output_queue = queue.Queue()
+            stop_event = threading.Event()
 
-            capture_thread2.start()
-            write_thread2.start()
+            capture_thread = threading.Thread(target=capture_frames, args=(cap, output_queue, stop_event))
+            write_thread = threading.Thread(target=write_video, args=("captured_video2.mp4", output_queue, width, height, fps))
+
+            capture_thread.start()
+            write_thread.start()
 
 
-            # # IMAGE PREPROCESSING
-            depth_img, color_img = pre_proc.crop_images_to_table(depth_img, color_img)
+            # IMAGE PREPROCESSING
+            depth_img2, color_img2 = pre_proc.crop_images_to_table(depth_img2, color_img2)
             info_logger.info("Images cropped")
 
-            depth_csv_path = pre_proc.save_depth_csv(depth_img, 'robot_detection/cropped_images/depth/depth_csv')
-            info_logger.info(f"Depth image CSV saved at {depth_csv_path}")
+            depth_csv2_path = pre_proc.save_depth_csv(depth_img2, 'robot_detection/cropped_images/depth/depth_csv')
+            info_logger.info(f"Depth image CSV saved at {depth_csv2_path}")
 
-            color_image_path = pre_proc.save_captured_image(color_img, 'robot_detection/cropped_images/color/color_image')
-            info_logger.info(f"Depth image CSV saved at {depth_csv_path}\nCamera operation ending...\n")
-            
-            # YOLOv5 ORIENTED OBJECT DETECTION
+            color_image2_path = pre_proc.save_captured_image(color_img2, 'robot_detection/cropped_images/color/color_image')
+            info_logger.info(f"Color image saved at {color_image2_path}\nCamera operation ending...\n")
+
+        except Exception as e:
+            info_logger.error(f"Error during image capture: {e}")
+            raise
+        
+        # YOLOv5 ORIENTED OBJECT DETECTION
+        try:
             info_logger.info("YOLO inference beginning...")
             opt = yolov5.parse_opt()
-            opt.source = color_image_path
+            opt.source = color_image2_path
             sd = yolov5.run(**vars(opt))
             info_logger.info("YOLO inference ending...\n")
             file_path = post_proc.get_txt_path(sd)
             coords = post_proc.pull_coordinates(file_path) # Pull coordinates from produced yolov5
+        except Exception as e:
+            info_logger.error(f"Error during YOLO detection: {e}")
+            raise # Re-raise 
 
+        # POST PROCESSING
+        try:
             info_logger.info("Post processing beginning...")
-            rwc = post_proc.get_obj_height(depth_img, coords) # Return object height
-
+            rwc = post_proc.get_rwc(depth_img2, coords) # Return object coordinates in robot coordinate frame
+            info_logger.info(f"PREREAL{rwc}")
             # # Calculate areas for each box and return largest area
-            areas = post_proc.calculate_area(coords)
-            info_logger.info("Areas:", areas)
-            
-            largest_area_index = areas.index(max(areas)) 
-            if max(areas) >= 30000:
-                # # Separate largest box from the rest to act as a base for stacking 
-                BOX_L = [inner_list[largest_area_index] for inner_list in rwc]
-                info_logger.info(f"BOX{largest_area_index} is the largest box and base for stacking")
-                for sublist in rwc:
-                    del sublist[largest_area_index]
-            else:
-                pass
-            
-            
-            #             # Reconfigure rwc to prioritize stacking largest box first
-            # if any(box[6] > 300 for box in rwc):
-            #     # Sort rwc based on the 7th element of each list
-            #     sorted_rwc = sorted(enumerate(rwc), key=lambda x: x[1][6], reverse=True)
-            #     # Create a new list with updated order
-            #     new_rwc = [box for _, box in sorted_rwc]
-
-            #     # Now rwc is sorted
-            #     rwc = new_rwc
-
-            # Create dictionary for the rest of the boxes and dynamically assign variable names
+            # areas = post_proc.calculate_area(coords)
+            # info_logger.info("Areas:", areas)
+        
+            # largest_area_index = areas.index(max(areas)) 
+            # if max(areas) >= 35000:
+            #     # # Separate largest box from the rest to act as a base for stacking 
+            #     BOX_L = [inner_list[largest_area_index] for inner_list in rwc]
+            #     info_logger.info(f"BOX{largest_area_index} is the largest box and base for stacking")
+            #     for sublist in rwc:
+            #         del sublist[largest_area_index]
+            # else:
+            #     pass
+        
+            # Reconfigure rwc to remove repeated boxes
+            rwc = [box for box in rwc if post_proc.compare_boxes(BOX_L, box) >= .05]
+            info_logger.info(f"REAL {rwc}")            # Create dictionary for the rest of the boxes and dynamically assign variable names
             box_dict = {}
-            stack_dict = {}
             for i in range(len(rwc)):
                 x = (rwc[i][0]) * 1000
                 y = (rwc[i][1]) * 1000
                 if -780 <= x <= -350 and -400 <= y <= 160:
                     box_dict[f"BOX_{i}"] = rwc[i]
-                    stack_dict[f"BOX_{i}"] = False
                     info_logger.info(f"BOX_{i}:", box_dict[f"BOX_{i}"])
                 else:
                     info_logger.info(f"BOX_{i} is outside valid range and will be ignored.")
 
+
+
+        except Exception as e:
+            info_logger.error(f"Error during Post Processing: {e}")
+            raise 
+        try:
             if len(box_dict) == 0:
                 info_logger.info("Unable to stack boxes due to boxes being absent or out of robot range\n")
+                stop_event.set()
+                capture_thread.join()
+                write_thread.join()
+                cap.release()
             else:
-                test_urx.define_box_locations(BOX_L_Neo, box_dict, stack_dict)
+                test_urx.define_box_locations(BOX_L_Neo, box_dict)
 
                 # # DYNAMIC DETECTION THREAD
                 info_logger.info("Box stacking beginning...")
                 # # detector = Detector(post_proc, BOX_L, robot, logger=info_logger)
                 # # detection_thread = threading.Thread(target=detector.run_detection, args=(len(box_dict),))
                 # # detection_thread.start()
-                test_urx.pick_up_boxes(1, 0.08) # Stack boxes first iteration
-                stop_event2.set()
+                test_urx.pick_up_boxes(1, 0.3) # Stack boxes first iteration
+                stop_event.set()
 
-                capture_thread2.join()
-                write_thread2.join()
-                cap2.release()
+                capture_thread.join()
+                write_thread.join()
+                cap.release()
+        except KeyboardInterrupt:
+            print("\nExiting gracefully....")
+            info_logger.info("Keyboard Interrupt.")
+            sys.exit(0)
+        except Exception as e:
+            info_logger.error(f"An unexpected error occurred: {e}")
+            raise
 
     except Exception as e:
         info_logger.error(f"An unexpected error occurred: {e}")
         # Handle other exceptions
-        raise
+        sys.exit(0)
 
     except KeyboardInterrupt:
         print("\nExiting gracefully....")
@@ -391,13 +414,28 @@ def main():
         sys.exit(0)
 
     finally:
+        # # Release resources and terminate threads
+        if not stop_event.is_set():
+            stop_event.set()
+
+        if cap is not None:
+            cap.release()  # Release the video capture resource
+
+
+        # Join threads to wait for their completion
+        if capture_thread is not None:
+            capture_thread.join()
+        if write_thread is not None:
+            write_thread.join()
+
+
         # Ensure robot connection is closed
-        test_urx.activate_gripper(150, 20, 2)
-        test_urx.close_robot_connection()
-        info_logger.info("Robot connection closed.\n")
-        info_logger.info('''End of log\n#########################################
-#########################################\n''')
-        info_handler.close()
+        if test_urx is not None:
+            test_urx.activate_gripper(100, 20, 2)
+            test_urx.close_robot_connection()
+            info_logger.info("Robot connection closed.\n")
+            info_logger.info('''End of log\n#########################################\n''')
+            info_handler.close()
         sys.exit(0)
 
 if __name__ == "__main__":

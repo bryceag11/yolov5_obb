@@ -17,11 +17,11 @@ class TestURX:
         self.HB_dict = {}
         self.L_dict = {}
 
-    def define_box_locations(self, BOX_L, BOX_dict, STACK_dict):
+    def define_box_locations(self, BOX_L, BOX_dict):
         # HARDCODED STARTING POSITION
         self.BOX_L = BOX_L
         self.BOX_dict = BOX_dict
-        self.STACK_dict = STACK_dict
+        # self.STACK_dict = STACK_dict
         # self.HB_0 = self.BOX_0[2]
         # self.HB_1 = self.BOX_1[2]
         # Parse BOX_dict into lists for each box and assign HB... to the respective height
@@ -29,7 +29,7 @@ class TestURX:
             box_coords = BOX_dict[f"BOX_{i}"]
             self.HB_dict[f"HB_{i}"] = box_coords[2] # Assign height to HB_dict key
             self.L_dict[f"L_{i}"] = box_coords[6]
-            del BOX_dict[f"BOX_{i}"][6]
+            del BOX_dict[f"BOX_{i}"][6:]
             box_coords[2] *= 2
 
 
@@ -77,17 +77,26 @@ class TestURX:
     def move_until_force_smooth(self, acceleration, speed, force_threshold):
         tcp_array = []
         self.robot.translate((0, 0, -0.050), acceleration, speed, wait=False)
-        while True:
-            force = self.robot.get_tcp_force()
-            tcp_array.append(force[2])
-            print(force[2])
-            if len(tcp_array) > 1:
-                diff = abs(tcp_array[-1] - tcp_array[-2])
-                if diff > force_threshold:
-                    self.logger.info("Box has beeen stacked")
-                    break
-            time.sleep(0.1)
-        self.robot.stopl(acceleration)
+        try:
+            while True:
+                force = self.robot.get_tcp_force()
+                tcp_array.append(force[2])
+                print(force[2])
+                if len(tcp_array) > 1:
+                    diff = abs(tcp_array[-1] - tcp_array[-2])
+                    if diff > force_threshold:
+                        self.logger.info("Box has beeen stacked")
+                        break
+                time.sleep(0.1)
+            self.robot.stopl(acceleration)
+        except Exception as e:
+            print("Error during movement")
+            raise
+        except KeyboardInterrupt:
+            print("Exiting gracefully...")
+            raise
+            
+    
 
     def pick_up_boxes(self, acceleration, speed):
         # time.sleep(5)
@@ -105,46 +114,49 @@ class TestURX:
     
         '''
     
-        # Initialize with open gripper
-        # time.sleep(5)
-        # activate_gripper(robot, 100, 20, 2)
-        # time.sleep(5)
         count = 0
         g_state = 0
-        for i in range(len(self.BOX_dict)):
-            if self.L_dict[f"L_{i}"] >= 300:
-                self.activate_gripper(150, 20, 2)
-                g_state = 1
-            else:
-                g_state = 0
+        try:
+            for i in range(len(self.BOX_dict)):
+                if self.L_dict[f"L_{i}"] >= 300:
+                    self.activate_gripper(150, 20, 2)
+                    g_state = 1
+                else:
+                    g_state = 0
 
-            self.robot.movel(self.BOX_dict[f'BOX_{i}'], acceleration, speed)
-            self.robot.translate((0,0, -1.5*(self.HB_dict[f"HB_{i}"])), acceleration, speed)
-            if g_state ==1:
-                self.activate_gripper(125, 20, 2)
-            else:
-                self.activate_gripper(75, 20, 2)   
-            self.logger.info(f"BOX_{i} has been picked up, preparing to stack...\n")
-            self.BOX_L[2] += self.HB_dict[f"HB_{i}"]
-            self.robot.translate((0, 0, (self.BOX_L[2])), acceleration, speed)
-            self.robot.movel(self.BOX_L, acceleration, speed)
-            self.move_until_force_smooth(acceleration, .05, 2.5)
-            # self.robot.translate((0, 0, -(self.HB_dict[f"HB_{i}"]/2)), acceleration, speed)
-            # time.sleep(5)
-            # robot.translate((0,0, -.0225), acceleration, speed)
-            # time.sleep(5)
-            if g_state == 1:
-                self.activate_gripper(150, 20, 2)
-            else:
+                self.robot.movel(self.BOX_dict[f'BOX_{i}'], acceleration, speed)
+                
+                self.robot.translate((0,0, -1.5*(self.HB_dict[f"HB_{i}"])), acceleration, speed)
+                if g_state ==1:
+                    self.activate_gripper(125, 20, 2)
+                else:
+                    self.activate_gripper(75, 20, 2)   
+                self.logger.info(f"BOX_{i} has been picked up, preparing to stack...\n")
+                self.BOX_L[2] += self.HB_dict[f"HB_{i}"]
+                self.robot.translate((0, 0, (self.BOX_L[2])), acceleration, speed)
+                self.robot.movel(self.BOX_L, acceleration, speed)
+                self.move_until_force_smooth(acceleration, .05, 2.5)
+                # self.robot.translate((0, 0, -(self.HB_dict[f"HB_{i}"]/2)), acceleration, speed)
+                # time.sleep(5)
+                # robot.translate((0,0, -.0225), acceleration, speed)
+                # time.sleep(5)
+                if g_state == 1:
+                    self.activate_gripper(150, 20, 2)
+                else:
+                    self.activate_gripper(100, 20, 2)
+                self.logger.info(f"BOX_{i} has been stacked\n")
+                # self.STACK_dict[f"BOX_{i}"] = True
+                self.robot.translate((0, 0, (self.HB_dict[f"HB_{i}"])), acceleration, speed)
                 self.activate_gripper(100, 20, 2)
-            self.logger.info(f"BOX_{i} has been stacked\n")
-            self.STACK_dict[f"BOX_{i}"] = True
-            self.robot.translate((0, 0, (self.HB_dict[f"HB_{i}"])), acceleration, speed)
-            self.activate_gripper(100, 20, 2)
 
 
-            count += 1
-
+                count += 1
+        except Exception as e:
+            print(f"An unexpected error occurred: {e}")
+            raise
+        except KeyboardInterrupt:
+            print("\nExiting gracefully....")
+            raise
         self.logger.info(f"{count} Boxes stacked successfully, awaiting further input...")
         self.robot.translate((.25, 0, 0), acceleration, speed)
 
@@ -169,8 +181,7 @@ class TestURX:
         # pos = robot.getl()
         # robot.movel((pos[0],pos[1],STARTING_POSITION[2],pos[3],pos[4],pos[5]), acceleration, speed)
         # robot.movel(STARTING_POSITION, acceleration, speed)
-    def post_pickup(self, acceleration, speed):
-        pass
+
 
     def demo(self, acceleration, speed):
         self.move_to_starting_position(acceleration, speed)
