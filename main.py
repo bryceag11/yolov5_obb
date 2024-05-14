@@ -154,7 +154,7 @@ def main():
         # Move robot to starting position
         try:
             robot = test_urx.connect_to_robot()
-            test_urx.move_to_starting_position(1, 0.25)
+            test_urx.move_to_starting_position(1, 0.5)
         except Exception as e:
             info_logger.error(f"Error during robot connection: {e}")
             raise
@@ -275,7 +275,7 @@ def main():
             # # detector = Detector(post_proc, BOX_L, robot, logger=info_logger)
             # # detection_thread = threading.Thread(target=detector.run_detection, args=(len(box_dict),))
             # # detection_thread.start()
-            BOX_L_Neo  = test_urx.pick_up_boxes(1, .3) # Stack boxes first iteration
+            BOX_L_Neo  = test_urx.pick_up_boxes(1, .4) # Stack boxes first iteration
 
 
             stop_event.set()
@@ -389,7 +389,7 @@ def main():
                 # # detector = Detector(post_proc, BOX_L, robot, logger=info_logger)
                 # # detection_thread = threading.Thread(target=detector.run_detection, args=(len(box_dict),))
                 # # detection_thread.start()
-                test_urx.pick_up_boxes(1, 0.3) # Stack boxes first iteration
+                test_urx.pick_up_boxes(1, 0.4) # Stack boxes first iteration
                 stop_event.set()
 
                 capture_thread.join()

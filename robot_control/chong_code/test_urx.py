@@ -158,7 +158,7 @@ class TestURX:
             print("\nExiting gracefully....")
             raise
         self.logger.info(f"{count} Boxes stacked successfully, awaiting further input...")
-        self.robot.translate((.25, 0, 0), acceleration, speed)
+        self.robot.movel(self.SECONDARY_POSITION, acceleration, .5)
 
         
         return (self.BOX_L) # Return dictionary of current space
