@@ -4,7 +4,7 @@ import time
 from robot_rg import RobotMovement 
 
 class TestURX:
-    def __init__(self, logger):
+    def __init__(self):
         # HARDCODED STARTING POSITION
         self.STARTING_POSITION = [-0.100, -0.40, 0.22352142951900683, 3.14159, 0, 0]
         self.SECONDARY_POSITION = [-0.3855075887632609, -0.08245739447612332, 0.22352142951900683, 3.1415926535897932, 0, 0]
@@ -12,7 +12,7 @@ class TestURX:
         self.BOX_dict = None
         self.robot = None
         self.STACK_dict = None
-        self.logger = logger
+        # self.logger = logger
         self.box_lists = {}
         self.HB_dict = {}
         self.L_dict = {}
@@ -34,7 +34,7 @@ class TestURX:
 
 
     def connect_to_robot(self):
-            RobotIP = "192.168.1.102"  # Your PC must have same first 3 components of IP but different last
+            RobotIP = "192.168.1.101"  # Your PC must have same first 3 components of IP but different last
             self.robot = urx.Robot(RobotIP)
 
             if self.robot.is_running():

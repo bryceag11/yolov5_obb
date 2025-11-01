@@ -24,7 +24,7 @@ BIN_PATH = r'C:\Program Files\Azure Kinect SDK v1.4.1\sdk\windows-desktop\amd64\
 # Path to folder where captured image will be saved
 # Lab Laptop
 # Bryce Laptop:
-IMAGE_DESTINATION_PATH = r'C:\Users\AISMLab\Robot_Project\Code\yolov5_obb'
+IMAGE_DESTINATION_PATH = r'C:\Users\Bryce\UR10_UGF25_PROJECT'
 
 class CameraOperation():
     def __init__(self):
@@ -89,7 +89,7 @@ class CameraOperation():
         #   - WFOV_2x2Binned 
         #   - WFOV_Unbinned 
         #   - Passive IR 
-        device_config.depth_mode = pykinect.K4A_DEPTH_MODE_NFOV_UNBINNED
+        device_config.depth_mode = pykinect.K4A_DEPTH_MODE_WFOV_UNBINNED
         device_config.color_resolution = pykinect.K4A_COLOR_RESOLUTION_1080P  # image quality adjustment
 
         # Start device
@@ -110,12 +110,12 @@ def main():
 
     depth_img, color_img = camera_op.obtain_images()
 
-    depth_csv_path = camera_op.save_depth_csv(depth_img, 'robot_detection/raw_images/depth/depth_csv')
+    depth_csv_path = camera_op.save_depth_csv(depth_img, 'depth_csv')
     print(f"Depth image CSV saved at {depth_csv_path}")
 
-    color_image_path = camera_op.save_captured_image(color_img, 'robot_detection/raw_images/color/color_image')
+    color_image_path = camera_op.save_captured_image(color_img, 'color_image')
     print(f"Color image saved at {color_image_path}")
 
 
-# if __name__ == '__main__':
-#     main()
+if __name__ == '__main__':
+    main()
